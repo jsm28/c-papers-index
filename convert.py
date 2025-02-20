@@ -1,6 +1,9 @@
 #! /usr/bin/env python3
 
 import argparse
+import collections
+import json
+import os
 import os.path
 import re
 import urllib.parse
@@ -16,12 +19,6 @@ WG14_DOCS_LOG = 'https://www.open-std.org/jtc1/sc22/wg14/www/wg14_document_log.h
 
 # The location of the local document log copy.
 LOCAL_DOCS_LOG = os.path.join('in', 'wg14_document_log.htm')
-
-
-def download_wg14_doc(doc):
-    """Download a file from the WG14 website."""
-    urllib.request.urlretrieve(doc_url(doc), filename=input_filename(doc))
-    time.sleep(1)
 
 
 def action_download():
@@ -80,6 +77,9 @@ def get_ndoc_data():
                          line)
         if m:
             date = '%s-%s-%s' % (m.group(1), m.group(2), m.group(3))
+            if nnum == '3449':
+                # Date given a year early in the list.
+                date = '2025-01-08'
             line = m.group(4)
         else:
             # Typo on one line in list (N1112).
@@ -163,14 +163,164 @@ def get_ndoc_data():
         data[nnum] = {'link': link,
                       'date': date,
                       'author': author,
-                      'title' : title}
+                      'title': title}
     return data
+
+
+# Documents where the default classification based on heuristics
+# applied to the title should be overridden.
+OVERRIDE_CLASS = {
+    '3408': 'cadm',
+    '3328': 'cpub',
+    '3216': 'cpub',
+    '3191': 'cpub'
+    }
+
+
+# Remapping main titles to help in grouping.
+REMAP_TITLE = {
+    '`if`declarations': '`if` declarations',
+    '`if` declarations, v5, wording improvements': '`if` declarations',
+    'Transparent Function Aliases': 'Transparent Aliases',
+    'Restartable and Non-Restartable Functions for Efficient Character Conversions': 'Restartable Functions for Efficient Character Conversion',
+    'Restartable Functions for Efficient Character Conversions': 'Restartable Functions for Efficient Character Conversion',
+    'The Big Array Size Survey': 'Big Array Size Survey'}
+
+
+def classify_docs(data):
+    """Apply heuristic classification to N-documents."""
+    by_title = collections.defaultdict(set)
+    for nnum, ndata in data.items():
+        ndata['group'] = {nnum}
+        m = re.fullmatch(
+            r'(.*?)((?:[. ,(]+(?:[Uu]pdates?[: ]+(?:[Nnrv][0-9.]+)|(?:[rRvV]|[rR]evision|[vV]ersion)\.? ?[0-9.]+)[. ,)]*)+)',
+            ndata['title'])
+        if m:
+            ndata['maintitle'] = m.group(1)
+            ndata['auxtitle'] = m.group(2).lstrip(' ,.')
+            if ndata['auxtitle'].startswith('(') and ndata['auxtitle'].endswith(')'):
+                ndata['auxtitle'] = ndata['auxtitle'].lstrip('(').rstrip(')')
+        else:
+            ndata['maintitle'] = ndata['title']
+            ndata['auxtitle'] = None
+        if 'working draft' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif "editor's report" in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'dts draft' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'revision draft' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'dis draft' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'examples of undefined behavior' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'ts proposal' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'cfp teleconference agenda' in ndata['maintitle'].lower():
+            ndata['class'] = 'cfptca'
+        elif 'cfp teleconference minutes' in ndata['maintitle'].lower():
+            ndata['class'] = 'cfptcm'
+        elif 'agenda' in ndata['maintitle'].lower():
+            ndata['class'] = 'cma'
+        elif 'minutes' in ndata['maintitle'].lower():
+            ndata['class'] = 'cmm'
+        elif 'venue' in ndata['maintitle'].lower():
+            ndata['class'] = 'cm'
+        elif 'invitation' in ndata['maintitle'].lower():
+            ndata['class'] = 'cm'
+        elif 'charter' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        else:
+            ndata['class'] = 'c'
+        if nnum in OVERRIDE_CLASS:
+            ndata['class'] = OVERRIDE_CLASS[nnum]
+        if ndata['class'] == 'c':
+            group_title = ndata['maintitle']
+            if group_title in REMAP_TITLE:
+                group_title = REMAP_TITLE[group_title]
+            by_title[group_title].add(nnum)
+    # Group documents with the same main title together.
+    for nnum, ndata in data.items():
+        if ndata['class'] == 'c':
+            group_title = ndata['maintitle']
+            if group_title in REMAP_TITLE:
+                group_title = REMAP_TITLE[group_title]
+            ndata['group'].update(by_title[group_title])
+    # Group documents explicitly said to update another together.
+    changed = True
+    while changed:
+        changed = False
+        for nnum, ndata in data.items():
+            if ndata['class'] != 'c':
+                continue
+            if ndata['auxtitle'] is None:
+                continue
+            m = re.search('[Uu]pdates?[: ][Nn]([0-9]+)', ndata['auxtitle'])
+            if m:
+                onum = m.group(1)
+                if onum not in ndata['group']:
+                    changed = True
+                    ndata['group'] |= data[onum]['group']
+                    for n in ndata['group']:
+                        if data[n]['group'] != ndata['group']:
+                            data[n]['group'] |= ndata['group']
+
+
+def generate_cdocs(data):
+    """Generate C-document data from groups of N-documents."""
+    cdocs = []
+    for nnum, ndata in data.items():
+        if ndata['class'] == 'c':
+            convert_doc = ndata['date'] >= '2023-10-01'
+            if int(nnum) != max(int(n) for n in ndata['group']):
+                continue
+            for n in ndata['group']:
+                data[n]['convert-doc'] = convert_doc
+            if convert_doc:
+                cdoc = {
+                    'sortkey': min((data[n]['date'], int(n))
+                                   for n in ndata['group']),
+                    'title': ndata['maintitle'],
+                    'author': ndata['author'],
+                    'nums': sorted(ndata['group'], key=int)
+                    }
+                cdocs.append(cdoc)
+    cdocs.sort(key=lambda x: x['sortkey'])
+    for num, doc in enumerate(cdocs, start=4000):
+        doc['id'] = 'C%d' % num
+        for rev, num in enumerate(doc['nums'], start=1):
+            data[num]['cdoc-rev'] = rev
+    return cdocs
 
 
 def action_convert():
     """Convert the document log to JSON metadata."""
     data = get_ndoc_data()
-    # TODO
+    classify_docs(data)
+    cdocs = generate_cdocs(data)
+    for doc in cdocs:
+        doc_json = {
+            'id': doc['id'],
+            'author': doc['author'],
+            'title': doc['title'],
+            'revisions': []}
+        for n in doc['nums']:
+            ndata = data[n]
+            ndoc = {
+                'rev-id': 'r%d' % ndata['cdoc-rev'],
+                'id': '%sr%d' % (doc['id'], ndata['cdoc-rev']),
+                'author': ndata['author'],
+                'title': ndata['title'],
+                'date': ndata['date'],
+                'ext-id': 'N%s' % n,
+                'ext-url': ndata['link']}
+            doc_json['revisions'].append(ndoc)
+        out_dir = os.path.join('out', 'papers', 'C', doc['id'])
+        os.makedirs(out_dir, exist_ok=True)
+        with open(os.path.join(out_dir, 'metadata.json'), 'w',
+                  encoding='utf-8') as f:
+            json.dump(doc_json, f, indent=4, sort_keys=True)
 
 
 def main():
