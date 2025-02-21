@@ -194,7 +194,9 @@ REMAP_TITLE = {
     '\\_Lengthof \\- New pointer-proof keyword to determine array length': 'New \\_Lengthof() operator',
     'The `void`-_which-binds_, v2: typesafe parametric polymorphism': 'The `void`-_which-binds_: typesafe parametric polymorphism',
     'embed Synchronization': '#embed Synchronization',
-    'Literal suffixes for size\\_t': 'Literal Suffixes for size\\_t'}
+    'Literal suffixes for size\\_t': 'Literal Suffixes for size\\_t',
+    'C2y fopen "p" and bring fopen’s mode closer to POSIX': 'fopen "p" and bring fopen’s mode closer to POSIX 202x',
+    'Accessing arrays of character type': 'Accessing byte arrays'}
 
 
 # Titles that should not be grouped (same title used for more than one
@@ -286,9 +288,10 @@ def classify_docs(data):
 
 
 # Documents to include in consideration (mentioned for possible future
-# scheduling in agendas) despite predating cut-off date.
+# scheduling in agendas, or discussed for C2Y) despite predating
+# cut-off date.
 EXTRA_INCLUDE = {
-    '2658', '3160', '3025', '3058'}
+    '2658', '2948', '2995', '3051', '3064', '3160', '3025', '3058'}
 
 
 def generate_cdocs(data):
