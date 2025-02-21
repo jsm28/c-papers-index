@@ -184,7 +184,19 @@ REMAP_TITLE = {
     'Transparent Function Aliases': 'Transparent Aliases',
     'Restartable and Non-Restartable Functions for Efficient Character Conversions': 'Restartable Functions for Efficient Character Conversion',
     'Restartable Functions for Efficient Character Conversions': 'Restartable Functions for Efficient Character Conversion',
-    'The Big Array Size Survey': 'Big Array Size Survey'}
+    'The Big Array Size Survey': 'Big Array Size Survey',
+    'Improved \\_\\_attribute\\_\\_((cleanup(…))) through defer': 'Improved \\_\\_attribute\\_\\_((cleanup(...))) Through defer',
+    'Revision 2 Of Defect With Wording Of restrict Specification': 'Defect with wording of restrict specification',
+    'New pointer-proof keyword to determine array length': 'New \\_Lengthof() operator',
+    'New nelementsof() operator': 'New \\_Lengthof() operator',
+    '\\_Lengthof \\- New pointer-proof keyword to determine array length': 'New \\_Lengthof() operator',
+    'The `void`-_which-binds_, v2: typesafe parametric polymorphism': 'The `void`-_which-binds_: typesafe parametric polymorphism'}
+
+
+# Titles that should not be grouped (same title used for more than one
+# paper).
+NO_GROUP_TITLE = {
+    'Composite types'}
 
 
 def classify_docs(data):
@@ -239,14 +251,16 @@ def classify_docs(data):
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
-            by_title[group_title].add(nnum)
+            if group_title not in NO_GROUP_TITLE:
+                by_title[group_title].add(nnum)
     # Group documents with the same main title together.
     for nnum, ndata in data.items():
         if ndata['class'] == 'c':
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
-            ndata['group'].update(by_title[group_title])
+            if group_title not in NO_GROUP_TITLE:
+                ndata['group'].update(by_title[group_title])
     # Group documents explicitly said to update another together.
     changed = True
     while changed:
