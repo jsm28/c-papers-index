@@ -310,6 +310,7 @@ def action_convert():
             ndoc = {
                 'rev-id': 'r%d' % ndata['cdoc-rev'],
                 'id': '%sr%d' % (doc['id'], ndata['cdoc-rev']),
+                'doc-id': doc['id'],
                 'author': ndata['author'],
                 'title': ndata['title'],
                 'date': ndata['date'],
