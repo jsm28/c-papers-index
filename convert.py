@@ -281,12 +281,18 @@ def classify_docs(data):
                             data[n]['group'] |= ndata['group']
 
 
+# Documents to include in consideration (mentioned for possible future
+# scheduling in agendas) despite predating cut-off date.
+EXTRA_INCLUDE = {
+    '2658', '3160', '3025', '3058'}
+
+
 def generate_cdocs(data):
     """Generate C-document data from groups of N-documents."""
     cdocs = []
     for nnum, ndata in data.items():
         if ndata['class'] == 'c':
-            convert_doc = ndata['date'] >= '2023-10-01'
+            convert_doc = ndata['date'] >= '2023-10-01' or nnum in EXTRA_INCLUDE
             if int(nnum) != max(int(n) for n in ndata['group']):
                 continue
             for n in ndata['group']:
