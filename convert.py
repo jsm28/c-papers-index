@@ -170,6 +170,7 @@ def get_ndoc_data():
 # Documents where the default classification based on heuristics
 # applied to the title should be overridden.
 OVERRIDE_CLASS = {
+    '3489': 'cpub',
     '3408': 'cadm',
     '3328': 'cpub',
     '3216': 'cpub',
@@ -185,12 +186,15 @@ REMAP_TITLE = {
     'Restartable and Non-Restartable Functions for Efficient Character Conversions': 'Restartable Functions for Efficient Character Conversion',
     'Restartable Functions for Efficient Character Conversions': 'Restartable Functions for Efficient Character Conversion',
     'The Big Array Size Survey': 'Big Array Size Survey',
-    'Improved \\_\\_attribute\\_\\_((cleanup(…))) through defer': 'Improved \\_\\_attribute\\_\\_((cleanup(...))) Through defer',
+    'Improved \\_\\_attribute\\_\\_((cleanup(…))) through defer': 'Improved \\_\\_attribute\\_\\_((cleanup(...))) through defer',
+    'Improved \\_\\_attribute\\_\\_((cleanup(...))) Through defer': 'Improved \\_\\_attribute\\_\\_((cleanup(...))) through defer',
     'Revision 2 Of Defect With Wording Of restrict Specification': 'Defect with wording of restrict specification',
     'New pointer-proof keyword to determine array length': 'New \\_Lengthof() operator',
     'New nelementsof() operator': 'New \\_Lengthof() operator',
     '\\_Lengthof \\- New pointer-proof keyword to determine array length': 'New \\_Lengthof() operator',
-    'The `void`-_which-binds_, v2: typesafe parametric polymorphism': 'The `void`-_which-binds_: typesafe parametric polymorphism'}
+    'The `void`-_which-binds_, v2: typesafe parametric polymorphism': 'The `void`-_which-binds_: typesafe parametric polymorphism',
+    'embed Synchronization': '#embed Synchronization',
+    'Literal suffixes for size\\_t': 'Literal Suffixes for size\\_t'}
 
 
 # Titles that should not be grouped (same title used for more than one
