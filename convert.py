@@ -197,7 +197,9 @@ REMAP_TITLE = {
     'Literal suffixes for size\\_t': 'Literal Suffixes for size\\_t',
     'C2y fopen "p" and bring fopen’s mode closer to POSIX': 'fopen "p" and bring fopen’s mode closer to POSIX 202x',
     'Accessing arrays of character type': 'Accessing byte arrays',
-    'Usage of "length", "size", "count", etc. in context of retrieving array length': 'Words used for retrieving number of elements in arrays and array-like objects across computer languages'}
+    'Usage of "length", "size", "count", etc. in context of retrieving array length': 'Words used for retrieving number of elements in arrays and array-like objects across computer languages',
+    'Obsolete implicitly octal literals': 'Obsolete implicitly octal literals and add delimited escape sequences',
+    'restrict atomic\\_flag creation': 'Restrict atomic\\_flag creation'}
 
 
 # Titles that should not be grouped (same title used for more than one
@@ -235,6 +237,8 @@ def classify_docs(data):
         elif 'examples of undefined behavior' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'ts proposal' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'generalized function calls' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'cfp teleconference agenda' in ndata['maintitle'].lower():
             ndata['class'] = 'cfptca'
