@@ -77,17 +77,8 @@ def get_ndoc_data():
                          line)
         if m:
             date = '%s-%s-%s' % (m.group(1), m.group(2), m.group(3))
-            if nnum == '3449':
-                # Date given a year early in the list.
-                date = '2025-01-08'
             line = m.group(4)
         else:
-            # Typo on one line in list (N1112).
-            line = line.replace('21-Mat-2005', '21-Mar-2005')
-            # Six lines N953 through N958 use this abbreviation.
-            line = line.replace('-Sept-2001', '-Sep-2001')
-            # One line N659 has this in place of a full date.
-            line = line.replace('nn-Feb-97', '09-Feb-97')
             m = re.fullmatch(r'([0-3][0-9])-([A-Z][a-z]{2})-(200[1-5])\s+(.*)',
                              line)
             if m:
@@ -107,25 +98,6 @@ def get_ndoc_data():
                     line = m.group(4)
                 else:
                     raise ValueError('could not parse date: %s' % line)
-        # Cases with no author where the first word can sensibly be
-        # used as an author.
-        if ',' not in line:
-            if nnum == '1569':
-                line = line.replace('Jones - ', 'Jones, ')
-            if nnum == '245':
-                line = line.replace('Plum ', 'Plum, ')
-            if nnum == '189':
-                line = line.replace('WG21 ', 'WG21, ')
-            if nnum == '185':
-                line = line.replace('UK ', 'UK, ')
-            if nnum == '104':
-                line = line.replace('ITSCJ ', 'ITSCJ, ')
-        # This one starts with a comma.
-        if nnum == '868':
-            line = line.lstrip(',')
-        # This one has a comma but not after the author.
-        if nnum == '1570':
-            line = line.replace('Jones - ', 'Jones, ')
         line_split = line.split(',', 1)
         if len(line_split) == 1:
             line_split = ('WG14', line_split[0])
