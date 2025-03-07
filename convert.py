@@ -145,8 +145,40 @@ OVERRIDE_CLASS = {
     '3489': 'cpub',
     '3408': 'cadm',
     '3328': 'cpub',
-    '3216': 'cpub',
-    '3191': 'cpub'
+    '3191': 'cpub',
+    '3171': 'cadm',
+    '3135': 'cpub',
+    '3118': 'cadm',
+    '3117': 'cpub',
+    '3105': 'cpub',
+    '3103': 'cpub',
+    '3102': 'cpub',
+    '3101': 'cpub',
+    '3098': 'cpub',
+    '3092': 'cpub',
+    '3090': 'cpub',
+    '3088': 'cpub',
+    '3082': 'cpub',
+    '3081': 'cpub',
+    '3080': 'cpub',
+    '3079': 'cpub',
+    '3078': 'cpub',
+    '3077': 'cpub',
+    '3076': 'cpub',
+    '3073': 'cpub',
+    '3072': 'cpub',
+    '3071': 'cpub',
+    '3070': 'cpub',
+    '3057': 'cpub',
+    '3054': 'cpub',
+    '3005': 'cpub',
+    '3002': 'cadm',
+    '2784': 'cadm',
+    '2733': 'cpub',
+    '2676': 'cpub',
+    '2652': 'cadm',
+    '2613': 'cadm',
+    '2577': 'cpub',
     }
 
 
@@ -214,6 +246,10 @@ def classify_docs(data):
             ndata['class'] = 'cpub'
         elif 'generalized function calls' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
+        elif 'ballot comment' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'disposition' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
         elif 'cfp teleconference agenda' in ndata['maintitle'].lower():
             ndata['class'] = 'cfptca'
         elif 'cfp teleconference minutes' in ndata['maintitle'].lower():
@@ -222,11 +258,35 @@ def classify_docs(data):
             ndata['class'] = 'cma'
         elif 'minutes' in ndata['maintitle'].lower():
             ndata['class'] = 'cmm'
+        elif 'agneda' in ndata['maintitle'].lower():
+            # Typo in papers list.
+            ndata['class'] = 'cma'
+        elif 'munutes' in ndata['maintitle'].lower():
+            # Typo in papers list.
+            ndata['class'] = 'cmm'
         elif 'venue' in ndata['maintitle'].lower():
             ndata['class'] = 'cm'
         elif 'invitation' in ndata['maintitle'].lower():
             ndata['class'] = 'cm'
         elif 'charter' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'schedule' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'liaison report' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'liaison statement' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'compat teleconference' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'omnibus' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'business plan' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'standing document' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'misra' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'call for' in ndata['maintitle'].lower():
             ndata['class'] = 'cadm'
         else:
             ndata['class'] = 'c'
