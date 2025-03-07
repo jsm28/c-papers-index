@@ -171,7 +171,9 @@ REMAP_TITLE = {
     'Accessing arrays of character type': 'Accessing byte arrays',
     'Usage of "length", "size", "count", etc. in context of retrieving array length': 'Words used for retrieving number of elements in arrays and array-like objects across computer languages',
     'Obsolete implicitly octal literals': 'Obsolete implicitly octal literals and add delimited escape sequences',
-    'restrict atomic\\_flag creation': 'Restrict atomic\\_flag creation'}
+    'restrict atomic\\_flag creation': 'Restrict atomic\\_flag creation',
+    'Preprocessing integer expressions': 'Preprocessor integer expressions',
+    'Pitch for dialect directive': 'Pitch for #dialect directive'}
 
 
 # Titles that should not be grouped (same title used for more than one
