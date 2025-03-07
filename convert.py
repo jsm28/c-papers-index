@@ -323,11 +323,22 @@ def action_convert():
                 'ext-id': 'N%s' % n,
                 'ext-url': ndata['link']}
             doc_json['revisions'].append(ndoc)
+            ndata['cid'] = ndoc['id']
         out_dir = os.path.join('out', 'papers', 'C', doc['id'])
         os.makedirs(out_dir, exist_ok=True)
         with open(os.path.join(out_dir, 'metadata.json'), 'w',
                   encoding='utf-8') as f:
             json.dump(doc_json, f, indent=4, sort_keys=True)
+    # Also generate a text list of all papers, for convenience in
+    # improving the classification logic.
+    text_list = []
+    for nnum, ndata in data.items():
+        text_list.append('%s\tN%s %s %s, %s'
+                         % (ndata['cid'] if 'cid' in ndata else ndata['class'],
+                            nnum, ndata['date'], ndata['author'],
+                            ndata['title']))
+    with open('tmp-papers-list.txt', 'w', encoding='utf-8') as f:
+        f.write('\n'.join(text_list) + '\n')
 
 
 def main():
