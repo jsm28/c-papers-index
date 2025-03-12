@@ -193,6 +193,80 @@ OVERRIDE_CLASS = {
     '2011': 'cpub',
     '2010': 'cpub',
     '2004': 'cpub',
+    '1983': 'cm',
+    '1974': 'cpub',
+    '1968': 'cpub',
+    '1950': 'cpub',
+    '1949': 'cpub',
+    '1946': 'cpub',
+    '1945': 'cpub',
+    '1940': 'cpub',
+    '1939': 'cpub',
+    '1933': 'cm',
+    '1926': 'cpub',
+    '1924': 'cpub',
+    '1919': 'cpub',
+    '1912': 'cpub',
+    '1898': 'cpub',
+    '1897': 'cpub',
+    '1896': 'cpub',
+    '1892': 'cpub',
+    '1891': 'cpub',
+    '1890': 'cpub',
+    '1889': 'cpub',
+    '1869': 'cpub',
+    '1868': 'cpub',
+    '1862': 'cpub',
+    '1855': 'cpub',
+    '1854': 'cpub',
+    '1852': 'cpub',
+    '1851': 'cpub',
+    '1846': 'cpub',
+    '1840': 'cfptca',
+    '1839': 'cfptcm',
+    '1838': 'cfptca',
+    '1837': 'cfptcm',
+    '1836': 'cpub',
+    '1835': 'cpub',
+    '1832': 'cpub',
+    '1828': 'cfptca',
+    '1827': 'cfptcm',
+    '1815': 'cpub',
+    '1814': 'cpub',
+    '1810': 'cpub',
+    '1809': 'cpub',
+    '1805': 'cadm',
+    '1799': 'cm',
+    '1797': 'cpub',
+    '1796': 'cpub',
+    '1795': 'cfptca',
+    '1794': 'cfptcm',
+    '1792': 'cfptca',
+    '1791': 'cfptcm',
+    '1790': 'cpub',
+    '1789': 'cpub',
+    '1788': 'cm',
+    '1787': 'cfptca',
+    '1786': 'cfptcm',
+    '1785': 'cpub',
+    '1784': 'cpub',
+    '1783': 'cfptca',
+    '1782': 'cfptcm',
+    '1781': 'cpub',
+    '1780': 'cfptca',
+    '1779': 'cfptcm',
+    '1778': 'cpub',
+    '1775': 'cpub',
+    '1772': 'cfptca',
+    '1770': 'cpub',
+    '1761': 'cpub',
+    '1759': 'cfptcm',
+    '1758': 'cpub',
+    '1757': 'cpub',
+    '1756': 'cpub',
+    '1755': 'cpub',
+    '1754': 'cpub',
+    '1753': 'cfptca',
     }
 
 
@@ -270,6 +344,8 @@ def classify_docs(data):
             ndata['class'] = 'cpub'
         elif 'disposition' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
+        elif 'summary of voting' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
         elif 'compendium' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'cr summary' in ndata['maintitle'].lower():
@@ -277,6 +353,8 @@ def classify_docs(data):
         elif 'clarification request summary' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'dr report' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'defect report summary' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'thread-based parallelism' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
