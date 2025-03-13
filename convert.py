@@ -98,6 +98,9 @@ def get_ndoc_data():
                     line = m.group(4)
                 else:
                     raise ValueError('could not parse date: %s' % line)
+        # Erroneous date in the list.
+        if nnum == '1559':
+            date = '2011-03-14'
         line_split = line.split(',', 1)
         if len(line_split) == 1:
             line_split = ('WG14', line_split[0])
@@ -145,6 +148,7 @@ OVERRIDE_CLASS = {
     '3489': 'cpub',
     '3408': 'cadm',
     '3328': 'cpub',
+    '3251': 'cm',
     '3191': 'cpub',
     '3171': 'cadm',
     '3135': 'cpub',
@@ -177,6 +181,7 @@ OVERRIDE_CLASS = {
     '2784': 'cadm',
     '2733': 'cpub',
     '2676': 'cpub',
+    '2664': 'cadm',
     '2652': 'cadm',
     '2627': 'cadm',
     '2613': 'cadm',
@@ -193,7 +198,6 @@ OVERRIDE_CLASS = {
     '2011': 'cpub',
     '2010': 'cpub',
     '2004': 'cpub',
-    '1983': 'cm',
     '1974': 'cpub',
     '1968': 'cpub',
     '1950': 'cpub',
@@ -222,15 +226,9 @@ OVERRIDE_CLASS = {
     '1852': 'cpub',
     '1851': 'cpub',
     '1846': 'cpub',
-    '1840': 'cfptca',
-    '1839': 'cfptcm',
-    '1838': 'cfptca',
-    '1837': 'cfptcm',
     '1836': 'cpub',
     '1835': 'cpub',
     '1832': 'cpub',
-    '1828': 'cfptca',
-    '1827': 'cfptcm',
     '1815': 'cpub',
     '1814': 'cpub',
     '1810': 'cpub',
@@ -239,34 +237,75 @@ OVERRIDE_CLASS = {
     '1799': 'cm',
     '1797': 'cpub',
     '1796': 'cpub',
-    '1795': 'cfptca',
-    '1794': 'cfptcm',
-    '1792': 'cfptca',
-    '1791': 'cfptcm',
     '1790': 'cpub',
     '1789': 'cpub',
     '1788': 'cm',
-    '1787': 'cfptca',
-    '1786': 'cfptcm',
     '1785': 'cpub',
     '1784': 'cpub',
-    '1783': 'cfptca',
-    '1782': 'cfptcm',
     '1781': 'cpub',
-    '1780': 'cfptca',
-    '1779': 'cfptcm',
     '1778': 'cpub',
     '1775': 'cpub',
     '1772': 'cfptca',
     '1770': 'cpub',
     '1761': 'cpub',
-    '1759': 'cfptcm',
     '1758': 'cpub',
     '1757': 'cpub',
     '1756': 'cpub',
     '1755': 'cpub',
     '1754': 'cpub',
-    '1753': 'cfptca',
+    '1742': 'cpub',
+    '1724': 'cpub',
+    '1722': 'cpub',
+    '1709': 'cfptca',
+    '1702': 'cpub',
+    '1689': 'cfptcm',
+    '1686': 'cm',
+    '1680': 'cpub',
+    '1679': 'cpub',
+    '1678': 'cfptca',
+    '1676': 'cpub',
+    '1669': 'cpub',
+    '1668': 'cpub',
+    '1666': 'cpub',
+    '1664': 'cpub',
+    '1663': 'cpub',
+    '1657': 'cpub',
+    '1656': 'cpub',
+    '1644': 'cadm',
+    '1638': 'cadm',
+    '1636': 'cpub',
+    '1632': 'cpub',
+    '1631': 'cpub',
+    '1624': 'cpub',
+    '1623': 'cpub',
+    '1622': 'cadm',
+    '1621': 'cpub',
+    '1620': 'cpub',
+    '1619': 'cpub',
+    '1618': 'cpub',
+    '1616': 'cadm',
+    '1615': 'cpub',
+    '1609': 'cpub',
+    '1608': 'cadm',
+    '1607': 'cadm',
+    '1606': 'cpub',
+    '1605': 'cpub',
+    '1591': 'cpub',
+    '1590': 'cadm',
+    '1583': 'c',
+    '1579': 'cpub',
+    '1578': 'cpub',
+    '1574': 'cm',
+    '1571': 'cpub',
+    '1570': 'cpub',
+    '1569': 'cpub',
+    '1568': 'cpub',
+    '1567': 'cpub',
+    '1566': 'cpub',
+    '1565': 'cpub',
+    '1560': 'cpub',
+    '1554': 'cpub',
+    '1553': 'cpub',
     }
 
 
@@ -360,9 +399,15 @@ def classify_docs(data):
             ndata['class'] = 'cpub'
         elif 'latex' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
-        elif 'cfp teleconference agenda' in ndata['maintitle'].lower():
+        elif 'dts 17961' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'fp teleconference' in ndata['maintitle'].lower() and 'agenda' in ndata['maintitle'].lower():
             ndata['class'] = 'cfptca'
-        elif 'cfp teleconference minutes' in ndata['maintitle'].lower():
+        elif 'c floating point study group teleconference' in ndata['maintitle'].lower():
+            ndata['class'] = 'cfptca'
+        elif 'fp teleconference' in ndata['maintitle'].lower() and ('minutes' in ndata['maintitle'].lower() or 'notes' in ndata['maintitle'].lower()):
+            ndata['class'] = 'cfptcm'
+        elif 'fp meeting minutes' in ndata['maintitle'].lower():
             ndata['class'] = 'cfptcm'
         elif 'agenda' in ndata['maintitle'].lower():
             ndata['class'] = 'cma'
@@ -379,6 +424,8 @@ def classify_docs(data):
         elif 'invitation' in ndata['maintitle'].lower():
             ndata['class'] = 'cm'
         elif 'meeting information' in ndata['maintitle'].lower():
+            ndata['class'] = 'cm'
+        elif 'hotel' in ndata['maintitle'].lower():
             ndata['class'] = 'cm'
         elif 'charter' in ndata['maintitle'].lower():
             ndata['class'] = 'cadm'
