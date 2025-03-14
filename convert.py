@@ -145,7 +145,6 @@ def get_ndoc_data():
 # Documents where the default classification based on heuristics
 # applied to the title should be overridden.
 OVERRIDE_CLASS = {
-    '3489': 'cpub',
     '3408': 'cadm',
     '3328': 'cpub',
     '3251': 'cm',
@@ -306,6 +305,23 @@ OVERRIDE_CLASS = {
     '1560': 'cpub',
     '1554': 'cpub',
     '1553': 'cpub',
+    '1455': 'cm',
+    '1407': 'cadm',
+    '1393': 'cpub',
+    '1390': 'cadm',
+    '1388': 'cpub',
+    '1337': 'cpub',
+    '1336': 'cpub',
+    '1314': 'cadm',
+    '1312': 'cpub',
+    '1307': 'cadm',
+    '1292': 'cpub',
+    '1290': 'cpub',
+    '1275': 'cpub',
+    '1274': 'cadm',
+    '1268': 'cadm',
+    '1263': 'cpub',
+    '1256': 'cpub',
     }
 
 
@@ -358,6 +374,8 @@ def classify_docs(data):
             ndata['maintitle'] = ndata['title']
             ndata['auxtitle'] = None
         if 'working draft' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif "committee draft" in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif "editor's report" in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
