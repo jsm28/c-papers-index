@@ -21,6 +21,22 @@ WG14_DOCS_LOG = 'https://www.open-std.org/jtc1/sc22/wg14/www/wg14_document_log.h
 LOCAL_DOCS_LOG = os.path.join('in', 'wg14_document_log.htm')
 
 
+# The normal URL start for a WG14 document.
+WG14_DOC = 'https://www.open-std.org/jtc1/sc22/wg14/www/docs/n'
+
+
+# The protected URL start for a WG14 document.
+WG14_DOC_PROT = 'https://www.open-std.org/jtc1/sc22/wg14/prot/n'
+
+
+# The historic URL start for a WG14 document.
+WG14_DOC_HIST = 'https://www.open-std.org/jtc1/sc22/wg14/www/docs/historic/n'
+
+
+# The historic URL start for a WG14 document, variant.
+WG14_DOC_HIST0 = 'https://www.open-std.org/jtc1/sc22/wg14/www/docs/historic/n0'
+
+
 def action_download():
     """Download the document log."""
     urllib.request.urlretrieve(WG14_DOCS_LOG, filename=LOCAL_DOCS_LOG)
@@ -69,6 +85,15 @@ def get_ndoc_data():
                 link = urllib.parse.urljoin(WG14_DOCS_LOG, link)
                 nnum = m.group(2)
                 line = m.group(3)
+                exp_url_1 = WG14_DOC + nnum + '.'
+                exp_url_2 = WG14_DOC_PROT + nnum + '.'
+                exp_url_3 = WG14_DOC_HIST + nnum + '.'
+                exp_url_4 = WG14_DOC_HIST0 + nnum + '.'
+                if not (link.startswith(exp_url_1)
+                        or link.startswith(exp_url_2)
+                        or link.startswith(exp_url_3)
+                        or link.startswith(exp_url_4)):
+                    print('unexpected URL for N%s: %s' % (nnum, link))
             else:
                 raise ValueError('could not parse line: %s' % line)
         if line == 'Not assigned.':
