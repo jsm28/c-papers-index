@@ -21,20 +21,24 @@ WG14_DOCS_LOG = 'https://www.open-std.org/jtc1/sc22/wg14/www/wg14_document_log.h
 LOCAL_DOCS_LOG = os.path.join('in', 'wg14_document_log.htm')
 
 
+# The base URL for all WG14 documents.
+WG14_BASE = 'https://www.open-std.org/jtc1/sc22/wg14/'
+
+
 # The normal URL start for a WG14 document.
-WG14_DOC = 'https://www.open-std.org/jtc1/sc22/wg14/www/docs/n'
+WG14_DOC = WG14_BASE + 'www/docs/n'
 
 
 # The protected URL start for a WG14 document.
-WG14_DOC_PROT = 'https://www.open-std.org/jtc1/sc22/wg14/prot/n'
+WG14_DOC_PROT = WG14_BASE + 'prot/n'
 
 
 # The historic URL start for a WG14 document.
-WG14_DOC_HIST = 'https://www.open-std.org/jtc1/sc22/wg14/www/docs/historic/n'
+WG14_DOC_HIST = WG14_BASE + 'www/docs/historic/n'
 
 
 # The historic URL start for a WG14 document, variant.
-WG14_DOC_HIST0 = 'https://www.open-std.org/jtc1/sc22/wg14/www/docs/historic/n0'
+WG14_DOC_HIST0 = WG14_BASE + 'www/docs/historic/n0'
 
 
 def action_download():
@@ -634,15 +638,21 @@ def action_convert():
                   encoding='utf-8') as f:
             json.dump(doc_json, f, indent=4, sort_keys=True)
     # Also generate a text list of all papers, for convenience in
-    # improving the classification logic.
+    # improving the classification logic, and a list of paper
+    # locations on the WG14 website, for link checking.
     text_list = []
+    url_list = []
     for nnum, ndata in data.items():
         text_list.append('%s\tN%s %s %s, %s'
                          % (ndata['cid'] if 'cid' in ndata else ndata['class'],
                             nnum, ndata['date'], ndata['author'],
                             ndata['title']))
+        if ndata['link'] and ndata['link'].startswith(WG14_BASE):
+            url_list.append(ndata['link'][len(WG14_BASE):])
     with open('tmp-papers-list.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(text_list) + '\n')
+    with open('tmp-file-list.txt', 'w', encoding='utf-8') as f:
+        f.write('\n'.join(url_list) + '\n')
 
 
 def main():
