@@ -376,6 +376,15 @@ OVERRIDE_CLASS = {
     '922': 'cadm',
     '906': 'cadm',
     '904': 'cmm',
+    '897': 'cpub',
+    '895': 'c',
+    '881': 'cpub',
+    '854': 'cpub',
+    '850': 'cpub',
+    '878': 'cpub',
+    '806': 'cpub',
+    '802': 'cpub',
+    '800': 'cpub',
     }
 
 
@@ -514,6 +523,8 @@ def classify_docs(data):
         elif 'call for' in ndata['maintitle'].lower():
             ndata['class'] = 'cadm'
         elif 'progress report' in ndata['maintitle'].lower():
+            ndata['class'] = 'cadm'
+        elif 'annual report' in ndata['maintitle'].lower():
             ndata['class'] = 'cadm'
         else:
             ndata['class'] = 'c'
