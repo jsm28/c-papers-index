@@ -289,7 +289,6 @@ OVERRIDE_CLASS = {
     '1393': 'cpub',
     '1390': 'cadm',
     '1388': 'cpub',
-    '1337': 'cpub',
     '1336': 'cpub',
     '1314': 'cadm',
     '1312': 'cpub',
@@ -300,7 +299,7 @@ OVERRIDE_CLASS = {
     '1274': 'cadm',
     '1268': 'cadm',
     '1256': 'cpub',
-    '1248': 'cpub',
+    '1247': 'c',
     '1245': 'cadm',
     '1244': 'cpub',
     '1243': 'cpub',
@@ -313,12 +312,10 @@ OVERRIDE_CLASS = {
     '1202': 'cpub',
     '1201': 'cpub',
     '1199': 'cpub',
+    '1197': 'c',
     '1193': 'cpub',
     '1192': 'cadm',
-    '1182': 'cpub',
     '1180': 'cpub',
-    '1177': 'cpub',
-    '1176': 'cpub',
     '1173': 'cpub',
     '1172': 'cpub',
     '1169': 'cpub',
@@ -339,12 +336,12 @@ OVERRIDE_CLASS = {
     '1125': 'cpub',
     '1124': 'cpub',
     '1120': 'cpub',
+    '1118': 'c',
     '1107': 'cpub',
+    '1106': 'c',
     '1096': 'cpub',
     '1095': 'cpub',
-    '1093': 'cpub',
     '1089': 'cpub',
-    '1088': 'cpub',
     '1087': 'cpub',
     '1082': 'cadm',
     '1077': 'cpub',
@@ -366,15 +363,12 @@ OVERRIDE_CLASS = {
     '996': 'cpub',
     '994': 'cadm',
     '979': 'cpub',
-    '972': 'cpub',
-    '968': 'cpub',
     '966': 'cadm',
     '957': 'cpub',
     '949': 'cpub',
     '948': 'cpub',
     '940': 'cpub',
     '937': 'cpub',
-    '936': 'cpub',
     '932': 'cpub',
     '931': 'cadm',
     '930': 'cadm',
@@ -470,6 +464,8 @@ def classify_docs(data):
         elif 'latex' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'dts 17961' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'wdtr' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'fp teleconference' in ndata['maintitle'].lower() and 'agenda' in ndata['maintitle'].lower():
             ndata['class'] = 'cfptca'
