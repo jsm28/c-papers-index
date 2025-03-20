@@ -173,30 +173,9 @@ OVERRIDE_CLASS = {
     '3408': 'cadm',
     '3328': 'cpub',
     '3251': 'cm',
-    '3191': 'cpub',
     '3171': 'cadm',
-    '3135': 'cpub',
     '3118': 'cadm',
-    '3117': 'cpub',
-    '3105': 'cpub',
-    '3103': 'cpub',
-    '3102': 'cpub',
-    '3101': 'cpub',
-    '3098': 'cpub',
-    '3092': 'cpub',
-    '3090': 'cpub',
     '3088': 'cpub',
-    '3082': 'cpub',
-    '3081': 'cpub',
-    '3080': 'cpub',
-    '3079': 'cpub',
-    '3078': 'cpub',
-    '3077': 'cpub',
-    '3076': 'cpub',
-    '3073': 'cpub',
-    '3072': 'cpub',
-    '3071': 'cpub',
-    '3070': 'cpub',
     '3057': 'cpub',
     '3054': 'cpub',
     '3005': 'cpub',
@@ -215,7 +194,6 @@ OVERRIDE_CLASS = {
     '2181': 'cm',
     '2177': 'cpub',
     '2176': 'cpub',
-    '2143': 'cpub',
     '2131': 'c',
     '2071': 'cadm',
     '2058': 'cpub',
@@ -235,25 +213,17 @@ OVERRIDE_CLASS = {
     '1924': 'cpub',
     '1919': 'cpub',
     '1912': 'cpub',
-    '1898': 'cpub',
     '1897': 'cpub',
     '1896': 'cpub',
     '1892': 'cpub',
     '1891': 'cpub',
-    '1890': 'cpub',
-    '1889': 'cpub',
-    '1869': 'cpub',
-    '1868': 'cpub',
     '1862': 'cpub',
-    '1855': 'cpub',
-    '1854': 'cpub',
     '1852': 'cpub',
     '1851': 'cpub',
     '1846': 'cpub',
     '1836': 'cpub',
     '1835': 'cpub',
     '1832': 'cpub',
-    '1815': 'cpub',
     '1814': 'cpub',
     '1810': 'cpub',
     '1809': 'cpub',
@@ -269,19 +239,19 @@ OVERRIDE_CLASS = {
     '1781': 'cpub',
     '1778': 'cpub',
     '1775': 'cpub',
+    '1774': 'cpub',
     '1772': 'cfptca',
-    '1770': 'cpub',
     '1761': 'cpub',
+    '1760': 'c',
     '1758': 'cpub',
     '1757': 'cpub',
     '1756': 'cpub',
-    '1755': 'cpub',
-    '1754': 'cpub',
-    '1742': 'cpub',
     '1724': 'cpub',
     '1722': 'cpub',
     '1709': 'cfptca',
-    '1702': 'cpub',
+    '1701': 'c',
+    '1700': 'c',
+    '1699': 'c',
     '1689': 'cfptcm',
     '1686': 'cm',
     '1680': 'cpub',
@@ -289,24 +259,16 @@ OVERRIDE_CLASS = {
     '1678': 'cfptca',
     '1676': 'cpub',
     '1669': 'cpub',
-    '1668': 'cpub',
-    '1666': 'cpub',
     '1664': 'cpub',
     '1663': 'cpub',
     '1657': 'cpub',
     '1656': 'cpub',
     '1644': 'cadm',
     '1638': 'cadm',
-    '1636': 'cpub',
     '1632': 'cpub',
     '1631': 'cpub',
     '1624': 'cpub',
-    '1623': 'cpub',
     '1622': 'cadm',
-    '1621': 'cpub',
-    '1620': 'cpub',
-    '1619': 'cpub',
-    '1618': 'cpub',
     '1616': 'cadm',
     '1615': 'cpub',
     '1609': 'cpub',
@@ -320,16 +282,8 @@ OVERRIDE_CLASS = {
     '1579': 'cpub',
     '1578': 'cpub',
     '1574': 'cm',
-    '1571': 'cpub',
     '1570': 'cpub',
     '1569': 'cpub',
-    '1568': 'cpub',
-    '1567': 'cpub',
-    '1566': 'cpub',
-    '1565': 'cpub',
-    '1560': 'cpub',
-    '1554': 'cpub',
-    '1553': 'cpub',
     '1455': 'cm',
     '1407': 'cadm',
     '1393': 'cpub',
@@ -345,7 +299,6 @@ OVERRIDE_CLASS = {
     '1275': 'cpub',
     '1274': 'cadm',
     '1268': 'cadm',
-    '1263': 'cpub',
     '1256': 'cpub',
     '1248': 'cpub',
     '1245': 'cadm',
@@ -386,9 +339,6 @@ OVERRIDE_CLASS = {
     '1125': 'cpub',
     '1124': 'cpub',
     '1120': 'cpub',
-    '1114': 'cpub',
-    '1113': 'cpub',
-    '1112': 'cpub',
     '1107': 'cpub',
     '1096': 'cpub',
     '1095': 'cpub',
@@ -420,7 +370,6 @@ OVERRIDE_CLASS = {
     '968': 'cpub',
     '966': 'cadm',
     '957': 'cpub',
-    '952': 'cpub',
     '949': 'cpub',
     '948': 'cpub',
     '940': 'cpub',
@@ -505,14 +454,6 @@ def classify_docs(data):
         elif 'ts proposal' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'generalized function calls' in ndata['maintitle'].lower():
-            ndata['class'] = 'cpub'
-        elif 'ballot comment' in ndata['maintitle'].lower():
-            ndata['class'] = 'cpub'
-        elif 'ballot resolution' in ndata['maintitle'].lower():
-            ndata['class'] = 'cpub'
-        elif 'disposition' in ndata['maintitle'].lower():
-            ndata['class'] = 'cpub'
-        elif 'summary of voting' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'compendium' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
@@ -623,12 +564,18 @@ EXTRA_INCLUDE = {
     '2658', '2948', '2995', '3051', '3064', '3160', '3025', '3058'}
 
 
+# Documents to exclude in consideration (C23 ballot comments) despite
+# postdating cut-off date.
+EXTRA_EXCLUDE = {
+    '3191', '3216'}
+
+
 def generate_cdocs(data):
     """Generate C-document data from groups of N-documents."""
     cdocs = []
     for nnum, ndata in data.items():
         if ndata['class'] == 'c':
-            convert_doc = ndata['date'] >= '2023-10-01' or nnum in EXTRA_INCLUDE
+            convert_doc = (ndata['date'] >= '2023-10-01' and nnum not in EXTRA_EXCLUDE) or nnum in EXTRA_INCLUDE
             if int(nnum) != max(int(n) for n in ndata['group']):
                 continue
             for n in ndata['group']:
