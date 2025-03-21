@@ -100,11 +100,11 @@ def action_format():
         'c-all.html',
         ''.join(out_list),
         'Prototype C document list, reverse-chronological')
+    with open('index.md', 'r', encoding='utf-8') as f:
+        index_md = f.read()
     write_md(
         'index.html',
-        '# Prototype C document lists\n\n'
-        '* [All revisions of C-documents, reverse-chronological](c-all.html)\n'
-        '* [C-documents in reverse order by document number](c-num.html)\n',
+        index_md,
         'Prototype C document lists')
 
 
