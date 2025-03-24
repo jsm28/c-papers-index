@@ -514,7 +514,9 @@ REMAP_TITLE = {
     'Obsolete implicitly octal literals': 'Obsolete implicitly octal literals and add delimited escape sequences',
     'restrict atomic\\_flag creation': 'Restrict atomic\\_flag creation',
     'Preprocessing integer expressions': 'Preprocessor integer expressions',
-    'Pitch for dialect directive': 'Pitch for #dialect directive'}
+    'Pitch for dialect directive': 'Pitch for #dialect directive',
+    'The C Standard Charter': 'The C Standard charter',
+    'Required JTC 1 Summary of ISO and IEC Codes of Conduct': 'Updated JTC 1 Code of Conduct slide'}
 
 
 # Titles that should not be grouped (same title used for more than one
@@ -633,7 +635,7 @@ def classify_docs(data):
             ndata['class'] = 'c'
         if nnum in OVERRIDE_CLASS:
             ndata['class'] = OVERRIDE_CLASS[nnum]
-        if ndata['class'] == 'c':
+        if ndata['class'] in ('c', 'cadm'):
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
@@ -641,7 +643,7 @@ def classify_docs(data):
                 by_title[group_title].add(nnum)
     # Group documents with the same main title together.
     for nnum, ndata in data.items():
-        if ndata['class'] == 'c':
+        if ndata['class'] in ('c', 'cadm'):
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
@@ -652,7 +654,7 @@ def classify_docs(data):
     while changed:
         changed = False
         for nnum, ndata in data.items():
-            if ndata['class'] != 'c':
+            if ndata['class'] not in ('c', 'cadm'):
                 continue
             if ndata['auxtitle'] is None:
                 continue
@@ -667,25 +669,35 @@ def classify_docs(data):
                             data[n]['group'] |= ndata['group']
 
 
-# Documents to include in consideration (mentioned for possible future
-# scheduling in agendas, or discussed for C2Y) despite predating
-# cut-off date.
-EXTRA_INCLUDE = {
+# C-documents to include in consideration (mentioned for possible
+# future scheduling in agendas, or discussed for C2Y) despite
+# predating cut-off date.
+C_EXTRA_INCLUDE = {
     '2658', '2948', '2995', '3051', '3064', '3160', '3025', '3058'}
 
 
-# Documents to exclude in consideration (C23 ballot comments) despite
-# postdating cut-off date.
-EXTRA_EXCLUDE = {
+# C-documents to exclude in consideration (C23 ballot comments)
+# despite postdating cut-off date.
+C_EXTRA_EXCLUDE = {
     '3191', '3216'}
 
 
-def generate_cdocs(data):
+# Extra CADM-documents to include.
+CADM_EXTRA_INCLUDE = {
+    '3118', '3002', '2947'}
+
+
+# Extra CADM-documents to exclude.
+CADM_EXTRA_EXCLUDE = set()
+
+
+def generate_autonum_docs(data, doc_class, start_num, cutoff_date,
+                          extra_exclude, extra_include):
     """Generate C-document data from groups of N-documents."""
-    cdocs = []
+    docs = []
     for nnum, ndata in data.items():
-        if ndata['class'] == 'c':
-            convert_doc = (ndata['date'] >= '2023-10-01' and nnum not in EXTRA_EXCLUDE) or nnum in EXTRA_INCLUDE
+        if ndata['class'] == doc_class:
+            convert_doc = (ndata['date'] >= cutoff_date and nnum not in extra_exclude) or nnum in extra_include
             if int(nnum) != max(int(n) for n in ndata['group']):
                 continue
             for n in ndata['group']:
@@ -698,21 +710,19 @@ def generate_cdocs(data):
                     'author': ndata['author'],
                     'nums': sorted(ndata['group'], key=int)
                     }
-                cdocs.append(cdoc)
-    cdocs.sort(key=lambda x: x['sortkey'])
-    for num, doc in enumerate(cdocs, start=4000):
-        doc['id'] = 'C%d' % num
+                docs.append(cdoc)
+    docs.sort(key=lambda x: x['sortkey'])
+    doc_class_upper = doc_class.upper()
+    for num, doc in enumerate(docs, start=start_num):
+        doc['id'] = '%s%d' % (doc_class_upper, num)
         for rev, num in enumerate(doc['nums'], start=1):
             data[num]['cdoc-rev'] = rev
-    return cdocs
+    return docs
 
 
-def action_convert():
-    """Convert the document log to JSON metadata."""
-    data = get_ndoc_data()
-    classify_docs(data)
-    cdocs = generate_cdocs(data)
-    for doc in cdocs:
+def convert_docs(data, doc_class, doc_list):
+    """Convert documents in a given class to JSON metadata."""
+    for doc in doc_list:
         doc_json = {
             'id': doc['id'],
             'author': doc['author'],
@@ -731,11 +741,23 @@ def action_convert():
                 'ext-url': ndata['link']}
             doc_json['revisions'].append(ndoc)
             ndata['cid'] = ndoc['id']
-        out_dir = os.path.join('out', 'papers', 'C', doc['id'])
+        out_dir = os.path.join('out', 'papers', doc_class, doc['id'])
         os.makedirs(out_dir, exist_ok=True)
         with open(os.path.join(out_dir, 'metadata.json'), 'w',
                   encoding='utf-8') as f:
             json.dump(doc_json, f, indent=4, sort_keys=True)
+
+
+def action_convert():
+    """Convert the document log to JSON metadata."""
+    data = get_ndoc_data()
+    classify_docs(data)
+    c_docs = generate_autonum_docs(data, 'c', 4000, '2023-10-01',
+                                   C_EXTRA_EXCLUDE, C_EXTRA_INCLUDE)
+    convert_docs(data, 'C', c_docs)
+    cadm_docs = generate_autonum_docs(data, 'cadm', 1, '2023-09-01',
+                                      CADM_EXTRA_EXCLUDE, CADM_EXTRA_INCLUDE)
+    convert_docs(data, 'CADM', cadm_docs)
     # Also generate a text list of all papers, for convenience in
     # improving the classification logic, and a list of paper
     # locations on the WG14 website, for link checking.

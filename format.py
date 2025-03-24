@@ -9,7 +9,7 @@ from mistletoe.html_renderer import HtmlRenderer
 
 
 # The location of papers data and metadata.
-PAPERS_DIR = 'out/papers/C'
+PAPERS_DIR = 'out/papers'
 
 
 # The location of formatted (HTML) output.
@@ -65,10 +65,11 @@ def table_line_for_rev(rev, show_num):
             % (n, link, rev['author'], rev['date'], rev['title']))
 
 
-def action_format():
-    """Format the papers lists.  The source data is in PAPERS_DIR; the
-    formatted output goes to OUT_HTML_DIR."""
-    data = get_data(PAPERS_DIR)
+def do_format_simple(doc_class):
+    """Format simple lists of a papers in a given class.  The source
+    data is in PAPERS_DIR; the formatted output goes to OUT_HTML_DIR."""
+    doc_class_upper = doc_class.upper()
+    data = get_data(os.path.join(PAPERS_DIR, doc_class_upper))
     rev_sort = {}
     by_rev = {}
     by_rev_num = {}
@@ -79,7 +80,8 @@ def action_format():
             # revision ID.  This should properly sort after splitting
             # out numbers, not by strings, for a non-prototype.
             rev_sort[rev['id']] = (rev['date'], rev['id'])
-    out_list = ['# Prototype C document list by document number\n\n']
+    out_list = ['# Prototype %s document list by document number\n\n'
+                % doc_class_upper]
     out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
     for n in sorted(data.keys(), reverse=True):
         cdoc = data[n]
@@ -88,18 +90,26 @@ def action_format():
         for rev in reversed(cdoc['revisions']):
             out_list.append(table_line_for_rev(rev, False))
     write_md(
-        'c-num.html',
+        '%s-num.html' % doc_class,
         ''.join(out_list),
-        'Prototype C document list by document number')
-    out_list = ['# Prototype C document list, reverse-chronological\n\n']
+        'Prototype %s document list by document number' % doc_class_upper)
+    out_list = ['# Prototype %s document list, reverse-chronological\n\n'
+                % doc_class_upper]
     out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
     for rev_id in sorted(by_rev.keys(), key=lambda k: rev_sort[k],
                          reverse=True):
         out_list.append(table_line_for_rev(by_rev[rev_id], True))
     write_md(
-        'c-all.html',
+        '%s-all.html' % doc_class,
         ''.join(out_list),
-        'Prototype C document list, reverse-chronological')
+        'Prototype %s document list, reverse-chronological' % doc_class_upper)
+
+
+def action_format():
+    """Format the papers lists.  The source data is in PAPERS_DIR; the
+    formatted output goes to OUT_HTML_DIR."""
+    do_format_simple('c')
+    do_format_simple('cadm')
     with open('index.md', 'r', encoding='utf-8') as f:
         index_md = f.read()
     write_md(
@@ -111,7 +121,7 @@ def action_format():
 def main():
     """Main program."""
     parser = argparse.ArgumentParser(
-        description='Format C issues in Markdown')
+        description='Format C papers lists in Markdown')
     parser.add_argument('action',
                         help='What to do',
                         choices=('format'))

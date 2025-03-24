@@ -64,6 +64,9 @@ The list is intended to start with documents considered after C23 was
 mostly complete (although the starting point could be pushed further
 back if desired).
 
+* [All revisions of CADM-documents, reverse-chronological](cadm-all.html)
+* [CADM-documents in reverse order by document number](cadm-num.html)
+
 ## Meeting documents
 
 CMA-documents are agendas for meetings of the C standards committee,
