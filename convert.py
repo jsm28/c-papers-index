@@ -319,6 +319,10 @@ OVERRIDE_CLASS = {
     '1197': 'c',
     '1193': 'cpub',
     '1192': 'cadm',
+    # 1191 (Defect reports closed not published) is logically a CPUB
+    # (auxiliary) document, needs versions of C99 issue log (not
+    # N-documents) to be assigned revision numbers before it can be
+    # filed as such.
     '1180': 'cpub',
     '1173': 'cpub',
     '1172': 'cpub',
@@ -392,6 +396,7 @@ OVERRIDE_CLASS = {
     '798': 'cadm',
     '679': 'cadm',
     '674': 'cpub',
+    '667': 'cpub',
     '643': 'cpub',
     '627': 'cadm',
     '624': 'cpub',
@@ -404,27 +409,38 @@ OVERRIDE_CLASS = {
     '554': 'cadm',
     '553': 'cadm',
     '549': 'cm',
+    '544': 'cpub',
     '543': 'cadm',
     '542': 'cadm',
+    '536': 'cpub',
     '524': 'cpub',
     '491': 'cpub',
     '482': 'cm',
     '460': 'cadm',
     '457': 'cpub',
     '442': 'cadm',
+    '441': 'cpub',
+    '440': 'cpub',
+    '439': 'cpub',
+    '438': 'cpub',
     '437': 'cm',
     '433': 'c',
     '428': 'cadm',
+    '425': 'cpub',
     '423': 'cpub',
     '412': 'cpub',
+    '403': 'cpub',
     '399': 'cadm',
+    '395': 'cpub',
     '394': 'cadm',
     '385': 'cpub',
     '382': 'cadm',
     '380': 'cadm',
     '377': 'cpub',
+    '366': 'cadm',
     '360': 'cadm',
     '351': 'cadm',
+    '347': 'cpub',
     '346': 'cadm',
     '341': 'cadm',
     '337': 'cadm',
@@ -438,11 +454,17 @@ OVERRIDE_CLASS = {
     '290': 'cpub',
     '289': 'cpub',
     '288': 'cpub',
+    '284': 'cpub',
+    '277': 'cpub',
     '266': 'cm',
+    '263': 'cpub',
     '261': 'cadm',
     '260': 'cpub',
     '259': 'cpub',
     '254': 'cadm',
+    '284': 'cpub',
+    '246': 'cpub',
+    '245': 'cpub',
     '233': 'cadm',
     '232': 'cadm',
     '231': 'cadm',
@@ -581,6 +603,10 @@ def classify_docs(data):
             ndata['class'] = 'cpub'
         elif 'wdtr' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
+        elif 'point c extensions' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'parallel c extensions' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
         elif 'fp teleconference' in ndata['maintitle'].lower() and 'agenda' in ndata['maintitle'].lower():
             ndata['class'] = 'cfptca'
         elif 'c floating point study group teleconference' in ndata['maintitle'].lower():
@@ -705,70 +731,76 @@ CPUB_DOCS = [
     # CPUB3
     { 'title': 'Amendment 1: C Integrity' },
     # CPUB4
-    { 'title': 'C90 issue log' },
+    { 'title': 'Numerical C Extensions' },
     # CPUB5
-    { 'title': 'C90 Technical Corrigendum 1' },
+    { 'title': 'C90 issue log' },
     # CPUB6
-    { 'title': 'C90 Technical Corrigendum 2' },
+    { 'title': 'C90 Technical Corrigendum 1' },
     # CPUB7
-    { 'title': 'Programming languages — C — Extensions to support embedded processors' },
+    { 'title': 'Data Parallel C Extensions' },
     # CPUB8
-    { 'title': 'C99 issue log' },
+    { 'title': 'A Rationale for Floating-Point C Extensions' },
     # CPUB9
-    { 'title': 'C99 Technical Corrigendum 1' },
+    { 'title': 'C90 Technical Corrigendum 2' },
     # CPUB10
-    { 'title': 'Extensions for the programming language C to support new character data types' },
+    { 'title': 'Programming languages — C — Extensions to support embedded processors' },
     # CPUB11
-    { 'title': 'Extension for the programming language C to support decimal floating-point arithmetic' },
+    { 'title': 'C99 issue log' },
     # CPUB12
-    { 'title': 'Extensions to the C library — Part 1: Bounds-checking interfaces' },
+    { 'title': 'C99 Technical Corrigendum 1' },
     # CPUB13
-    { 'title': 'Extensions to the C Library to support mathematical special functions' },
+    { 'title': 'Extensions for the programming language C to support new character data types' },
     # CPUB14
-    { 'title': 'C99 Technical Corrigendum 2' },
+    { 'title': 'Extension for the programming language C to support decimal floating-point arithmetic' },
     # CPUB15
-    { 'title': 'Embedded C (2004) issue log' },
+    { 'title': 'Extensions to the C library — Part 1: Bounds-checking interfaces' },
     # CPUB16
-    { 'title': 'Extensions to the C library — Part 2: Dynamic Allocation Functions' },
+    { 'title': 'Extensions to the C Library to support mathematical special functions' },
     # CPUB17
-    { 'title': 'Rationale for Extensions to the C library — Part 1: Bounds-checking interfaces' },
+    { 'title': 'C99 Technical Corrigendum 2' },
     # CPUB18
-    { 'title': 'Rationale for Extension for the programming language C to support decimal floating-point arithmetic' },
+    { 'title': 'Embedded C (2004) issue log' },
     # CPUB19
-    { 'title': 'C99 Technical Corrigendum 3' },
+    { 'title': 'Extensions to the C library — Part 2: Dynamic Allocation Functions' },
     # CPUB20
-    { 'title': 'Rationale for Extensions to the C Library to support mathematical special functions' },
+    { 'title': 'Rationale for Extensions to the C library — Part 1: Bounds-checking interfaces' },
     # CPUB21
-    { 'title': 'C secure coding rules' },
+    { 'title': 'Rationale for Extension for the programming language C to support decimal floating-point arithmetic' },
     # CPUB22
-    { 'title': 'C11/C17 issue log' },
+    { 'title': 'C99 Technical Corrigendum 3' },
     # CPUB23
-    { 'title': 'C11 Technical Corrigendum 1' },
+    { 'title': 'Rationale for Extensions to the C Library to support mathematical special functions' },
     # CPUB24
-    { 'title': 'Floating-point extensions for C — Part 1: Binary floating-point arithmetic' },
+    { 'title': 'C secure coding rules' },
     # CPUB25
-    { 'title': 'Floating-point extensions for C — Part 2: Decimal floating-point arithmetic' },
+    { 'title': 'C11/C17 issue log' },
     # CPUB26
-    { 'title': 'Floating-point extensions for C — Part 3: Interchange and extended types' },
+    { 'title': 'C11 Technical Corrigendum 1' },
     # CPUB27
-    { 'title': 'Floating-point extensions for C — Part 4: Supplementary functions' },
+    { 'title': 'Floating-point extensions for C — Part 1: Binary floating-point arithmetic' },
     # CPUB28
-    { 'title': 'C Secure Coding Rules issue log' },
+    { 'title': 'Floating-point extensions for C — Part 2: Decimal floating-point arithmetic' },
     # CPUB29
-    { 'title': 'Programming language C — Extensions for parallel programming — Part 1: Thread-based parallelism' },
+    { 'title': 'Floating-point extensions for C — Part 3: Interchange and extended types' },
     # CPUB30
-    { 'title': 'Floating-point extensions for C — Part 5: Supplementary attributes' },
+    { 'title': 'Floating-point extensions for C — Part 4: Supplementary functions' },
     # CPUB31
-    { 'title': 'C Secure Coding Rules (2013) Technical Corrigendum 1' },
+    { 'title': 'C Secure Coding Rules issue log' },
     # CPUB32
-    { 'title': 'Floating-point extensions for C (2014–2016) issue log' },
+    { 'title': 'Programming language C — Extensions for parallel programming — Part 1: Thread-based parallelism' },
     # CPUB33
-    { 'title': 'Programming languages — C — A provenance-aware memory object model for C' },
+    { 'title': 'Floating-point extensions for C — Part 5: Supplementary attributes' },
     # CPUB34
-    { 'title': 'C Extensions to Support Generalized Function Calls' },
+    { 'title': 'C Secure Coding Rules (2013) Technical Corrigendum 1' },
     # CPUB35
-    { 'title': 'Examples of Undefined Behavior' },
+    { 'title': 'Floating-point extensions for C (2014–2016) issue log' },
     # CPUB36
+    { 'title': 'Programming languages — C — A provenance-aware memory object model for C' },
+    # CPUB37
+    { 'title': 'C Extensions to Support Generalized Function Calls' },
+    # CPUB38
+    { 'title': 'Examples of Undefined Behavior' },
+    # CPUB39
     { 'title': 'Programming Languages — C — defer, a mechanism for general purpose, lexical scope-based undo' },
     ]
 
