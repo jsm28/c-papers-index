@@ -431,7 +431,6 @@ OVERRIDE_CLASS = {
     '412': 'cpub',
     '403': 'cpub',
     '399': 'cadm',
-    '395': 'cpub',
     '394': 'cadm',
     '385': 'cpub',
     '382': 'cadm',
@@ -603,10 +602,6 @@ def classify_docs(data):
             ndata['class'] = 'cpub'
         elif 'wdtr' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
-        elif 'point c extensions' in ndata['maintitle'].lower():
-            ndata['class'] = 'cpub'
-        elif 'parallel c extensions' in ndata['maintitle'].lower():
-            ndata['class'] = 'cpub'
         elif 'fp teleconference' in ndata['maintitle'].lower() and 'agenda' in ndata['maintitle'].lower():
             ndata['class'] = 'cfptca'
         elif 'c floating point study group teleconference' in ndata['maintitle'].lower():
@@ -731,76 +726,72 @@ CPUB_DOCS = [
     # CPUB3
     { 'title': 'Amendment 1: C Integrity' },
     # CPUB4
-    { 'title': 'Numerical C Extensions' },
-    # CPUB5
     { 'title': 'C90 issue log' },
-    # CPUB6
+    # CPUB5
     { 'title': 'C90 Technical Corrigendum 1' },
+    # CPUB6
+    { 'title': 'Numerical C Extensions' },
     # CPUB7
-    { 'title': 'Data Parallel C Extensions' },
-    # CPUB8
-    { 'title': 'A Rationale for Floating-Point C Extensions' },
-    # CPUB9
     { 'title': 'C90 Technical Corrigendum 2' },
-    # CPUB10
+    # CPUB8
     { 'title': 'Programming languages — C — Extensions to support embedded processors' },
-    # CPUB11
+    # CPUB9
     { 'title': 'C99 issue log' },
-    # CPUB12
+    # CPUB10
     { 'title': 'C99 Technical Corrigendum 1' },
-    # CPUB13
+    # CPUB11
     { 'title': 'Extensions for the programming language C to support new character data types' },
-    # CPUB14
+    # CPUB12
     { 'title': 'Extension for the programming language C to support decimal floating-point arithmetic' },
-    # CPUB15
+    # CPUB13
     { 'title': 'Extensions to the C library — Part 1: Bounds-checking interfaces' },
-    # CPUB16
+    # CPUB14
     { 'title': 'Extensions to the C Library to support mathematical special functions' },
-    # CPUB17
+    # CPUB15
     { 'title': 'C99 Technical Corrigendum 2' },
-    # CPUB18
+    # CPUB16
     { 'title': 'Embedded C (2004) issue log' },
-    # CPUB19
+    # CPUB17
     { 'title': 'Extensions to the C library — Part 2: Dynamic Allocation Functions' },
-    # CPUB20
+    # CPUB18
     { 'title': 'Rationale for Extensions to the C library — Part 1: Bounds-checking interfaces' },
-    # CPUB21
+    # CPUB19
     { 'title': 'Rationale for Extension for the programming language C to support decimal floating-point arithmetic' },
-    # CPUB22
+    # CPUB20
     { 'title': 'C99 Technical Corrigendum 3' },
-    # CPUB23
+    # CPUB21
     { 'title': 'Rationale for Extensions to the C Library to support mathematical special functions' },
-    # CPUB24
+    # CPUB22
     { 'title': 'C secure coding rules' },
-    # CPUB25
+    # CPUB23
     { 'title': 'C11/C17 issue log' },
-    # CPUB26
+    # CPUB24
     { 'title': 'C11 Technical Corrigendum 1' },
-    # CPUB27
+    # CPUB25
     { 'title': 'Floating-point extensions for C — Part 1: Binary floating-point arithmetic' },
-    # CPUB28
+    # CPUB26
     { 'title': 'Floating-point extensions for C — Part 2: Decimal floating-point arithmetic' },
-    # CPUB29
+    # CPUB27
     { 'title': 'Floating-point extensions for C — Part 3: Interchange and extended types' },
-    # CPUB30
+    # CPUB28
     { 'title': 'Floating-point extensions for C — Part 4: Supplementary functions' },
-    # CPUB31
+    # CPUB29
     { 'title': 'C Secure Coding Rules issue log' },
-    # CPUB32
+    # CPUB30
     { 'title': 'Programming language C — Extensions for parallel programming — Part 1: Thread-based parallelism' },
-    # CPUB33
+    # CPUB31
     { 'title': 'Floating-point extensions for C — Part 5: Supplementary attributes' },
-    # CPUB34
+    # CPUB32
     { 'title': 'C Secure Coding Rules (2013) Technical Corrigendum 1' },
-    # CPUB35
+    # CPUB33
     { 'title': 'Floating-point extensions for C (2014–2016) issue log' },
-    # CPUB36
+    # CPUB34
     { 'title': 'Programming languages — C — A provenance-aware memory object model for C' },
-    # CPUB37
+    # CPUB35
     { 'title': 'C Extensions to Support Generalized Function Calls' },
-    # CPUB38
+    # CPUB36
     { 'title': 'Examples of Undefined Behavior' },
-    # CPUB39
+    # CPUB37
     { 'title': 'Programming Languages — C — defer, a mechanism for general purpose, lexical scope-based undo' },
     ]
 
