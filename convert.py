@@ -319,10 +319,7 @@ OVERRIDE_CLASS = {
     '1197': 'c',
     '1193': 'cpub',
     '1192': 'cadm',
-    # 1191 (Defect reports closed not published) is logically a CPUB
-    # (auxiliary) document, needs versions of C99 issue log (not
-    # N-documents) to be assigned revision numbers before it can be
-    # filed as such.
+    '1191': 'cpub',
     '1180': 'cpub',
     '1173': 'cpub',
     '1172': 'cpub',
@@ -368,6 +365,7 @@ OVERRIDE_CLASS = {
     '1016': 'cpub',
     '1010': 'cpub',
     '1005': 'cpub',
+    '998': 'cpub',
     '996': 'cpub',
     '994': 'cadm',
     '966': 'cadm',
@@ -796,6 +794,45 @@ CPUB_DOCS = [
     ]
 
 
+CPUB_STD = 1
+CPUB_RAT = 2
+CPUB_AMD1 = 3
+CPUB_C90_ISSUES = 4
+CPUB_C90TC1 = 5
+CPUB_NCE = 6
+CPUB_C90TC2 = 7
+CPUB_EMBC = 8
+CPUB_C99_ISSUES = 9
+CPUB_C99TC1 = 10
+CPUB_CHAR = 11
+CPUB_DFP = 12
+CPUB_BOUNDS = 13
+CPUB_SPECMATH = 14
+CPUB_C99TC2 = 15
+CPUB_EMBC_ISSUES = 16
+CPUB_DYN = 17
+CPUB_RAT_BOUNDS = 18
+CPUB_RAT_DFP = 19
+CPUB_C99TC3 = 20
+CPUB_RAT_SPECMATH = 21
+CPUB_CSCR = 22
+CPUB_C11_ISSUES = 23
+CPUB_C11TC1 = 24
+CPUB_FP1 = 25
+CPUB_FP2 = 26
+CPUB_FP3 = 27
+CPUB_FP4 = 28
+CPUB_CSCR_ISSUES = 29
+CPUB_CPLEX = 30
+CPUB_FP5 = 31
+CPUB_CSCRTC1 = 32
+CPUB_FP_ISSUES = 33
+CPUB_PROV = 34
+CPUB_FUNC = 35
+CPUB_EXUB = 36
+CPUB_DEFER = 37
+
+
 def generate_autonum_docs(data, doc_class, start_num, cutoff_date,
                           extra_exclude, extra_include):
     """Generate C-document data from groups of N-documents."""
@@ -821,6 +858,138 @@ def generate_autonum_docs(data, doc_class, start_num, cutoff_date,
     for num, doc in enumerate(docs, start=start_num):
         doc['id'] = '%s%d' % (doc_class_upper, num)
         for rev, num in enumerate(doc['nums'], start=1):
+            data[num]['cdoc-rev'] = rev
+    return docs
+
+
+# CPUB documents where the heuristic identification of document number
+# should be overridden.
+OVERRIDE_CPUB = {
+    '2060': CPUB_CSCR_ISSUES,
+    '2010': CPUB_CSCRTC1,
+    '1778': CPUB_FP1,
+    # Despite the title in the document log, this is part 2, not part 1.
+    '1775': CPUB_FP2,
+    '1756': CPUB_FP1,
+    '1606': CPUB_C11TC1,
+    '1235': CPUB_C99TC3,
+    '1191': CPUB_C99_ISSUES,
+    '1142': CPUB_C99_ISSUES,
+    '1125': CPUB_C99_ISSUES,
+    '1060': CPUB_C99TC2,
+    '1040': CPUB_CHAR,
+    '1010': CPUB_CHAR,
+    '998': CPUB_CHAR,
+    '932': CPUB_C99TC1,
+    '854': CPUB_EMBC,
+    '624': CPUB_C90TC2,
+    '621': CPUB_C90TC1,
+    '440': CPUB_C90TC2,
+    '439': CPUB_C90_ISSUES,
+    '438': CPUB_C90_ISSUES,
+    '423': CPUB_C90TC1,
+    '403': CPUB_NCE,
+    '332': CPUB_C90TC1,
+    '290': CPUB_C90TC1,
+    '246': CPUB_C90_ISSUES,
+    '245': CPUB_C90_ISSUES,
+    '210': CPUB_AMD1,
+    '182': CPUB_AMD1,
+}
+
+def generate_cpub_docs(data):
+    """Generate CPUB-document data from N-documents."""
+    # TODO: also split by edition and auxiliary documents.
+    nnums_by_cpub_num = {}
+    for n, d in enumerate(CPUB_DOCS, start=1):
+        nnums_by_cpub_num[n] = set()
+    docs = []
+    for nnum, ndata in data.items():
+        if ndata['class'] == 'cpub':
+            ltitle = ndata['maintitle'].lower()
+            if 'multibyte support extension' in ltitle:
+                pub = CPUB_AMD1
+            elif 'mse' in ltitle:
+                pub = CPUB_AMD1
+            elif 'normative addendum' in ltitle:
+                pub = CPUB_AMD1
+            elif 'rationale' in ltitle:
+                if '24731' in ltitle:
+                    pub = CPUB_RAT_BOUNDS
+                elif '24732' in ltitle:
+                    pub = CPUB_RAT_DFP
+                elif '24747' in ltitle:
+                    pub = CPUB_RAT_SPECMATH
+                else:
+                    pub = CPUB_RAT
+            elif 'defect' in ltitle:
+                if '18037' in ltitle:
+                    pub = CPUB_EMBC_ISSUES
+                elif '17961' in ltitle or 'cscr' in ltitle:
+                    pub = CPUB_CSCR_ISSUES
+                elif 'c11' in ltitle:
+                    pub = CPUB_C11_ISSUES
+                else:
+                    pub = CPUB_C90_ISSUES
+            elif 'record of responses' in ltitle:
+                pub = CPUB_C90_ISSUES
+            elif '18037' in ltitle:
+                pub = CPUB_EMBC
+            elif '24731-2' in ltitle or '24731 part ii' in ltitle or 'dynamic alloc' in ltitle:
+                pub = CPUB_DYN
+            elif '24731' in ltitle:
+                pub = CPUB_BOUNDS
+            elif '24732' in ltitle:
+                pub = CPUB_DFP
+            elif '24747' in ltitle or 'special math' in ltitle:
+                pub = CPUB_SPECMATH
+            elif '17961' in ltitle or 'secure coding' in ltitle:
+                pub = CPUB_CSCR
+            elif 'secure' in ltitle or 'security' in ltitle:
+                pub = CPUB_BOUNDS
+            elif 'parallel' in ltitle or 'cplex' in ltitle:
+                pub = CPUB_CPLEX
+            elif 'part 1' in ltitle or '18661-1' in ltitle:
+                pub = CPUB_FP1
+            elif 'part 2' in ltitle or '18661-2' in ltitle:
+                pub = CPUB_FP2
+            elif 'part 3' in ltitle or '18661-3' in ltitle:
+                pub = CPUB_FP3
+            elif 'part 4' in ltitle or '18661-4' in ltitle:
+                pub = CPUB_FP4
+            elif 'part 5' in ltitle or '18661-5' in ltitle:
+                pub = CPUB_FP5
+            elif 'decimal' in ltitle:
+                pub = CPUB_DFP
+            elif 'provenance' in ltitle or '6010' in ltitle:
+                pub = CPUB_PROV
+            elif 'defer' in ltitle:
+                pub = CPUB_DEFER
+            elif 'function' in ltitle:
+                pub = CPUB_FUNC
+            elif 'undefined' in ltitle:
+                pub = CPUB_EXUB
+            elif 'cscr compendium' in ltitle or 'cscr drs' in ltitle or 'rules dr' in ltitle:
+                pub = CPUB_CSCR_ISSUES
+            elif 'fpe compendium' in ltitle or 'floating point extension dr' in ltitle or 'summary for fpe' in ltitle:
+                pub = CPUB_FP_ISSUES
+            elif 'compendium' in ltitle or 'drs' in ltitle or 'dr report' in ltitle or 'request summary' in ltitle or 'cr summary' in ltitle:
+                pub = CPUB_C11_ISSUES
+            else:
+                pub = CPUB_STD
+            if nnum in OVERRIDE_CPUB:
+                pub = OVERRIDE_CPUB[nnum]
+            nnums_by_cpub_num[pub].add(nnum)
+    for n, d in enumerate(CPUB_DOCS, start=1):
+        doc = {
+            'id': 'CPUB%d' % n,
+            'title': d['title'],
+            'editions': [{
+                'edition-num': 1,
+                'title': 'TODO',
+                'nums': sorted(nnums_by_cpub_num[n], key=int)}]}
+        docs.append(doc)
+        for rev, num in enumerate(doc['editions'][0]['nums'], start=1):
             data[num]['cdoc-rev'] = rev
     return docs
 
@@ -853,6 +1022,42 @@ def convert_docs(data, doc_class, doc_list):
             json.dump(doc_json, f, indent=4, sort_keys=True)
 
 
+def convert_cpub_docs(data, doc_list):
+    """Convert CPUB documents to JSON metadata."""
+    # TODO: handle auxiliary documents.
+    for doc in doc_list:
+        doc_json = {
+            'id': doc['id'],
+            'title': doc['title'],
+            'editions': []}
+        for e in doc['editions']:
+            edition_json = {
+                'id': '%se%d' % (doc['id'], e['edition-num']),
+                'title' : e['title'],
+                'revisions': []}
+            for n in e['nums']:
+                ndata = data[n]
+                ndoc = {
+                    'rev-id': 'r%d' % ndata['cdoc-rev'],
+                    'id': '%se%dr%d' % (doc['id'], e['edition-num'],
+                                        ndata['cdoc-rev']),
+                    'doc-id': doc['id'],
+                    'edition-id': '%se%d' % (doc['id'], e['edition-num']),
+                    'author': ndata['author'],
+                    'title': ndata['title'],
+                    'date': ndata['date'],
+                    'ext-id': 'N%s' % n,
+                    'ext-url': ndata['link']}
+                edition_json['revisions'].append(ndoc)
+                ndata['cid'] = ndoc['id']
+            doc_json['editions'].append(edition_json)
+        out_dir = os.path.join('out', 'papers', 'CPUB', doc['id'])
+        os.makedirs(out_dir, exist_ok=True)
+        with open(os.path.join(out_dir, 'metadata.json'), 'w',
+                  encoding='utf-8') as f:
+            json.dump(doc_json, f, indent=4, sort_keys=True)
+
+
 def action_convert():
     """Convert the document log to JSON metadata."""
     data = get_ndoc_data()
@@ -863,6 +1068,8 @@ def action_convert():
     cadm_docs = generate_autonum_docs(data, 'cadm', 1, '2023-09-01',
                                       CADM_EXTRA_EXCLUDE, CADM_EXTRA_INCLUDE)
     convert_docs(data, 'CADM', cadm_docs)
+    cpub_docs = generate_cpub_docs(data)
+    convert_cpub_docs(data, cpub_docs)
     # Also generate a text list of all papers, for convenience in
     # improving the classification logic, and a list of paper
     # locations on the WG14 website, for link checking.
