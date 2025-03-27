@@ -51,6 +51,11 @@ The list is intended to be complete for such documents that were
 previously assigned N-document numbers (although this involves some
 guesswork for N-documents not available online).
 
+Where publication dates are given for the formal standards, the dates
+given here are the dates on the cover of the document (which may
+differ slightly in either direction from the actual date on which the
+published standard became available).
+
 ## CADM-documents
 
 These are administrative documents such as the Charter or documents
