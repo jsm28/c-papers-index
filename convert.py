@@ -1029,17 +1029,32 @@ OVERRIDE_CPUB_EDITION = {
 }
 
 
+# CPUBX documents where identification of whether auxiliary should be
+# overridden.
+OVERRIDE_CPUB_AUX = {
+    '2733': True,
+    '1949': False,
+    '1775': False,
+    '1191': True,
+    '940': True,
+    '800': True,
+}
+
+
 def generate_cpub_docs(data):
     """Generate CPUB-document data from N-documents."""
-    # TODO: also split auxiliary documents.
     nnums_by_cpub_num = {}
+    nnums_by_cpubx_num = {}
+    cpubx_editions = {}
     cpub_by_num = {}
     for n, d in enumerate(CPUB_DOCS, start=1):
         cpub_by_num[n] = d
         nnums_by_cpub_num[n] = {}
         for e in d['editions']:
             nnums_by_cpub_num[n][e['number']] = set()
+        nnums_by_cpubx_num[n] = set()
     docs = []
+    xdocs = []
     for nnum, ndata in data.items():
         if ndata['class'] == 'cpub':
             ltitle = ndata['maintitle'].lower()
@@ -1121,7 +1136,17 @@ def generate_cpub_docs(data):
                     edition = e['number']
             if nnum in OVERRIDE_CPUB_EDITION:
                 edition = OVERRIDE_CPUB_EDITION[nnum]
-            nnums_by_cpub_num[pub][edition].add(nnum)
+            if 'editor' in ltitle or 'redactor' in ltitle or 'cross ref' in ltitle or 'status' in ltitle:
+                is_aux = True
+            else:
+                is_aux = False
+            if nnum in OVERRIDE_CPUB_AUX:
+                is_aux = OVERRIDE_CPUB_AUX[nnum]
+            if is_aux:
+                nnums_by_cpubx_num[pub].add(nnum)
+                cpubx_editions[nnum] = edition
+            else:
+                nnums_by_cpub_num[pub][edition].add(nnum)
     for n, d in enumerate(CPUB_DOCS, start=1):
         doc = {
             'id': 'CPUB%d' % n,
@@ -1137,7 +1162,18 @@ def generate_cpub_docs(data):
             for rev, num in enumerate(doc['editions'][-1]['nums'], start=1):
                 data[num]['cdoc-rev'] = rev
         docs.append(doc)
-    return docs
+        for x, num in enumerate(sorted(nnums_by_cpubx_num[n]), start=1):
+            ndata = data[num]
+            doc = {
+                'id': 'CPUBX%dx%d' % (n, x),
+                'author': ndata['author'],
+                'title': ndata['title'],
+                'nums': [num]}
+            for rev, num_sub in enumerate(doc['nums'], start=1):
+                data[num_sub]['cdoc-rev'] = rev
+                data[num_sub]['cpub-edition'] = 'CPUB%de%d' % (n, cpubx_editions[num_sub])
+            xdocs.append(doc)
+    return docs, xdocs
 
 
 def convert_docs(data, doc_class, doc_list):
@@ -1168,9 +1204,8 @@ def convert_docs(data, doc_class, doc_list):
             json.dump(doc_json, f, indent=4, sort_keys=True)
 
 
-def convert_cpub_docs(data, doc_list):
+def convert_cpub_docs(data, doc_list, xdoc_list):
     """Convert CPUB documents to JSON metadata."""
-    # TODO: handle auxiliary documents.
     for doc in doc_list:
         doc_json = {
             'id': doc['id'],
@@ -1179,6 +1214,7 @@ def convert_cpub_docs(data, doc_list):
         for e in doc['editions']:
             edition_json = {
                 'id': '%se%d' % (doc['id'], e['edition-num']),
+                'edition-num': e['edition-num'],
                 'desc-md': e['desc-md'],
                 'revisions': []}
             if 'title' in e:
@@ -1191,6 +1227,7 @@ def convert_cpub_docs(data, doc_list):
                                         ndata['cdoc-rev']),
                     'doc-id': doc['id'],
                     'edition-id': '%se%d' % (doc['id'], e['edition-num']),
+                    'edition-num': e['edition-num'],
                     'author': ndata['author'],
                     'title': ndata['title'],
                     'date': ndata['date'],
@@ -1200,6 +1237,31 @@ def convert_cpub_docs(data, doc_list):
                 ndata['cid'] = ndoc['id']
             doc_json['editions'].append(edition_json)
         out_dir = os.path.join('out', 'papers', 'CPUB', doc['id'])
+        os.makedirs(out_dir, exist_ok=True)
+        with open(os.path.join(out_dir, 'metadata.json'), 'w',
+                  encoding='utf-8') as f:
+            json.dump(doc_json, f, indent=4, sort_keys=True)
+    for doc in xdoc_list:
+        doc_json = {
+            'id': doc['id'],
+            'author': doc['author'],
+            'title': doc['title'],
+            'revisions': []}
+        for n in doc['nums']:
+            ndata = data[n]
+            ndoc = {
+                'rev-id': 'r%d' % ndata['cdoc-rev'],
+                'id': '%sr%d' % (doc['id'], ndata['cdoc-rev']),
+                'doc-id': doc['id'],
+                'cpub-edition': ndata['cpub-edition'],
+                'author': ndata['author'],
+                'title': ndata['title'],
+                'date': ndata['date'],
+                'ext-id': 'N%s' % n,
+                'ext-url': ndata['link']}
+            doc_json['revisions'].append(ndoc)
+            ndata['cid'] = ndoc['id']
+        out_dir = os.path.join('out', 'papers', 'CPUBX', doc['id'])
         os.makedirs(out_dir, exist_ok=True)
         with open(os.path.join(out_dir, 'metadata.json'), 'w',
                   encoding='utf-8') as f:
@@ -1216,8 +1278,8 @@ def action_convert():
     cadm_docs = generate_autonum_docs(data, 'cadm', 1, '2023-09-01',
                                       CADM_EXTRA_EXCLUDE, CADM_EXTRA_INCLUDE)
     convert_docs(data, 'CADM', cadm_docs)
-    cpub_docs = generate_cpub_docs(data)
-    convert_cpub_docs(data, cpub_docs)
+    cpub_docs, cpubx_docs = generate_cpub_docs(data)
+    convert_cpub_docs(data, cpub_docs, cpubx_docs)
     # Also generate a text list of all papers, for convenience in
     # improving the classification logic, and a list of paper
     # locations on the WG14 website, for link checking.

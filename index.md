@@ -36,16 +36,17 @@ pushed further back if desired).
 * [All revisions of C-documents, reverse-chronological](c-all.html)
 * [C-documents in reverse order by document number](c-num.html)
 
-## CPUB-documents
+## CPUB-documents and CPUBX-documents
 
-These documents are versions of the formal standards and related
+CPUB-documents are versions of the formal standards and related
 documents that are outputs of the standards process.  (Typically the
 final published version of any edition of such a document, and later
 working drafts, are either unavailable here or are password-protected
 because of JTC1 rules.)  Issue logs, where given document numbers, are
-also CPUB-documents.  Each document revision has its own auxiliary
-document series as needed for closely related documents such as a
-diffmarked version or an editor's report.
+also CPUB-documents.  Each CPUB-document number has its own auxiliary
+document series of CPUBX-documents as needed for closely related
+documents such as an editor's report (often, but not always, those
+closely correspond to a particular revision of the CPUB-document).
 
 The list is intended to be complete for such documents that were
 previously assigned N-document numbers (although this involves some
@@ -55,6 +56,11 @@ Where publication dates are given for the formal standards, the dates
 given here are the dates on the cover of the document (which may
 differ slightly in either direction from the actual date on which the
 published standard became available).
+
+* [All revisions of CPUB-documents and CPUBX-documents,
+  reverse-chronological](cpub-all.html)
+* [CPUB-documents and CPUBX-documents order by document
+  number](cpub-num.html)
 
 ## CADM-documents
 
