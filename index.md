@@ -59,7 +59,7 @@ published standard became available).
 
 * [All revisions of CPUB-documents and CPUBX-documents,
   reverse-chronological](cpub-all.html)
-* [CPUB-documents and CPUBX-documents order by document
+* [CPUB-documents and CPUBX-documents in order by document
   number](cpub-num.html)
 
 ## CADM-documents
