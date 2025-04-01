@@ -1162,7 +1162,7 @@ def generate_cpub_docs(data):
             for rev, num in enumerate(doc['editions'][-1]['nums'], start=1):
                 data[num]['cdoc-rev'] = rev
         docs.append(doc)
-        for x, num in enumerate(sorted(nnums_by_cpubx_num[n]), start=1):
+        for x, num in enumerate(sorted(nnums_by_cpubx_num[n], key=int), start=1):
             ndata = data[num]
             doc = {
                 'id': 'CPUBX%dx%d' % (n, x),
