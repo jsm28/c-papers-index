@@ -127,9 +127,6 @@ def get_ndoc_data():
                     line = m.group(4)
                 else:
                     raise ValueError('could not parse date: %s' % line)
-        # Erroneous date in the list.
-        if nnum == '1559':
-            date = '2011-03-14'
         line_split = line.split(',', 1)
         if len(line_split) == 1:
             line_split = ('WG14', line_split[0])
@@ -615,9 +612,6 @@ def classify_docs(data):
         elif 'agneda' in ndata['maintitle'].lower():
             # Typo in papers list.
             ndata['class'] = 'cma'
-        elif 'munutes' in ndata['maintitle'].lower():
-            # Typo in papers list.
-            ndata['class'] = 'cmm'
         elif 'venue' in ndata['maintitle'].lower():
             ndata['class'] = 'cm'
         elif 'invitation' in ndata['maintitle'].lower():
@@ -991,8 +985,6 @@ OVERRIDE_CPUB = {
     '2060': CPUB_CSCR_ISSUES,
     '2010': CPUB_CSCRTC1,
     '1778': CPUB_FP1,
-    # Despite the title in the document log, this is part 2, not part 1.
-    '1775': CPUB_FP2,
     '1756': CPUB_FP1,
     '1606': CPUB_C11TC1,
     '1235': CPUB_C99TC3,
