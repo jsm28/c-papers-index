@@ -442,6 +442,7 @@ OVERRIDE_CLASS = {
     '332': 'cpub',
     '329': 'cadm',
     '325': 'cpub',
+    '315': 'cadm',
     '314': 'cadm',
     '294': 'cm',
     '293': 'cm',
@@ -504,6 +505,7 @@ OVERRIDE_CLASS = {
     '037': 'cadm',
     '036': 'cadm',
     '021': 'cadm',
+    '013': 'cm',
     }
 
 
@@ -1168,6 +1170,192 @@ def generate_cpub_docs(data):
     return docs, xdocs
 
 
+# Date overrides for meeting documents.
+OVERRIDE_DATE = {
+    '3501': '202508',
+    '3399': '202502',
+    '3373': '202406',
+    '3372': '202409',
+    '3281': '202406',
+    '3172': '202401',
+    '3168': '202308.2',
+    '3162': '202308.2',
+    '3161': '202308.1',
+    '3159': '202308.1',
+    '3100': '202301.3',
+    '3099': '202301.3',
+    '3085': '202301.2',
+    '3084': '202301.2',
+    '3083': '202301.1',
+    '3069': '202301.1',
+    '2971': '202203.2',
+    '2950': '202203.2',
+    '2949': '202203.1',
+    '2943': '202203.1',
+    # Typo in date in document list.
+    '2925': '202201',
+    '2921': '202111',
+    '2691': '202011',
+    '2690': '202103',
+    # Typo in date in document list.
+    '2648': '202101',
+    '2605': '202010',
+    '2509': '201910',
+    '2463': '202003',
+    '2451': '201910',
+    '2439': '202201',
+    '2377': '201904',
+    '2376': '201904',
+    '2375': '201810',
+    '2308': '201904',
+    '2239': '201804',
+    '2238': '201710',
+    '1984': '201604',
+    '1983': '201604',
+    '1900': '201410',
+    '1840': '201406',
+    # Typo in date in document list.
+    '1828': '201404',
+    '1820': '201404',
+    '1819': '201309',
+    '1799': '201410',
+    '1795': '201403',
+    '1764': '201309',
+    '1763': '201304',
+    '1681': '201302',
+    '1640': '201304',
+    '1604': '201202',
+    '1603': '201110',
+    '1588': '201110',
+    '1587': '201103',
+    '1557': '201011',
+    '1542': '201005',
+    '1475': '200910',
+    '1375': '200809',
+    '1231': '200704',
+    '1211': '200704',
+    '1198': '200610',
+    '1195': '200603',
+    '1168': '200603',
+    '1166': '200509',
+    '1153': '200610',
+    '1145': '200509',
+    '1140': '200504',
+    '1136': '200603',
+    '1116': '200504',
+    '1115': '200410',
+    '1083': '200410',
+    '1064': '200403',
+    '999': '200303',
+    '988': '200303',
+    '981': '200210',
+    '960': '200110',
+    '928': '200010',
+    '914': '200004',
+    '862': '199806',
+    '840': '199806',
+    '855': '199902',
+    '812': '199802',
+    '718': '199706',
+    '630': '199702',
+    '597': '199610',
+    '352': '199406',
+    '201': '199112.1',
+    '200': '199112.2',
+    '176': '199112.1',
+    '174': '199112.1',
+    '092': '198904.1',
+    '086': '198904.2',
+    '077': '198904.1',
+    '018': '198706.2',
+    '013': '198711',
+    # Guess that this is the meeting this document refers to.
+    '012': '198711',
+    '010': '198706.1',
+    '002': '198706.1',
+}
+
+
+def generate_meeting_docs(data, doc_class):
+    """Generate meeting document data from N-documents."""
+    nnums_by_meeting = collections.defaultdict(set)
+    docs = []
+    months = [('Jan', 'January'), ('Feb', 'February'), ('Mar', 'March'),
+              ('Apr', 'April'), ('May', 'May'), ('Jun', 'June'),
+              ('Jul', 'July'), ('Aug', 'August'), ('Sep', 'September'),
+              ('Oct', 'October'), ('Nov', 'November'), ('Dec', 'December')]
+    for nnum, ndata in data.items():
+        if ndata['class'] == doc_class:
+            title_words = re.split("[-\\\\ .,/'()]", ndata['maintitle'])
+            month = None
+            year = None
+            for y in range(1986, 2026):
+                if str(y) in title_words:
+                    year = str(y)
+                    break
+            if year is None:
+                for y in range(86, 100):
+                    if str(y) in title_words:
+                        year = str(1900 + y)
+                        break
+            for m_no, m_names in enumerate(months, start=1):
+                if m_names[0] in title_words or m_names[1] in title_words:
+                    month = '%02d' % m_no
+                    break
+            if year is not None and month is None:
+                for m_no in range(1, 13):
+                    if '%s-%02d' % (year, m_no) in ndata['maintitle']:
+                        month = '%02d' % m_no
+                        break
+                    if '%s/%02d' % (year, m_no) in ndata['maintitle']:
+                        month = '%02d' % m_no
+                        break
+            if month is not None and year is None:
+                dyear = ndata['date'][:4]
+                dmon = ndata['date'][5:7]
+                if dmon == month:
+                    year = dyear
+                if doc_class in ('cmm', 'cfptcm') and int(dmon) == int(month) + 1:
+                    year = dyear
+            if nnum in OVERRIDE_DATE:
+                year = OVERRIDE_DATE[nnum][:4]
+                month = OVERRIDE_DATE[nnum][4:]
+            if month is None or year is None:
+                raise ValueError('could not parse date: N%s %s' % (nnum, ndata['title']))
+            else:
+                nnums_by_meeting['%s%s' % (year, month)].add(nnum)
+    doc_class_upper = doc_class.upper()
+    if doc_class == 'cm':
+        # These are distinct documents (or in principle multiple
+        # revisions of such, but any such cases can be handled
+        # individually).
+        # TODO: N1799 is earlier version of N1811.
+        for k, v in nnums_by_meeting.items():
+            nums = sorted(v, key=int)
+            for xnum, nnum in enumerate(nums, start=1):
+                doc = {
+                    'id': '%s%sx%d' % (doc_class_upper, k, xnum),
+                    'author': data[nnum]['author'],
+                    'title': data[nnum]['title'],
+                    'nums': [nnum]}
+                data[nnum]['cdoc-rev'] = 1
+                docs.append(doc)
+    else:
+        # These are versions of one agenda / minutes document.
+        for k, v in nnums_by_meeting.items():
+            nums = sorted(v, key=int)
+            last_ndata = data[nums[-1]]
+            doc = {
+                'id': '%s%s' % (doc_class_upper, k),
+                'author': last_ndata['author'],
+                'title': last_ndata['title'],
+                'nums': nums}
+            for rev, num_sub in enumerate(nums, start=1):
+                data[num_sub]['cdoc-rev'] = rev
+            docs.append(doc)
+    return docs
+
+
 def convert_docs(data, doc_class, doc_list):
     """Convert documents in a given class to JSON metadata."""
     for doc in doc_list:
@@ -1272,6 +1460,9 @@ def action_convert():
     convert_docs(data, 'CADM', cadm_docs)
     cpub_docs, cpubx_docs = generate_cpub_docs(data)
     convert_cpub_docs(data, cpub_docs, cpubx_docs)
+    for c in ('cm', 'cma', 'cmm', 'cfptca', 'cfptcm'):
+        m_docs = generate_meeting_docs(data, c)
+        convert_docs(data, c.upper(), m_docs)
     # Also generate a text list of all papers, for convenience in
     # improving the classification logic, and a list of paper
     # locations on the WG14 website, for link checking.
