@@ -1503,11 +1503,14 @@ def action_convert():
     for c in ('cm', 'cma', 'cmm', 'cfptca', 'cfptcm'):
         m_docs = generate_meeting_docs(data, c)
         convert_docs(data, c.upper(), m_docs)
-    # Also generate a text list of all papers, for convenience in
-    # improving the classification logic, and a list of paper
-    # locations on the WG14 website, for link checking.
+    # Also generate a list of N-documents that don't have new
+    # identifiers, for use in displaying a list of all documents
+    # including those.  Also generate a text list of all papers, for
+    # convenience in improving the classification logic, and a list of
+    # paper locations on the WG14 website, for link checking.
     text_list = []
     url_list = []
+    ndocs = {}
     for nnum, ndata in data.items():
         text_list.append('%s\tN%s %s %s, %s'
                          % (ndata['cid'] if 'cid' in ndata else ndata['class'],
@@ -1515,6 +1518,20 @@ def action_convert():
                             ndata['title']))
         if ndata['link'] and ndata['link'].startswith(WG14_BASE):
             url_list.append(ndata['link'][len(WG14_BASE):])
+        if 'cid' not in ndata:
+            doc_json = {
+                'author': ndata['author'],
+                'title': ndata['title'],
+                'date': ndata['date'],
+                'ext-id': 'N%s' % nnum,
+                'ext-url': ndata['link']}
+            ndocs[nnum] = doc_json
+    ndocs_out = []
+    for n in sorted(ndocs.keys(), key=int, reverse=True):
+        ndocs_out.append(ndocs[n])
+    with open(os.path.join('out', 'papers', 'N-documents.json'), 'w',
+              encoding='utf-8') as f:
+        json.dump(ndocs_out, f, indent=4, sort_keys=True)
     with open('tmp-papers-list.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(text_list) + '\n')
     with open('tmp-file-list.txt', 'w', encoding='utf-8') as f:
