@@ -1276,6 +1276,15 @@ OVERRIDE_DATE = {
 }
 
 
+# Cases where multiple meeting documents are versions of the same
+# document.
+MEETING_DOC_GROUPS = [
+    ['1745', '1788'],
+    ['1799', '1811', '1831', '1861'],
+    ['2047', '2057'],
+    ['2247', '2284']]
+
+
 def generate_meeting_docs(data, doc_class):
     """Generate meeting document data from N-documents."""
     nnums_by_meeting = collections.defaultdict(set)
@@ -1326,19 +1335,32 @@ def generate_meeting_docs(data, doc_class):
                 nnums_by_meeting['%s%s' % (year, month)].add(nnum)
     doc_class_upper = doc_class.upper()
     if doc_class == 'cm':
-        # These are distinct documents (or in principle multiple
-        # revisions of such, but any such cases can be handled
-        # individually).
-        # TODO: N1799 is earlier version of N1811.
+        # These are distinct documents, or multiple versions where
+        # explicitly listed as such.
+        later_vers = set()
+        group_contents = {}
+        for g in MEETING_DOC_GROUPS:
+            for n in g[1:]:
+                later_vers.add(n)
+            group_contents[g[0]] = g
         for k, v in nnums_by_meeting.items():
             nums = sorted(v, key=int)
+            nums = [n for n in nums if n not in later_vers]
             for xnum, nnum in enumerate(nums, start=1):
                 doc = {
                     'id': '%s%sx%d' % (doc_class_upper, k, xnum),
                     'author': data[nnum]['author'],
                     'title': data[nnum]['title'],
                     'nums': [nnum]}
-                data[nnum]['cdoc-rev'] = 1
+                if nnum in group_contents:
+                    doc['nums'] = group_contents[nnum]
+                    ldata = data[doc['nums'][-1]]
+                    doc['author'] = ldata['author']
+                    doc['title'] = ldata['title']
+                    for r, nn in enumerate(group_contents[nnum], start=1):
+                        data[nn]['cdoc-rev'] = r
+                else:
+                    data[nnum]['cdoc-rev'] = 1
                 docs.append(doc)
     else:
         # These are versions of one agenda / minutes document.
