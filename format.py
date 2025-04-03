@@ -253,6 +253,67 @@ def do_format_cm():
         'Prototype meeting document list, reverse-chronological')
 
 
+def do_format_cfptc():
+    """Format lists of CFP teleconference papers.  The source data is
+    in PAPERS_DIR; the formatted output goes to OUT_HTML_DIR."""
+    cfptca_data = get_data(os.path.join(PAPERS_DIR, 'CFPTCA'))
+    cfptcm_data = get_data(os.path.join(PAPERS_DIR, 'CFPTCM'))
+    data = cfptca_data.copy()
+    data.update(cfptcm_data)
+    rev_sort = {}
+    by_rev = {}
+    for doc in data.values():
+        for rev in doc['revisions']:
+            by_rev[rev['id']] = rev
+            # Sort first by date, then, within a date, by document
+            # revision ID.
+            rev_sort[rev['id']] = (rev['date'], split_doc_id(rev['id']))
+    out_list = ['# Prototype CFP teleconference document list by document number\n\n']
+    out_list.append('## Summary table of CFP teleconferences\n\n')
+    out_list.append('|YYYYMM|Agenda|Minutes|\n|-|-|-|\n')
+    by_meeting = {}
+    for n in data.keys():
+        by_meeting[split_doc_id_rev(n)[0]] = [None, None]
+    for k, v in cfptca_data.items():
+        by_meeting[split_doc_id_rev(k)[0]][0] = v
+    for k, v in cfptcm_data.items():
+        by_meeting[split_doc_id_rev(k)[0]][1] = v
+    for n in sorted(by_meeting.keys(), reverse=True):
+        agenda = by_meeting[n][0]
+        if agenda is None:
+            agenda_txt = ' '
+        else:
+            agenda_txt = link_for_rev(agenda['revisions'][-1])
+        minutes = by_meeting[n][1]
+        if minutes is None:
+            minutes_txt = ' '
+        else:
+            minutes_txt = link_for_rev(minutes['revisions'][-1])
+        out_list.append('|%s|%s|%s|\n' % (
+            '.'.join(str(i) for i in n), agenda_txt, minutes_txt))
+    out_list.append('\n## Full document list\n\n')
+    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    for n in sorted(data.keys(), key=split_doc_id_rev, reverse=True):
+        cdoc = data[n]
+        out_list.append('|%s| |%s| |%s|\n' % (cdoc['id'], cdoc['author'],
+                                            cdoc['title']))
+        for rev in reversed(cdoc['revisions']):
+            out_list.append(table_line_for_rev(rev, False))
+    write_md(
+        'cfptc-num.html',
+        ''.join(out_list),
+        'Prototype CFP teleconference document list by document number')
+    out_list = ['# Prototype CFP teleconference document list, reverse-chronological\n\n']
+    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    for rev_id in sorted(by_rev.keys(), key=lambda k: rev_sort[k],
+                         reverse=True):
+        out_list.append(table_line_for_rev(by_rev[rev_id], True))
+    write_md(
+        'cfptc-all.html',
+        ''.join(out_list),
+        'Prototype CFP teleconference document list, reverse-chronological')
+
+
 def action_format():
     """Format the papers lists.  The source data is in PAPERS_DIR; the
     formatted output goes to OUT_HTML_DIR."""
@@ -260,6 +321,7 @@ def action_format():
     do_format_simple('cadm')
     do_format_cpub()
     do_format_cm()
+    do_format_cfptc()
     with open('index.md', 'r', encoding='utf-8') as f:
         index_md = f.read()
     write_md(

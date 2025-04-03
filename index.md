@@ -106,6 +106,11 @@ numbers are based on the year and month of the meeting.
 The list is intended to be complete for such documents that were
 previously assigned N-document numbers.
 
+* [All revisions of CFP teleconference documents,
+  reverse-chronological](cfptc-all.html)
+* [CFP teleconference documents in reverse order by document
+  number](cfptc-num.html)
+
 ## All documents
 
 * All revisions of all documents, reverse-chronological (list not yet
