@@ -55,12 +55,18 @@ def write_md(filename, content, title):
         f.write(content)
 
 
-def table_line_for_rev(rev, show_num):
-    """Generate a Markdown table line for a document revision."""
+def link_for_rev(rev):
+    """Generate a Markdown link for a document revision."""
     if rev['ext-url']:
         link = '[%s (%s)](%s)' % (rev['rev-id'], rev['ext-id'], rev['ext-url'])
     else:
         link = '%s (%s)' % (rev['rev-id'], rev['ext-id'])
+    return link
+
+
+def table_line_for_rev(rev, show_num):
+    """Generate a Markdown table line for a document revision."""
+    link = link_for_rev(rev)
     n = (rev['edition-id'] if 'edition-id' in rev else rev['doc-id']) if show_num else ' '
     return ('|%s|%s|%s|%s|%s|\n'
             % (n, link, rev['author'], rev['date'], rev['title']))
@@ -77,14 +83,20 @@ def split_doc_id(text):
             out.append(m.group(0))
             text = text[m.end(0):]
             continue
-        # TODO: allow numbers with decimals in future.
-        m = re.match('[0-9]+', text)
+        m = re.match(r'[0-9]+(?:\.[0-9]+)*', text)
         if m:
-            out.append(int(m.group(0)))
+            out.append(tuple(int(i) for i in m.group(0).split('.')))
             text = text[m.end(0):]
             continue
         raise ValueError('could not parse ID %s' % orig_text)
     return out
+
+
+def split_doc_id_rev(text):
+    """Split a document ID into a sequence of alphabetical and
+    numerical parts, then reverse the first two components."""
+    s = split_doc_id(text)
+    return [s[1], s[0]] + s[2:]
 
 
 def do_format_simple(doc_class):
@@ -94,7 +106,6 @@ def do_format_simple(doc_class):
     data = get_data(os.path.join(PAPERS_DIR, doc_class_upper))
     rev_sort = {}
     by_rev = {}
-    by_rev_num = {}
     for doc in data.values():
         for rev in doc['revisions']:
             by_rev[rev['id']] = rev
@@ -104,7 +115,7 @@ def do_format_simple(doc_class):
     out_list = ['# Prototype %s document list by document number\n\n'
                 % doc_class_upper]
     out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
-    for n in sorted(data.keys(), reverse=True):
+    for n in sorted(data.keys(), key=split_doc_id, reverse=True):
         cdoc = data[n]
         out_list.append('|%s| |%s| |%s|\n' % (cdoc['id'], cdoc['author'],
                                             cdoc['title']))
@@ -133,7 +144,6 @@ def do_format_cpub():
     cpubx_data = get_data(os.path.join(PAPERS_DIR, 'CPUBX'))
     rev_sort = {}
     by_rev = {}
-    by_rev_num = {}
     aux_for_cpub_ed = {}
     for doc in cpub_data.values():
         for e in doc['editions']:
@@ -151,7 +161,7 @@ def do_format_cpub():
             # revision ID.
             rev_sort[rev['id']] = (rev['date'], split_doc_id(rev['id']))
     out_list = ['# Prototype CPUB and CPUBX document list by document number\n\n']
-    for n in sorted(cpub_data.keys(), key=lambda k: split_doc_id(k)):
+    for n in sorted(cpub_data.keys(), key=split_doc_id):
         out_list.append('## %s: %s\n\n' % (cpub_data[n]['id'],
                                            cpub_data[n]['title']))
         for e in reversed(cpub_data[n]['editions']):
@@ -180,12 +190,76 @@ def do_format_cpub():
         'Prototype CPUB and CPUBX document list, reverse-chronological')
 
 
+def do_format_cm():
+    """Format lists of meeting papers.  The source data is in
+    PAPERS_DIR; the formatted output goes to OUT_HTML_DIR."""
+    cm_data = get_data(os.path.join(PAPERS_DIR, 'CM'))
+    cma_data = get_data(os.path.join(PAPERS_DIR, 'CMA'))
+    cmm_data = get_data(os.path.join(PAPERS_DIR, 'CMM'))
+    data = cm_data.copy()
+    data.update(cma_data)
+    data.update(cmm_data)
+    rev_sort = {}
+    by_rev = {}
+    for doc in data.values():
+        for rev in doc['revisions']:
+            by_rev[rev['id']] = rev
+            # Sort first by date, then, within a date, by document
+            # revision ID.
+            rev_sort[rev['id']] = (rev['date'], split_doc_id(rev['id']))
+    out_list = ['# Prototype meeting document list by document number\n\n']
+    out_list.append('## Summary table of meetings\n\n')
+    out_list.append('|YYYYMM|Agenda|Minutes|\n|-|-|-|\n')
+    by_meeting = {}
+    for n in data.keys():
+        by_meeting[split_doc_id_rev(n)[0]] = [None, None]
+    for k, v in cma_data.items():
+        by_meeting[split_doc_id_rev(k)[0]][0] = v
+    for k, v in cmm_data.items():
+        by_meeting[split_doc_id_rev(k)[0]][1] = v
+    for n in sorted(by_meeting.keys(), reverse=True):
+        agenda = by_meeting[n][0]
+        if agenda is None:
+            agenda_txt = ' '
+        else:
+            agenda_txt = link_for_rev(agenda['revisions'][-1])
+        minutes = by_meeting[n][1]
+        if minutes is None:
+            minutes_txt = ' '
+        else:
+            minutes_txt = link_for_rev(minutes['revisions'][-1])
+        out_list.append('|%s|%s|%s|\n' % (
+            '.'.join(str(i) for i in n), agenda_txt, minutes_txt))
+    out_list.append('\n## Full document list\n\n')
+    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    for n in sorted(data.keys(), key=split_doc_id_rev, reverse=True):
+        cdoc = data[n]
+        out_list.append('|%s| |%s| |%s|\n' % (cdoc['id'], cdoc['author'],
+                                            cdoc['title']))
+        for rev in reversed(cdoc['revisions']):
+            out_list.append(table_line_for_rev(rev, False))
+    write_md(
+        'cm-num.html',
+        ''.join(out_list),
+        'Prototype meeting document list by document number')
+    out_list = ['# Prototype meeting document list, reverse-chronological\n\n']
+    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    for rev_id in sorted(by_rev.keys(), key=lambda k: rev_sort[k],
+                         reverse=True):
+        out_list.append(table_line_for_rev(by_rev[rev_id], True))
+    write_md(
+        'cm-all.html',
+        ''.join(out_list),
+        'Prototype meeting document list, reverse-chronological')
+
+
 def action_format():
     """Format the papers lists.  The source data is in PAPERS_DIR; the
     formatted output goes to OUT_HTML_DIR."""
     do_format_simple('c')
     do_format_simple('cadm')
     do_format_cpub()
+    do_format_cm()
     with open('index.md', 'r', encoding='utf-8') as f:
         index_md = f.read()
     write_md(

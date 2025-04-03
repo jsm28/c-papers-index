@@ -84,10 +84,18 @@ CMA-documents are agendas for meetings of the C standards committee,
 CMM-documents are minutes and CM-documents are auxiliary documents for
 a meeting such as venue information.  Document numbers are based on
 the year and month of the meeting (the start of the meeting, for
-meetings that crossed a month boundary).
+meetings that crossed a month boundary).  In the early period when
+WG14 and X3J11 sometimes met separately and both could be considered
+versions of the C standards committee, or had separate agendas or
+minutes documents for a joint meeting, and such separate agendas or
+minutes documents were given WG14 document numbers, X3J11 meetings are
+included in this list.
 
 The list is intended to be complete for such documents that were
 previously assigned N-document numbers.
+
+* [All revisions of meeting documents, reverse-chronological](cm-all.html)
+* [Meeting documents in reverse order by document number](cm-num.html)
 
 ## CFP teleconference documents
 
