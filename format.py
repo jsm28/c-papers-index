@@ -17,16 +17,68 @@ PAPERS_DIR = 'out/papers'
 OUT_HTML_DIR = 'out_html'
 
 
-def get_data(dirname):
-    """Get data for all papers."""
-    out_data = {}
-    paper_nums = os.listdir(dirname)
-    for n in paper_nums:
-        n_dir = os.path.join(dirname, n)
-        with open(os.path.join(n_dir, 'metadata.json'), 'r',
-                  encoding='utf-8') as f:
-            out_data[n] = json.load(f)
-    return out_data
+def split_doc_id(text):
+    """Split a document ID into a sequence of alphabetical and
+    numerical parts."""
+    orig_text = text
+    out = []
+    while text:
+        m = re.match('[A-Za-z]+', text)
+        if m:
+            out.append(m.group(0))
+            text = text[m.end(0):]
+            continue
+        m = re.match(r'[0-9]+(?:\.[0-9]+)*', text)
+        if m:
+            out.append(tuple(int(i) for i in m.group(0).split('.')))
+            text = text[m.end(0):]
+            continue
+        raise ValueError('could not parse ID %s' % orig_text)
+    return out
+
+
+def split_doc_id_rev(text):
+    """Split a document ID into a sequence of alphabetical and
+    numerical parts, then reverse the first two components."""
+    s = split_doc_id(text)
+    return [s[1], s[0]] + s[2:]
+
+
+class DocList:
+
+    """All the data stored relating to documents."""
+
+    def __init__(self, dirname):
+        """Get all the data stored relating to documents."""
+        self.by_class = {}
+        self.rev_sort = {}
+        self.by_rev = {}
+        for doc_class in ('C', 'CADM', 'CPUB', 'CPUBX', 'CM', 'CMA', 'CMM',
+                          'CFPTCA', 'CFPTCM'):
+            c_dir = os.path.join(dirname, doc_class)
+            data = {}
+            paper_nums = os.listdir(c_dir)
+            for n in paper_nums:
+                n_dir = os.path.join(c_dir, n)
+                with open(os.path.join(n_dir, 'metadata.json'), 'r',
+                          encoding='utf-8') as f:
+                    data[n] = json.load(f)
+            self.by_class[doc_class] = data
+            has_editions = doc_class == 'CPUB'
+            if has_editions:
+                these_docs = []
+                for doc in data.values():
+                    these_docs.extend(doc['editions'])
+            else:
+                these_docs = data.values()
+            for doc in these_docs:
+                for rev in doc['revisions']:
+                    rev['class'] = doc_class
+                    self.by_rev[rev['id']] = rev
+                    # Sort first by date, then, within a date, by
+                    # document revision ID.
+                    self.rev_sort[rev['id']] = (rev['date'],
+                                                split_doc_id(rev['id']))
 
 
 def write_md(filename, content, title):
@@ -72,46 +124,24 @@ def table_line_for_rev(rev, show_num):
             % (n, link, rev['author'], rev['date'], rev['title']))
 
 
-def split_doc_id(text):
-    """Split a document ID into a sequence of alphabetical and
-    numerical parts."""
-    orig_text = text
-    out = []
-    while text:
-        m = re.match('[A-Za-z]+', text)
-        if m:
-            out.append(m.group(0))
-            text = text[m.end(0):]
-            continue
-        m = re.match(r'[0-9]+(?:\.[0-9]+)*', text)
-        if m:
-            out.append(tuple(int(i) for i in m.group(0).split('.')))
-            text = text[m.end(0):]
-            continue
-        raise ValueError('could not parse ID %s' % orig_text)
-    return out
+def write_chron(all_data, filename, title, classes):
+    """Write out a reverse-chronological list of papers."""
+    out_list = ['# %s\n\n' % title]
+    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    for rev_id in sorted(
+            (k for k in all_data.by_rev.keys()
+             if all_data.by_rev[k]['class'] in classes),
+            key=lambda k: all_data.rev_sort[k],
+            reverse=True):
+        out_list.append(table_line_for_rev(all_data.by_rev[rev_id], True))
+    write_md(filename, ''.join(out_list), title)
 
 
-def split_doc_id_rev(text):
-    """Split a document ID into a sequence of alphabetical and
-    numerical parts, then reverse the first two components."""
-    s = split_doc_id(text)
-    return [s[1], s[0]] + s[2:]
-
-
-def do_format_simple(doc_class):
+def do_format_simple(all_data, doc_class):
     """Format simple lists of a papers in a given class.  The source
     data is in PAPERS_DIR; the formatted output goes to OUT_HTML_DIR."""
     doc_class_upper = doc_class.upper()
-    data = get_data(os.path.join(PAPERS_DIR, doc_class_upper))
-    rev_sort = {}
-    by_rev = {}
-    for doc in data.values():
-        for rev in doc['revisions']:
-            by_rev[rev['id']] = rev
-            # Sort first by date, then, within a date, by document
-            # revision ID.
-            rev_sort[rev['id']] = (rev['date'], split_doc_id(rev['id']))
+    data = all_data.by_class[doc_class_upper]
     out_list = ['# Prototype %s document list by document number\n\n'
                 % doc_class_upper]
     out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
@@ -125,41 +155,25 @@ def do_format_simple(doc_class):
         '%s-num.html' % doc_class,
         ''.join(out_list),
         'Prototype %s document list by document number' % doc_class_upper)
-    out_list = ['# Prototype %s document list, reverse-chronological\n\n'
-                % doc_class_upper]
-    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
-    for rev_id in sorted(by_rev.keys(), key=lambda k: rev_sort[k],
-                         reverse=True):
-        out_list.append(table_line_for_rev(by_rev[rev_id], True))
-    write_md(
+    write_chron(
+        all_data,
         '%s-all.html' % doc_class,
-        ''.join(out_list),
-        'Prototype %s document list, reverse-chronological' % doc_class_upper)
+        'Prototype %s document list, reverse-chronological' % doc_class_upper,
+        (doc_class_upper,))
 
 
-def do_format_cpub():
+def do_format_cpub(all_data):
     """Format lists of CPUB and CPUBX documents.  The source data is
     in PAPERS_DIR; the formatted output goes to OUT_HTML_DIR."""
-    cpub_data = get_data(os.path.join(PAPERS_DIR, 'CPUB'))
-    cpubx_data = get_data(os.path.join(PAPERS_DIR, 'CPUBX'))
-    rev_sort = {}
-    by_rev = {}
+    cpub_data = all_data.by_class['CPUB']
+    cpubx_data = all_data.by_class['CPUBX']
     aux_for_cpub_ed = {}
     for doc in cpub_data.values():
         for e in doc['editions']:
             aux_for_cpub_ed[e['id']] = set()
-            for rev in e['revisions']:
-                by_rev[rev['id']] = rev
-                # Sort first by date, then, within a date, by document
-                # revision ID.
-                rev_sort[rev['id']] = (rev['date'], split_doc_id(rev['id']))
     for doc in cpubx_data.values():
         for rev in doc['revisions']:
-            by_rev[rev['id']] = rev
             aux_for_cpub_ed[rev['cpub-edition']].add(rev['id'])
-            # Sort first by date, then, within a date, by document
-            # revision ID.
-            rev_sort[rev['id']] = (rev['date'], split_doc_id(rev['id']))
     out_list = ['# Prototype CPUB and CPUBX document list by document number\n\n']
     for n in sorted(cpub_data.keys(), key=split_doc_id):
         out_list.append('## %s: %s\n\n' % (cpub_data[n]['id'],
@@ -172,41 +186,29 @@ def do_format_cpub():
                 out_list.append('### Edition %d\n\n' % e['edition-num'])
             out_list.append('%s\n\n' % e['desc-md'])
             out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
-            all_revs = e['revisions'] + [by_rev[r] for r in aux_for_cpub_ed[e['id']]]
-            for rev in sorted(all_revs, key=lambda k: rev_sort[k['id']], reverse=True):
+            all_revs = e['revisions'] + [all_data.by_rev[r] for r in aux_for_cpub_ed[e['id']]]
+            for rev in sorted(all_revs, key=lambda k: all_data.rev_sort[k['id']], reverse=True):
                 out_list.append(table_line_for_rev(rev, True))
     write_md(
         'cpub-num.html',
         ''.join(out_list),
         'Prototype CPUB and CPUBX document list by document number')
-    out_list = ['# Prototype CPUB and CPUBX document list, reverse-chronological\n\n']
-    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
-    for rev_id in sorted(by_rev.keys(), key=lambda k: rev_sort[k],
-                         reverse=True):
-        out_list.append(table_line_for_rev(by_rev[rev_id], True))
-    write_md(
+    write_chron(
+        all_data,
         'cpub-all.html',
-        ''.join(out_list),
-        'Prototype CPUB and CPUBX document list, reverse-chronological')
+        'Prototype CPUB and CPUBX document list, reverse-chronological',
+        ('CPUB', 'CPUBX'))
 
 
-def do_format_cm():
+def do_format_cm(all_data):
     """Format lists of meeting papers.  The source data is in
     PAPERS_DIR; the formatted output goes to OUT_HTML_DIR."""
-    cm_data = get_data(os.path.join(PAPERS_DIR, 'CM'))
-    cma_data = get_data(os.path.join(PAPERS_DIR, 'CMA'))
-    cmm_data = get_data(os.path.join(PAPERS_DIR, 'CMM'))
+    cm_data = all_data.by_class['CM']
+    cma_data = all_data.by_class['CMA']
+    cmm_data = all_data.by_class['CMM']
     data = cm_data.copy()
     data.update(cma_data)
     data.update(cmm_data)
-    rev_sort = {}
-    by_rev = {}
-    for doc in data.values():
-        for rev in doc['revisions']:
-            by_rev[rev['id']] = rev
-            # Sort first by date, then, within a date, by document
-            # revision ID.
-            rev_sort[rev['id']] = (rev['date'], split_doc_id(rev['id']))
     out_list = ['# Prototype meeting document list by document number\n\n']
     out_list.append('## Summary table of meetings\n\n')
     out_list.append('|YYYYMM|Agenda|Minutes|\n|-|-|-|\n')
@@ -242,32 +244,20 @@ def do_format_cm():
         'cm-num.html',
         ''.join(out_list),
         'Prototype meeting document list by document number')
-    out_list = ['# Prototype meeting document list, reverse-chronological\n\n']
-    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
-    for rev_id in sorted(by_rev.keys(), key=lambda k: rev_sort[k],
-                         reverse=True):
-        out_list.append(table_line_for_rev(by_rev[rev_id], True))
-    write_md(
+    write_chron(
+        all_data,
         'cm-all.html',
-        ''.join(out_list),
-        'Prototype meeting document list, reverse-chronological')
+        'Prototype meeting document list, reverse-chronological',
+        ('CM', 'CMA', 'CMM'))
 
 
-def do_format_cfptc():
+def do_format_cfptc(all_data):
     """Format lists of CFP teleconference papers.  The source data is
     in PAPERS_DIR; the formatted output goes to OUT_HTML_DIR."""
-    cfptca_data = get_data(os.path.join(PAPERS_DIR, 'CFPTCA'))
-    cfptcm_data = get_data(os.path.join(PAPERS_DIR, 'CFPTCM'))
+    cfptca_data = all_data.by_class['CFPTCA']
+    cfptcm_data = all_data.by_class['CFPTCM']
     data = cfptca_data.copy()
     data.update(cfptcm_data)
-    rev_sort = {}
-    by_rev = {}
-    for doc in data.values():
-        for rev in doc['revisions']:
-            by_rev[rev['id']] = rev
-            # Sort first by date, then, within a date, by document
-            # revision ID.
-            rev_sort[rev['id']] = (rev['date'], split_doc_id(rev['id']))
     out_list = ['# Prototype CFP teleconference document list by document number\n\n']
     out_list.append('## Summary table of CFP teleconferences\n\n')
     out_list.append('|YYYYMM|Agenda|Minutes|\n|-|-|-|\n')
@@ -303,25 +293,22 @@ def do_format_cfptc():
         'cfptc-num.html',
         ''.join(out_list),
         'Prototype CFP teleconference document list by document number')
-    out_list = ['# Prototype CFP teleconference document list, reverse-chronological\n\n']
-    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
-    for rev_id in sorted(by_rev.keys(), key=lambda k: rev_sort[k],
-                         reverse=True):
-        out_list.append(table_line_for_rev(by_rev[rev_id], True))
-    write_md(
+    write_chron(
+        all_data,
         'cfptc-all.html',
-        ''.join(out_list),
-        'Prototype CFP teleconference document list, reverse-chronological')
+        'Prototype CFP teleconference document list, reverse-chronological',
+        ('CFPTCA', 'CFPTCM'))
 
 
 def action_format():
     """Format the papers lists.  The source data is in PAPERS_DIR; the
     formatted output goes to OUT_HTML_DIR."""
-    do_format_simple('c')
-    do_format_simple('cadm')
-    do_format_cpub()
-    do_format_cm()
-    do_format_cfptc()
+    all_data = DocList(PAPERS_DIR)
+    do_format_simple(all_data, 'c')
+    do_format_simple(all_data, 'cadm')
+    do_format_cpub(all_data)
+    do_format_cm(all_data)
+    do_format_cfptc(all_data)
     with open('index.md', 'r', encoding='utf-8') as f:
         index_md = f.read()
     write_md(
