@@ -79,6 +79,13 @@ class DocList:
                     # document revision ID.
                     self.rev_sort[rev['id']] = (rev['date'],
                                                 split_doc_id(rev['id']))
+        with open(os.path.join(dirname, 'N-documents.json')) as f:
+            docs = json.load(f)
+            for doc in docs:
+                doc['class'] = 'N'
+                self.by_rev[doc['ext-id']] = doc
+                self.rev_sort[doc['ext-id']] = (doc['date'],
+                                                split_doc_id(doc['ext-id']))
 
 
 def write_md(filename, content, title):
@@ -109,23 +116,33 @@ def write_md(filename, content, title):
 
 def link_for_rev(rev):
     """Generate a Markdown link for a document revision."""
-    if rev['ext-url']:
-        link = '[%s (%s)](%s)' % (rev['rev-id'], rev['ext-id'], rev['ext-url'])
+    if 'rev-id' in rev:
+        link_text = '%s (%s)' % (rev['rev-id'], rev['ext-id'])
     else:
-        link = '%s (%s)' % (rev['rev-id'], rev['ext-id'])
+        link_text = rev['ext-id']
+    if rev['ext-url']:
+        link = '[%s](%s)' % (link_text, rev['ext-url'])
+    else:
+        link = link_text
     return link
 
 
 def table_line_for_rev(rev, show_num):
     """Generate a Markdown table line for a document revision."""
     link = link_for_rev(rev)
-    n = (rev['edition-id'] if 'edition-id' in rev else rev['doc-id']) if show_num else ' '
+    if 'doc-id' in rev:
+        n = (rev['edition-id'] if 'edition-id' in rev else rev['doc-id']) if show_num else ' '
+    else:
+        n = ' '
     return ('|%s|%s|%s|%s|%s|\n'
             % (n, link, rev['author'], rev['date'], rev['title']))
 
 
 def write_chron(all_data, filename, title, classes):
     """Write out a reverse-chronological list of papers."""
+    if classes is None:
+        classes = set(all_data.by_class.keys())
+        classes.add('N')
     out_list = ['# %s\n\n' % title]
     out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
     for rev_id in sorted(
@@ -309,6 +326,11 @@ def action_format():
     do_format_cpub(all_data)
     do_format_cm(all_data)
     do_format_cfptc(all_data)
+    write_chron(
+        all_data,
+        'all-all.html',
+        'Prototype list of all documents, reverse-chronological',
+        None)
     with open('index.md', 'r', encoding='utf-8') as f:
         index_md = f.read()
     write_md(
