@@ -317,6 +317,28 @@ def do_format_cfptc(all_data):
         ('CFPTCA', 'CFPTCM'))
 
 
+def do_format_global(all_data):
+    """Format lists of all papers.  The source data is in PAPERS_DIR;
+    the formatted output goes to OUT_HTML_DIR."""
+    write_chron(
+        all_data,
+        'all-all.html',
+        'Prototype list of all documents, reverse-chronological',
+        None)
+    out_list = ['# Prototype N document list by document number\n\n']
+    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    for rev_id in sorted(
+            (k for k in all_data.by_rev.keys()
+             if 'ext-id' in all_data.by_rev[k]),
+            key=lambda k: split_doc_id(all_data.by_rev[k]['ext-id']),
+            reverse=True):
+        out_list.append(table_line_for_rev(all_data.by_rev[rev_id], True))
+    write_md(
+        'n-num.html',
+        ''.join(out_list),
+        'Prototype N document list by document number')
+
+
 def action_format():
     """Format the papers lists.  The source data is in PAPERS_DIR; the
     formatted output goes to OUT_HTML_DIR."""
@@ -326,11 +348,7 @@ def action_format():
     do_format_cpub(all_data)
     do_format_cm(all_data)
     do_format_cfptc(all_data)
-    write_chron(
-        all_data,
-        'all-all.html',
-        'Prototype list of all documents, reverse-chronological',
-        None)
+    do_format_global(all_data)
     with open('index.md', 'r', encoding='utf-8') as f:
         index_md = f.read()
     write_md(

@@ -119,5 +119,5 @@ previously assigned N-document numbers.
   up or before all significant C standards committee documents went
   through WG14, but such documents could be added if the relevant data
   is available.
-* Not yet set up: N-documents in reverse order by document number.
+* [N-documents in reverse order by document number](n-num.html).
 * Not yet set up: X3J11 documents in reverse order by document number.
