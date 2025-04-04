@@ -117,7 +117,7 @@ def write_md(filename, content, title):
 def link_for_rev(rev):
     """Generate a Markdown link for a document revision."""
     if 'rev-id' in rev:
-        link_text = '%s (%s)' % (rev['rev-id'], rev['ext-id'])
+        link_text = '%s\u00a0(%s)' % (rev['rev-id'], rev['ext-id'])
     else:
         link_text = rev['ext-id']
     if rev['ext-url']:
