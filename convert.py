@@ -897,7 +897,7 @@ CPUB_DOCS = [
     # CPUB34
     { 'title': 'Programming languages — C — A provenance-aware memory object model for C',
       'editions': [{ 'number': 1,
-                     'desc-md': 'Pending publication as ISO/IEC TS 6010:2025.' }] },
+                     'desc-md': 'Published (2025-05) as ISO/IEC TS 6010:2025.' }] },
     # CPUB35
     { 'title': 'C Extensions to Support Generalized Function Calls',
       'editions': [{ 'number': 1,
