@@ -534,7 +534,9 @@ REMAP_TITLE = {
     'Preprocessing integer expressions': 'Preprocessor integer expressions',
     'Pitch for dialect directive': 'Pitch for #dialect directive',
     'The C Standard Charter': 'The C Standard charter',
-    'Required JTC 1 Summary of ISO and IEC Codes of Conduct': 'Updated JTC 1 Code of Conduct slide'}
+    'Required JTC 1 Summary of ISO and IEC Codes of Conduct': 'Updated JTC 1 Code of Conduct slide',
+    'Resolved \\& discarded, III (updates 3504\\)': 'Discarded',
+    'Discarded, IV': 'Discarded'}
 
 
 # Titles that should not be grouped (same title used for more than one
