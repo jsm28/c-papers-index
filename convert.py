@@ -1508,9 +1508,11 @@ def action_convert():
     # Also generate a list of N-documents that don't have new
     # identifiers, for use in displaying a list of all documents
     # including those.  Also generate a text list of all papers, for
-    # convenience in improving the classification logic, and a list of
-    # paper locations on the WG14 website, for link checking.
+    # convenience in improving the classification logic; a similar
+    # list in JSON; and a list of paper locations on the WG14 website,
+    # for link checking.
     text_list = []
+    all_classes = {}
     url_list = []
     ndocs = {}
     for nnum, ndata in data.items():
@@ -1518,6 +1520,16 @@ def action_convert():
                          % (ndata['cid'] if 'cid' in ndata else ndata['class'],
                             nnum, ndata['date'], ndata['author'],
                             ndata['title']))
+        all_classes[nnum] = {
+            'author': ndata['author'],
+            'title': ndata['title'],
+            'date': ndata['date'],
+            'ext-id': 'N%s' % nnum,
+            'ext-url': ndata['link'],
+            'class': ndata['class'].upper()
+        }
+        if ndata['class'] == 'cpub' and 'cid' in ndata and ndata['cid'].startswith('CPUBX'):
+            all_classes[nnum]['class'] = 'CPUBX'
         if ndata['link'] and ndata['link'].startswith(WG14_BASE):
             url_list.append(ndata['link'][len(WG14_BASE):])
         if 'cid' not in ndata:
@@ -1531,9 +1543,14 @@ def action_convert():
     ndocs_out = []
     for n in sorted(ndocs.keys(), key=int, reverse=True):
         ndocs_out.append(ndocs[n])
+    all_classes_out = []
+    for n in sorted(all_classes.keys(), key=int, reverse=True):
+        all_classes_out.append(all_classes[n])
     with open(os.path.join('out', 'papers', 'N-documents.json'), 'w',
               encoding='utf-8') as f:
         json.dump(ndocs_out, f, indent=4, sort_keys=True)
+    with open('all-classes.json', 'w', encoding='utf-8') as f:
+        json.dump(all_classes_out, f, indent=4, sort_keys=True)
     with open('tmp-papers-list.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(text_list) + '\n')
     with open('tmp-file-list.txt', 'w', encoding='utf-8') as f:
