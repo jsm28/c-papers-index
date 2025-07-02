@@ -171,6 +171,7 @@ def get_ndoc_data():
 # Documents where the default classification based on heuristics
 # applied to the title should be overridden.
 OVERRIDE_CLASS = {
+    '3584': 'cm',
     '3408': 'cadm',
     '3328': 'cpub',
     '3251': 'cm',
@@ -513,6 +514,7 @@ OVERRIDE_CLASS = {
 REMAP_TITLE = {
     '`if`declarations': '`if` declarations',
     '`if` declarations, v5, wording improvements': '`if` declarations',
+    '`if` declarations, v5.1, wording improvements': '`if` declarations',
     'Transparent Function Aliases': 'Transparent Aliases',
     'Restartable and Non-Restartable Functions for Efficient Character Conversions': 'Restartable Functions for Efficient Character Conversion',
     'Restartable Functions for Efficient Character Conversions': 'Restartable Functions for Efficient Character Conversion',
@@ -536,13 +538,17 @@ REMAP_TITLE = {
     'The C Standard Charter': 'The C Standard charter',
     'Required JTC 1 Summary of ISO and IEC Codes of Conduct': 'Updated JTC 1 Code of Conduct slide',
     'Resolved \\& discarded, III (updates 3504\\)': 'Discarded',
-    'Discarded, IV': 'Discarded'}
+    'Discarded, IV': 'Discarded',
+    'Quasi-literals': 'Generic replacement (v. 2 of quasi-literals)',
+    'add strsfx()': 'add strsfx(), stpsfx(), wcssfx(), wcpsfx()',
+    'add strpfx()': 'add strpfx(), stppfx(), wcspfx(), and wcppfx()',
+    'Additional String comparison functions to completement strcmp': 'Additional String comparison functions to complement strcmp'}
 
 
-# Titles that should not be grouped (same title used for more than one
+# Override titles for grouping (same title used for more than one
 # paper).
-NO_GROUP_TITLE = {
-    'Composite types'}
+OVERRIDE_GROUP_TITLE = {
+    '3141': 'Composite types 2023'}
 
 
 def classify_docs(data):
@@ -656,16 +662,18 @@ def classify_docs(data):
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
-            if group_title not in NO_GROUP_TITLE:
-                by_title[group_title].add(nnum)
+            if nnum in OVERRIDE_GROUP_TITLE:
+                group_title = OVERRIDE_GROUP_TITLE[nnum]
+            by_title[group_title].add(nnum)
     # Group documents with the same main title together.
     for nnum, ndata in data.items():
         if ndata['class'] in ('c', 'cadm'):
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
-            if group_title not in NO_GROUP_TITLE:
-                ndata['group'].update(by_title[group_title])
+            if nnum in OVERRIDE_GROUP_TITLE:
+                group_title = OVERRIDE_GROUP_TITLE[nnum]
+            ndata['group'].update(by_title[group_title])
     # Group documents explicitly said to update another together.
     changed = True
     while changed:
