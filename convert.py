@@ -542,7 +542,9 @@ REMAP_TITLE = {
     'Quasi-literals': 'Generic replacement (v. 2 of quasi-literals)',
     'add strsfx()': 'add strsfx(), stpsfx(), wcssfx(), wcpsfx()',
     'add strpfx()': 'add strpfx(), stppfx(), wcspfx(), and wcppfx()',
-    'Additional String comparison functions to completement strcmp': 'Additional String comparison functions to complement strcmp'}
+    'Additional String comparison functions to completement strcmp': 'Additional String comparison functions to complement strcmp',
+    'Add operators _Widthof, _Minof, _Maxof': 'Add operators _Minof and _Maxof',
+    'Composite types': 'Composite Types'}
 
 
 # Override titles for grouping (same title used for more than one
@@ -1182,6 +1184,7 @@ def generate_cpub_docs(data):
 
 # Date overrides for meeting documents.
 OVERRIDE_DATE = {
+    '3649': '202409',
     '3501': '202508',
     '3399': '202502',
     '3373': '202406',
