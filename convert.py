@@ -609,6 +609,8 @@ def classify_docs(data):
             ndata['class'] = 'cpub'
         elif 'wdtr' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
+        elif 'issue log' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
         elif 'fp teleconference' in ndata['maintitle'].lower() and 'agenda' in ndata['maintitle'].lower():
             ndata['class'] = 'cfptca'
         elif 'c floating point study group teleconference' in ndata['maintitle'].lower():
@@ -922,6 +924,14 @@ CPUB_DOCS = [
     { 'title': 'Programming Languages — C — defer, a mechanism for general purpose, lexical scope-based undo',
       'editions': [{ 'number': 1,
                      'desc-md': 'Under development as draft TS 25755.' }] },
+    # CPUB38
+    { 'title': 'C23 issue log',
+      'editions': [{ 'number': 1,
+                     'desc-md': 'Issued only as a committee document.' }] },
+    # CPUB39
+    { 'title': 'Floating-point TS 18661 (C23 version, 2025) issue log',
+      'editions': [{ 'number': 1,
+                     'desc-md': 'Issued only as a committee document.' }] },
     ]
 
 
@@ -962,6 +972,8 @@ CPUB_PROV = 34
 CPUB_FUNC = 35
 CPUB_EXUB = 36
 CPUB_DEFER = 37
+CPUB_C23_ISSUES = 38
+CPUB_FP_C23_ISSUES = 39
 
 
 def generate_autonum_docs(data, doc_class, start_num, cutoff_date,
@@ -1132,6 +1144,10 @@ def generate_cpub_docs(data):
                 pub = CPUB_FP_ISSUES
             elif 'compendium' in ltitle or 'drs' in ltitle or 'dr report' in ltitle or 'request summary' in ltitle or 'cr summary' in ltitle:
                 pub = CPUB_C11_ISSUES
+            elif 'c23 issue log' in ltitle:
+                pub = CPUB_C23_ISSUES
+            elif 'ts 18661 (c23 version, 2025\\) issue log' in ltitle:
+                pub = CPUB_FP_C23_ISSUES
             else:
                 pub = CPUB_STD
             if nnum in OVERRIDE_CPUB:
