@@ -544,7 +544,8 @@ REMAP_TITLE = {
     'add strpfx()': 'add strpfx(), stppfx(), wcspfx(), and wcppfx()',
     'Additional String comparison functions to completement strcmp': 'Additional String comparison functions to complement strcmp',
     'Add operators _Widthof, _Minof, _Maxof': 'Add operators _Minof and _Maxof',
-    'Composite types': 'Composite Types'}
+    'Composite types': 'Composite Types',
+    'Relax restrictions on standard attributes': 'Standard prefixed attributes'}
 
 
 # Override titles for grouping (same title used for more than one
@@ -610,6 +611,8 @@ def classify_docs(data):
         elif 'wdtr' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'issue log' in ndata['maintitle'].lower():
+            ndata['class'] = 'cpub'
+        elif 'educational undefined behavior' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'fp teleconference' in ndata['maintitle'].lower() and 'agenda' in ndata['maintitle'].lower():
             ndata['class'] = 'cfptca'
@@ -932,6 +935,10 @@ CPUB_DOCS = [
     { 'title': 'Floating-point TS 18661 (C23 version, 2025) issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
+    # CPUB40
+    { 'title': 'Undefined Behavior in the C Programming Language',
+      'editions': [{'number': 1,
+                    'desc-md': '' }]}
     ]
 
 
@@ -974,6 +981,7 @@ CPUB_EXUB = 36
 CPUB_DEFER = 37
 CPUB_C23_ISSUES = 38
 CPUB_FP_C23_ISSUES = 39
+CPUB_EDUC_UB = 40
 
 
 def generate_autonum_docs(data, doc_class, start_num, cutoff_date,
@@ -1136,6 +1144,8 @@ def generate_cpub_docs(data):
                 pub = CPUB_DEFER
             elif 'function' in ltitle:
                 pub = CPUB_FUNC
+            elif 'educational undefined behavior' in ltitle:
+                pub = CPUB_EDUC_UB
             elif 'undefined' in ltitle:
                 pub = CPUB_EXUB
             elif 'cscr compendium' in ltitle or 'cscr drs' in ltitle or 'rules dr' in ltitle:
