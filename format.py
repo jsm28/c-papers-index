@@ -79,6 +79,29 @@ class DocList:
                     # document revision ID.
                     self.rev_sort[rev['id']] = (rev['date'],
                                                 split_doc_id(rev['id']))
+        cm_data = self.by_class['CM']
+        cma_data = self.by_class['CMA']
+        cmm_data = self.by_class['CMM']
+        data = cm_data.copy()
+        data.update(cma_data)
+        data.update(cmm_data)
+        self.by_meeting_agenda = {}
+        self.by_meeting_minutes = {}
+        self.by_meeting_agenda_latest = {}
+        self.by_meeting_minutes_latest = {}
+        for n in data.keys():
+            self.by_meeting_agenda[split_doc_id_rev(n)[0]] = None
+            self.by_meeting_minutes[split_doc_id_rev(n)[0]] = None
+        for k, v in cma_data.items():
+            self.by_meeting_agenda[split_doc_id_rev(k)[0]] = v
+        for k, v in cmm_data.items():
+            self.by_meeting_minutes[split_doc_id_rev(k)[0]] = v
+        for n, v in self.by_meeting_agenda.items():
+            self.by_meeting_agenda_latest[n] = (
+                None if v is None else v['revisions'][-1])
+        for n, v in self.by_meeting_minutes.items():
+            self.by_meeting_minutes_latest[n] = (
+                None if v is None else v['revisions'][-1])
         with open(os.path.join(dirname, 'N-documents.json')) as f:
             docs = json.load(f)
             for doc in docs:
@@ -229,24 +252,17 @@ def do_format_cm(all_data):
     out_list = ['# Prototype meeting document list by document number\n\n']
     out_list.append('## Summary table of meetings\n\n')
     out_list.append('|YYYYMM|Agenda|Minutes|\n|-|-|-|\n')
-    by_meeting = {}
-    for n in data.keys():
-        by_meeting[split_doc_id_rev(n)[0]] = [None, None]
-    for k, v in cma_data.items():
-        by_meeting[split_doc_id_rev(k)[0]][0] = v
-    for k, v in cmm_data.items():
-        by_meeting[split_doc_id_rev(k)[0]][1] = v
-    for n in sorted(by_meeting.keys(), reverse=True):
-        agenda = by_meeting[n][0]
+    for n in sorted(all_data.by_meeting_agenda_latest.keys(), reverse=True):
+        agenda = all_data.by_meeting_agenda_latest[n]
         if agenda is None:
             agenda_txt = ' '
         else:
-            agenda_txt = link_for_rev(agenda['revisions'][-1])
-        minutes = by_meeting[n][1]
+            agenda_txt = link_for_rev(agenda)
+        minutes = all_data.by_meeting_minutes_latest[n]
         if minutes is None:
             minutes_txt = ' '
         else:
-            minutes_txt = link_for_rev(minutes['revisions'][-1])
+            minutes_txt = link_for_rev(minutes)
         out_list.append('|%s|%s|%s|\n' % (
             '.'.join(str(i) for i in n), agenda_txt, minutes_txt))
     out_list.append('\n## Full document list\n\n')
