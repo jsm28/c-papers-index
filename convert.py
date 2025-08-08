@@ -164,7 +164,8 @@ def get_ndoc_data():
         data[nnum] = {'link': link,
                       'date': date,
                       'author': author,
-                      'title': title}
+                      'title': title,
+                      'meetings': set()}
     return data
 
 
@@ -1342,6 +1343,19 @@ MEETING_DOC_GROUPS = [
     ['2247', '2284']]
 
 
+# Map meeting numbers to lists of documents discussed there.
+MEETING_TO_DOCS = {
+    '202502': ['3363', '2998', '3472', '3484', '3459', '3503', '3377', '3493',
+               '3464', '3465', '3473', '3390', '3432', '3495', '3332', '3451',
+               '3409', '2698', '3499', '3498', '3394', '3433', '3395', '3426',
+               '3398', '3422', '3471', '3466', '3410', '3411', '3478', '3418',
+               '3480', '3481', '3482', '3496', '3329', '3442', '3497', '3494',
+               '3427', '3357', '3461', '3460', '3401', '3492', '3405', '3452',
+               '3437', '3423', '3512', '3438', '3469', '3443', '3505', '3507',
+               '3389', '3453', '3450', '3408', '3447', '3448', '3449', '3508'],
+}
+
+
 def generate_meeting_docs(data, doc_class):
     """Generate meeting document data from N-documents."""
     nnums_by_meeting = collections.defaultdict(set)
@@ -1453,7 +1467,8 @@ def convert_docs(data, doc_class, doc_list):
                 'title': ndata['title'],
                 'date': ndata['date'],
                 'ext-id': 'N%s' % n,
-                'ext-url': ndata['link']}
+                'ext-url': ndata['link'],
+                'meetings': sorted(ndata['meetings'])}
             doc_json['revisions'].append(ndoc)
             ndata['cid'] = ndoc['id']
         out_dir = os.path.join('out', 'papers', doc_class, doc['id'])
@@ -1491,7 +1506,8 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
                     'title': ndata['title'],
                     'date': ndata['date'],
                     'ext-id': 'N%s' % n,
-                    'ext-url': ndata['link']}
+                    'ext-url': ndata['link'],
+                    'meetings': sorted(ndata['meetings'])}
                 edition_json['revisions'].append(ndoc)
                 ndata['cid'] = ndoc['id']
             doc_json['editions'].append(edition_json)
@@ -1517,7 +1533,8 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
                 'title': ndata['title'],
                 'date': ndata['date'],
                 'ext-id': 'N%s' % n,
-                'ext-url': ndata['link']}
+                'ext-url': ndata['link'],
+                'meetings': sorted(ndata['meetings'])}
             doc_json['revisions'].append(ndoc)
             ndata['cid'] = ndoc['id']
         out_dir = os.path.join('out', 'papers', 'CPUBX', doc['id'])
@@ -1530,6 +1547,9 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
 def action_convert():
     """Convert the document log to JSON metadata."""
     data = get_ndoc_data()
+    for m, dl in MEETING_TO_DOCS.items():
+        for d in dl:
+            data[d]['meetings'].add(m)
     classify_docs(data)
     c_docs = generate_autonum_docs(data, 'c', 4000, '2023-10-01',
                                    C_EXTRA_EXCLUDE, C_EXTRA_INCLUDE)
@@ -1552,6 +1572,13 @@ def action_convert():
     all_classes = {}
     url_list = []
     ndocs = {}
+    text_list_meetings = []
+    for m, dl in MEETING_TO_DOCS.items():
+        for d in dl:
+            ddata = data[d]
+            text_list_meetings.append(
+                '%s: N%s %s %s, %s'
+                % (m, d, ddata['date'], ddata['author'], ddata['title']))
     for nnum, ndata in data.items():
         text_list.append('%s\tN%s %s %s, %s'
                          % (ndata['cid'] if 'cid' in ndata else ndata['class'],
@@ -1575,7 +1602,8 @@ def action_convert():
                 'title': ndata['title'],
                 'date': ndata['date'],
                 'ext-id': 'N%s' % nnum,
-                'ext-url': ndata['link']}
+                'ext-url': ndata['link'],
+                'meetings': sorted(ndata['meetings'])}
             ndocs[nnum] = doc_json
     ndocs_out = []
     for n in sorted(ndocs.keys(), key=int, reverse=True):
@@ -1592,6 +1620,8 @@ def action_convert():
         f.write('\n'.join(text_list) + '\n')
     with open('tmp-file-list.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(url_list) + '\n')
+    with open('tmp-papers-meetings-list.txt', 'w', encoding='utf-8') as f:
+        f.write('\n'.join(text_list_meetings) + '\n')
 
 
 def main():
