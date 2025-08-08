@@ -137,9 +137,11 @@ def write_md(filename, content, title):
         f.write(content)
 
 
-def link_for_rev(rev):
+def link_for_rev(rev, link_text=None):
     """Generate a Markdown link for a document revision."""
-    if 'rev-id' in rev:
+    if link_text is not None:
+        pass
+    elif 'rev-id' in rev:
         link_text = '%s\u00a0(%s)' % (rev['rev-id'], rev['ext-id'])
     else:
         link_text = rev['ext-id']
@@ -150,15 +152,29 @@ def link_for_rev(rev):
     return link
 
 
-def table_line_for_rev(rev, show_num):
+def link_for_minutes(rev, text):
+    """Generate a Markdown link for minutes, possibly None."""
+    if rev is None:
+        return text
+    return link_for_rev(rev, text)
+
+
+def table_line_for_rev(rev, show_num, all_data):
     """Generate a Markdown table line for a document revision."""
     link = link_for_rev(rev)
     if 'doc-id' in rev:
         n = (rev['edition-id'] if 'edition-id' in rev else rev['doc-id']) if show_num else ' '
     else:
         n = ' '
-    return ('|%s|%s|%s|%s|%s|\n'
-            % (n, link, rev['author'], rev['date'], rev['title']))
+    minutes = [link_for_minutes(
+        all_data.by_meeting_minutes_latest[split_doc_id(m)[0]], m)
+               for m in rev['meetings']]
+    if minutes:
+        minutes_txt = ' '.join(minutes)
+    else:
+        minutes_txt = ' '
+    return ('|%s|%s|%s|%s|%s|%s|\n'
+            % (n, link, rev['author'], rev['date'], rev['title'], minutes_txt))
 
 
 def write_chron(all_data, filename, title, classes):
@@ -167,13 +183,15 @@ def write_chron(all_data, filename, title, classes):
         classes = set(all_data.by_class.keys())
         classes.add('N')
     out_list = ['# %s\n\n' % title]
-    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    out_list.append('|Number|Revision|Author|Date|Title|Meeting|\n'
+                    '|-|-|-|-|-|-|\n')
     for rev_id in sorted(
             (k for k in all_data.by_rev.keys()
              if all_data.by_rev[k]['class'] in classes),
             key=lambda k: all_data.rev_sort[k],
             reverse=True):
-        out_list.append(table_line_for_rev(all_data.by_rev[rev_id], True))
+        out_list.append(table_line_for_rev(all_data.by_rev[rev_id], True,
+                                           all_data))
     write_md(filename, ''.join(out_list), title)
 
 
@@ -184,13 +202,14 @@ def do_format_simple(all_data, doc_class):
     data = all_data.by_class[doc_class_upper]
     out_list = ['# Prototype %s document list by document number\n\n'
                 % doc_class_upper]
-    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    out_list.append('|Number|Revision|Author|Date|Title|Meeting|\n'
+                    '|-|-|-|-|-|-|\n')
     for n in sorted(data.keys(), key=split_doc_id, reverse=True):
         cdoc = data[n]
-        out_list.append('|%s| |%s| |%s|\n' % (cdoc['id'], cdoc['author'],
-                                            cdoc['title']))
+        out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'], cdoc['author'],
+                                                cdoc['title']))
         for rev in reversed(cdoc['revisions']):
-            out_list.append(table_line_for_rev(rev, False))
+            out_list.append(table_line_for_rev(rev, False, all_data))
     write_md(
         '%s-num.html' % doc_class,
         ''.join(out_list),
@@ -225,10 +244,11 @@ def do_format_cpub(all_data):
             else:
                 out_list.append('### Edition %d\n\n' % e['edition-num'])
             out_list.append('%s\n\n' % e['desc-md'])
-            out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+            out_list.append('|Number|Revision|Author|Date|Title|Meeting|\n'
+                            '|-|-|-|-|-|-|\n')
             all_revs = e['revisions'] + [all_data.by_rev[r] for r in aux_for_cpub_ed[e['id']]]
             for rev in sorted(all_revs, key=lambda k: all_data.rev_sort[k['id']], reverse=True):
-                out_list.append(table_line_for_rev(rev, True))
+                out_list.append(table_line_for_rev(rev, True, all_data))
     write_md(
         'cpub-num.html',
         ''.join(out_list),
@@ -266,13 +286,14 @@ def do_format_cm(all_data):
         out_list.append('|%s|%s|%s|\n' % (
             '.'.join(str(i) for i in n), agenda_txt, minutes_txt))
     out_list.append('\n## Full document list\n\n')
-    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    out_list.append('|Number|Revision|Author|Date|Title|Meeting|\n'
+                    '|-|-|-|-|-|-|\n')
     for n in sorted(data.keys(), key=split_doc_id_rev, reverse=True):
         cdoc = data[n]
-        out_list.append('|%s| |%s| |%s|\n' % (cdoc['id'], cdoc['author'],
-                                            cdoc['title']))
+        out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'], cdoc['author'],
+                                                cdoc['title']))
         for rev in reversed(cdoc['revisions']):
-            out_list.append(table_line_for_rev(rev, False))
+            out_list.append(table_line_for_rev(rev, False, all_data))
     write_md(
         'cm-num.html',
         ''.join(out_list),
@@ -315,13 +336,14 @@ def do_format_cfptc(all_data):
         out_list.append('|%s|%s|%s|\n' % (
             '.'.join(str(i) for i in n), agenda_txt, minutes_txt))
     out_list.append('\n## Full document list\n\n')
-    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    out_list.append('|Number|Revision|Author|Date|Title|Meeting|\n'
+                    '|-|-|-|-|-|-|\n')
     for n in sorted(data.keys(), key=split_doc_id_rev, reverse=True):
         cdoc = data[n]
-        out_list.append('|%s| |%s| |%s|\n' % (cdoc['id'], cdoc['author'],
-                                            cdoc['title']))
+        out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'], cdoc['author'],
+                                                cdoc['title']))
         for rev in reversed(cdoc['revisions']):
-            out_list.append(table_line_for_rev(rev, False))
+            out_list.append(table_line_for_rev(rev, False, all_data))
     write_md(
         'cfptc-num.html',
         ''.join(out_list),
@@ -342,13 +364,15 @@ def do_format_global(all_data):
         'Prototype list of all documents, reverse-chronological',
         None)
     out_list = ['# Prototype N document list by document number\n\n']
-    out_list.append('|Number|Revision|Author|Date|Title|\n|-|-|-|-|-|\n')
+    out_list.append('|Number|Revision|Author|Date|Title|Meeting|\n'
+                    '|-|-|-|-|-|-|\n')
     for rev_id in sorted(
             (k for k in all_data.by_rev.keys()
              if 'ext-id' in all_data.by_rev[k]),
             key=lambda k: split_doc_id(all_data.by_rev[k]['ext-id']),
             reverse=True):
-        out_list.append(table_line_for_rev(all_data.by_rev[rev_id], True))
+        out_list.append(table_line_for_rev(all_data.by_rev[rev_id], True,
+                                           all_data))
     write_md(
         'n-num.html',
         ''.join(out_list),
