@@ -433,6 +433,7 @@ OVERRIDE_CLASS = {
     '382': 'cadm',
     '380': 'cadm',
     '377': 'cpub',
+    '373': 'cadm',
     '366': 'cadm',
     '360': 'cadm',
     '351': 'cadm',
@@ -494,7 +495,7 @@ OVERRIDE_CLASS = {
     '093': 'cadm',
     '080': 'cadm',
     '078': 'cadm',
-    '073': 'cpub',
+    '073': 'c',
     '067': 'cpub',
     '064': 'cadm',
     '061': 'cadm',
@@ -1065,6 +1066,7 @@ OVERRIDE_CPUB_AUX = {
     '1191': True,
     '940': True,
     '800': True,
+    '438': True,
 }
 
 
