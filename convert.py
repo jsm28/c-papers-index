@@ -545,7 +545,7 @@ REMAP_TITLE = {
     'add strsfx()': 'add strsfx(), stpsfx(), wcssfx(), wcpsfx()',
     'add strpfx()': 'add strpfx(), stppfx(), wcspfx(), and wcppfx()',
     'Additional String comparison functions to completement strcmp': 'Additional String comparison functions to complement strcmp',
-    'Add operators _Widthof, _Minof, _Maxof': 'Add operators _Minof and _Maxof',
+    'Add operators \\_Widthof, \\_Minof, \\_Maxof': 'Add operators \\_Minof and \\_Maxof',
     'Composite types': 'Composite Types',
     'Relax restrictions on standard attributes': 'Standard prefixed attributes',
     '\\_Any\\_func\\_t \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- A Universal Function Pointer Storage Type',
