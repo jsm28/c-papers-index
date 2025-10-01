@@ -541,13 +541,15 @@ REMAP_TITLE = {
     'Required JTC 1 Summary of ISO and IEC Codes of Conduct': 'Updated JTC 1 Code of Conduct slide',
     'Resolved \\& discarded, III (updates 3504\\)': 'Discarded',
     'Discarded, IV': 'Discarded',
-    'Quasi-literals': 'Generic replacement (v. 2 of quasi-literals)',
+    'Quasi-literals': 'Generic replacement',
     'add strsfx()': 'add strsfx(), stpsfx(), wcssfx(), wcpsfx()',
     'add strpfx()': 'add strpfx(), stppfx(), wcspfx(), and wcppfx()',
     'Additional String comparison functions to completement strcmp': 'Additional String comparison functions to complement strcmp',
     'Add operators _Widthof, _Minof, _Maxof': 'Add operators _Minof and _Maxof',
     'Composite types': 'Composite Types',
-    'Relax restrictions on standard attributes': 'Standard prefixed attributes'}
+    'Relax restrictions on standard attributes': 'Standard prefixed attributes',
+    '\\_Any\\_func\\_t \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- A Universal Function Pointer Storage Type',
+    'Generic replacement (v. 2 of quasi-literals)': 'Generic replacement'}
 
 
 # Override titles for grouping (same title used for more than one
