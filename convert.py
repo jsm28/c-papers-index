@@ -549,7 +549,8 @@ REMAP_TITLE = {
     'Composite types': 'Composite Types',
     'Relax restrictions on standard attributes': 'Standard prefixed attributes',
     '\\_Any\\_func\\_t \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- A Universal Function Pointer Storage Type',
-    'Generic replacement (v. 2 of quasi-literals)': 'Generic replacement'}
+    'Generic replacement (v. 2 of quasi-literals)': 'Generic replacement',
+    'Literal functions': 'Function literals'}
 
 
 # Override titles for grouping (same title used for more than one
