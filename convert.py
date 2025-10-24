@@ -541,6 +541,7 @@ REMAP_TITLE = {
     'Required JTC 1 Summary of ISO and IEC Codes of Conduct': 'Updated JTC 1 Code of Conduct slide',
     'Resolved \\& discarded, III (updates 3504\\)': 'Discarded',
     'Discarded, IV': 'Discarded',
+    'Discarded, V': 'Discarded',
     'Quasi-literals': 'Generic replacement',
     'add strsfx()': 'add strsfx(), stpsfx(), wcssfx(), wcpsfx()',
     'add strpfx()': 'add strpfx(), stppfx(), wcspfx(), and wcppfx()',
