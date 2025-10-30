@@ -1217,6 +1217,9 @@ def generate_cpub_docs(data):
 
 # Date overrides for meeting documents.
 OVERRIDE_DATE = {
+    '3730': '202510.2',
+    '3729': '202510.1',
+    '3726': '202510.1',
     '3649': '202409',
     '3501': '202508',
     '3399': '202502',
