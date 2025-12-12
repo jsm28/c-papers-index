@@ -551,7 +551,8 @@ REMAP_TITLE = {
     'Relax restrictions on standard attributes': 'Standard prefixed attributes',
     '\\_Any\\_func\\_t \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- A Universal Function Pointer Storage Type',
     'Generic replacement (v. 2 of quasi-literals)': 'Generic replacement',
-    'Literal functions': 'Function literals'}
+    'Literal functions': 'Function literals',
+    'Refactor syntax of directives': 'Refactor syntax of preprocessing directives'}
 
 
 # Override titles for grouping (same title used for more than one
