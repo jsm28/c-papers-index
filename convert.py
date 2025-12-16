@@ -552,7 +552,9 @@ REMAP_TITLE = {
     '\\_Any\\_func\\_t \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- A Universal Function Pointer Storage Type',
     'Generic replacement (v. 2 of quasi-literals)': 'Generic replacement',
     'Literal functions': 'Function literals',
-    'Refactor syntax of directives': 'Refactor syntax of preprocessing directives'}
+    'Refactor syntax of directives': 'Refactor syntax of preprocessing directives',
+    'Lingua franca Results': 'C Lingua Franca Results',
+    'Modern signals handling': 'Thread-safe signals handling'}
 
 
 # Override titles for grouping (same title used for more than one
@@ -1008,7 +1010,8 @@ def generate_autonum_docs(data, doc_class, start_num, cutoff_date,
                                    for n in ndata['group']),
                     'title': ndata['maintitle'],
                     'author': ndata['author'],
-                    'nums': sorted(ndata['group'], key=int)
+                    'nums': sorted(ndata['group'],
+                                   key=lambda x: (data[x]['date'], int(x)))
                     }
                 docs.append(cdoc)
     docs.sort(key=lambda x: x['sortkey'])
