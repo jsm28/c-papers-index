@@ -403,7 +403,7 @@ def main():
         description='Format C papers lists in Markdown')
     parser.add_argument('action',
                         help='What to do',
-                        choices=('format'))
+                        choices=('format',))
     args = parser.parse_args()
     action_map = {'format': action_format}
     action_map[args.action]()
