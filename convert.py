@@ -549,12 +549,14 @@ REMAP_TITLE = {
     'Add operators \\_Widthof, \\_Minof, \\_Maxof': 'Add operators \\_Minof and \\_Maxof',
     'Composite types': 'Composite Types',
     'Relax restrictions on standard attributes': 'Standard prefixed attributes',
-    '\\_Any\\_func\\_t \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- A Universal Function Pointer Storage Type',
+    '\\_Any\\_func\\_t \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- - A Universal Function Pointer Storage Type',
+    '\\_Any\\_func\\* \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- - A Universal Function Pointer Storage Type',
     'Generic replacement (v. 2 of quasi-literals)': 'Generic replacement',
     'Literal functions': 'Function literals',
     'Refactor syntax of directives': 'Refactor syntax of preprocessing directives',
     'Lingua franca Results': 'C Lingua Franca Results',
-    'Modern signals handling': 'Thread-safe signals handling'}
+    'Modern signals handling': 'Thread-safe signals handling',
+    'Functions with Data: Closures in C': 'Functions with Data, Closures in C'}
 
 
 # Override titles for grouping (same title used for more than one
@@ -1469,7 +1471,7 @@ def generate_meeting_docs(data, doc_class):
             title_words = re.split("[-\\\\ .,/'()]", ndata['maintitle'])
             month = None
             year = None
-            for y in range(1986, 2026):
+            for y in range(1986, 2027):
                 if str(y) in title_words:
                     year = str(y)
                     break
