@@ -172,6 +172,7 @@ def get_ndoc_data():
 # Documents where the default classification based on heuristics
 # applied to the title should be overridden.
 OVERRIDE_CLASS = {
+    '3822': 'cadm',
     '3584': 'cm',
     '3408': 'cadm',
     '3328': 'cpub',
@@ -1223,6 +1224,8 @@ def generate_cpub_docs(data):
 
 # Date overrides for meeting documents.
 OVERRIDE_DATE = {
+    '3815': '202508',
+    '3814': '202602',
     '3735': '202510.2',
     '3730': '202510.2',
     '3729': '202510.1',
