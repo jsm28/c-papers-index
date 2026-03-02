@@ -550,8 +550,9 @@ REMAP_TITLE = {
     'Add operators \\_Widthof, \\_Minof, \\_Maxof': 'Add operators \\_Minof and \\_Maxof',
     'Composite types': 'Composite Types',
     'Relax restrictions on standard attributes': 'Standard prefixed attributes',
-    '\\_Any\\_func\\_t \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- - A Universal Function Pointer Storage Type',
-    '\\_Any\\_func\\* \\- A Universal Function Pointer Storage Type': '\\_Any\\_func\\* \\- - A Universal Function Pointer Storage Type',
+    '\\_Any\\_func\\_t \\- A Universal Function Pointer Storage Type': 'Any\\_func\\* \\- A Universal Function Pointer Storage Type',
+    '\\_Any\\_func\\* \\- A Universal Function Pointer Storage Type': 'Any\\_func\\* \\- A Universal Function Pointer Storage Type',
+    '\\_Any\\_func\\* \\- - A Universal Function Pointer Storage Type': 'Any\\_func\\* \\- A Universal Function Pointer Storage Type',
     'Generic replacement (v. 2 of quasi-literals)': 'Generic replacement',
     'Literal functions': 'Function literals',
     'Refactor syntax of directives': 'Refactor syntax of preprocessing directives',
@@ -1459,11 +1460,11 @@ MEETING_TO_DOCS = {
                '3455', '3536', '3537', '3500', '3598', '3607', '3608', '3628',
                '3622', '3632', '3614', '3662', '3617', '3619', '3549', '3548',
                '3605', '3561'],
-    '202602': ['3788', '3786', '3659', '3579', '3694', '3678', '3679', '3816',
-               '3654', '3646', '3647', '3648', '3653', '3642', '3655', '3763',
-               '3764', '3458', '3650', '3534', '3677', '3681', '3539', '3663',
-               '3483', '3454', '2658', '3670', '3751', '3773', '3719', '3674',
-               '3691', '3667']
+    '202602': ['3788', '3786', '3659', '3579', '3694', '3781', '3678', '3679',
+               '3816', '3654', '3646', '3647', '3648', '3653', '3642', '3655',
+               '3763', '3764', '3458', '3650', '3534', '3677', '3681', '3539',
+               '3663', '3483', '3454', '2658', '3670', '3751', '3773', '3719',
+               '3674', '3691', '3667']
 }
 
 
