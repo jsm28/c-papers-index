@@ -559,7 +559,10 @@ REMAP_TITLE = {
     'Lingua franca Results': 'C Lingua Franca Results',
     'Modern signals handling': 'Thread-safe signals handling',
     'Functions with Data: Closures in C': 'Functions with Data, Closures in C',
-    'Slaying some earthy demons \\- remove UB 28, 29, 30': 'Slaying Some Earthly Demons \\- remove UB 28, 29'}
+    'Slaying some earthy demons \\- remove UB 28, 29, 30': 'Slaying Some Earthly Demons \\- remove UB 28, 29',
+    'Slay Some Earthly Demons XVIII: Remove undefined behavior if there are nonmatching single or double quotes': 'Remove undefined behavior for mismatched quote characters',
+    'Slay Some Earthly Demons XIX: Remove undefined behavior if a character not in the basic source character set is encountered in a source file, excluding valid exceptions': 'Remove undefined behavior for non-basic source characters in source files',
+    'Slay Some Earthly Demons XX: Remove undefined behavior if an identifier, comment, string literal, character constant, or header name contains an invalid multibyte character or does not begin and end in the initial shift state exceptions': 'Remove undefined behavior for invalid multibyte characters and non-initial shift states in preprocessing tokens and header names'}
 
 
 # Override titles for grouping (same title used for more than one
