@@ -562,7 +562,9 @@ REMAP_TITLE = {
     'Slaying some earthy demons \\- remove UB 28, 29, 30': 'Slaying Some Earthly Demons \\- remove UB 28, 29',
     'Slay Some Earthly Demons XVIII: Remove undefined behavior if there are nonmatching single or double quotes': 'Remove undefined behavior for mismatched quote characters',
     'Slay Some Earthly Demons XIX: Remove undefined behavior if a character not in the basic source character set is encountered in a source file, excluding valid exceptions': 'Remove undefined behavior for non-basic source characters in source files',
-    'Slay Some Earthly Demons XX: Remove undefined behavior if an identifier, comment, string literal, character constant, or header name contains an invalid multibyte character or does not begin and end in the initial shift state exceptions': 'Remove undefined behavior for invalid multibyte characters and non-initial shift states in preprocessing tokens and header names'}
+    'Slay Some Earthly Demons XX: Remove undefined behavior if an identifier, comment, string literal, character constant, or header name contains an invalid multibyte character or does not begin and end in the initial shift state exceptions': 'Remove undefined behavior for invalid multibyte characters and non-initial shift states in preprocessing tokens and header names',
+    'Ghosts and Demons: Undefined Behavior in the C2Y Core Language (Status Update)': 'Ghosts and Demons: Undefined Behavior in C2Y (Status)',
+    'Ghosts and Demons: Undefined Behavior in C2Y (Status 26-03-16)': 'Ghosts and Demons: Undefined Behavior in C2Y (Status)'}
 
 
 # Override titles for grouping (same title used for more than one
@@ -1229,6 +1231,8 @@ def generate_cpub_docs(data):
 
 # Date overrides for meeting documents.
 OVERRIDE_DATE = {
+    '3857': '202602',
+    '3856': '202603',
     '3815': '202508',
     '3814': '202602',
     '3735': '202510.2',
