@@ -567,7 +567,9 @@ REMAP_TITLE = {
     'Slay Some Earthly Demons XX: Remove undefined behavior if an identifier, comment, string literal, character constant, or header name contains an invalid multibyte character or does not begin and end in the initial shift state exceptions': 'Remove undefined behavior for invalid multibyte characters and non-initial shift states in preprocessing tokens and header names',
     'Ghosts and Demons: Undefined Behavior in the C2Y Core Language (Status Update)': 'Ghosts and Demons: Undefined Behavior in C2Y (Status)',
     'Ghosts and Demons: Undefined Behavior in C2Y (Status 26-03-16)': 'Ghosts and Demons: Undefined Behavior in C2Y (Status)',
-    'Wording for "Type Compatibility: Ghosts, Readability, and A Missing Rule for Atomic"': 'Type Compatibility: Ghosts, Readability, and A Missing Rule for Atomic'}
+    'Wording for "Type Compatibility: Ghosts, Readability, and A Missing Rule for Atomic"': 'Type Compatibility: Ghosts, Readability, and A Missing Rule for Atomic',
+    'Wording for "Ghost: Lvalues that do not designate an object"': 'Ghost: Lvalues that do not designate an object',
+    'Wording for "discarded"': 'Discarded'}
 
 
 # Override titles for grouping (same title used for more than one
