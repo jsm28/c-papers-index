@@ -16,7 +16,7 @@ be in the document titles.
 Currently all documents here are alternative numbers for N-documents;
 this system does not yet support hosting documents directly.
 
-## C-documents
+## S-documents
 
 These documents are technical (or occasionally purely editorial)
 inputs to the standards process for the C standard and related
@@ -24,17 +24,17 @@ documents (typically proposals for changes, but also e.g. analysis of
 some issue that doesn't propose a change, and presentations about
 proposals, and documents about features in related languages and
 software that might be relevant to C).  Ballot comments and
-resolutions of those comments are included among C-documents.
+resolutions of those comments are included among S-documents.
 
-Numbers for C-documents in this prototype start at C4000 but could
+Numbers for S-documents in this prototype start at S4000 but could
 start at a different number if preferred.  The list is intended to
 start with documents relevant or proposed for C2Y, but not anything
 proposed for C23 and earlier versions unless still considered an
 active proposal for C2Y or later (although the starting point could be
 pushed further back if desired).
 
-* [All revisions of C-documents, reverse-chronological](c-all.html)
-* [C-documents in reverse order by document number](c-num.html)
+* [All revisions of S-documents, reverse-chronological](s-all.html)
+* [S-documents in reverse order by document number](s-num.html)
 
 ## CPUB-documents and CPUBX-documents
 

@@ -53,7 +53,7 @@ class DocList:
         self.by_class = {}
         self.rev_sort = {}
         self.by_rev = {}
-        for doc_class in ('C', 'CADM', 'CPUB', 'CPUBX', 'CM', 'CMA', 'CMM',
+        for doc_class in ('S', 'CADM', 'CPUB', 'CPUBX', 'CM', 'CMA', 'CMM',
                           'CFPTCA', 'CFPTCM'):
             c_dir = os.path.join(dirname, doc_class)
             data = {}
@@ -383,7 +383,7 @@ def action_format():
     """Format the papers lists.  The source data is in PAPERS_DIR; the
     formatted output goes to OUT_HTML_DIR."""
     all_data = DocList(PAPERS_DIR)
-    do_format_simple(all_data, 'c')
+    do_format_simple(all_data, 's')
     do_format_simple(all_data, 'cadm')
     do_format_cpub(all_data)
     do_format_cm(all_data)

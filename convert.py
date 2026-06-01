@@ -198,7 +198,7 @@ OVERRIDE_CLASS = {
     '2181': 'cm',
     '2177': 'cpub',
     '2176': 'cpub',
-    '2131': 'c',
+    '2131': 's',
     '2071': 'cadm',
     '2058': 'cpub',
     '2011': 'cpub',
@@ -246,16 +246,16 @@ OVERRIDE_CLASS = {
     '1774': 'cpub',
     '1772': 'cfptca',
     '1761': 'cpub',
-    '1760': 'c',
+    '1760': 's',
     '1758': 'cpub',
     '1757': 'cpub',
     '1756': 'cpub',
     '1724': 'cpub',
     '1722': 'cpub',
     '1709': 'cfptca',
-    '1701': 'c',
-    '1700': 'c',
-    '1699': 'c',
+    '1701': 's',
+    '1700': 's',
+    '1699': 's',
     '1689': 'cfptcm',
     '1686': 'cm',
     '1680': 'cpub',
@@ -282,7 +282,7 @@ OVERRIDE_CLASS = {
     '1605': 'cpub',
     '1591': 'cpub',
     '1590': 'cadm',
-    '1583': 'c',
+    '1583': 's',
     '1579': 'cpub',
     '1578': 'cpub',
     '1574': 'cm',
@@ -303,7 +303,7 @@ OVERRIDE_CLASS = {
     '1274': 'cadm',
     '1268': 'cadm',
     '1256': 'cpub',
-    '1247': 'c',
+    '1247': 's',
     '1245': 'cadm',
     '1244': 'cpub',
     '1243': 'cpub',
@@ -316,7 +316,7 @@ OVERRIDE_CLASS = {
     '1202': 'cpub',
     '1201': 'cpub',
     '1199': 'cpub',
-    '1197': 'c',
+    '1197': 's',
     '1193': 'cpub',
     '1192': 'cadm',
     '1191': 'cpub',
@@ -341,9 +341,9 @@ OVERRIDE_CLASS = {
     '1125': 'cpub',
     '1124': 'cpub',
     '1120': 'cpub',
-    '1118': 'c',
+    '1118': 's',
     '1107': 'cpub',
-    '1106': 'c',
+    '1106': 's',
     '1096': 'cpub',
     '1095': 'cpub',
     '1089': 'cpub',
@@ -360,7 +360,7 @@ OVERRIDE_CLASS = {
     '1038': 'cadm',
     '1031': 'cpub',
     '1030': 'cadm',
-    '1027': 'c',
+    '1027': 's',
     '1021': 'cpub',
     '1016': 'cpub',
     '1010': 'cpub',
@@ -377,13 +377,13 @@ OVERRIDE_CLASS = {
     '932': 'cpub',
     '931': 'cadm',
     '930': 'cadm',
-    '925': 'c',
+    '925': 's',
     '922': 'cadm',
-    '908': 'c',
+    '908': 's',
     '906': 'cadm',
     '904': 'cmm',
     '897': 'cpub',
-    '895': 'c',
+    '895': 's',
     '881': 'cpub',
     '854': 'cpub',
     '850': 'cpub',
@@ -422,7 +422,7 @@ OVERRIDE_CLASS = {
     '439': 'cpub',
     '438': 'cpub',
     '437': 'cm',
-    '433': 'c',
+    '433': 's',
     '428': 'cadm',
     '425': 'cpub',
     '423': 'cpub',
@@ -472,7 +472,7 @@ OVERRIDE_CLASS = {
     '205': 'cpub',
     '192': 'cadm',
     '191': 'cadm',
-    '189': 'c',
+    '189': 's',
     '187': 'cadm',
     '182': 'cpub',
     '180': 'cpub',
@@ -496,7 +496,7 @@ OVERRIDE_CLASS = {
     '093': 'cadm',
     '080': 'cadm',
     '078': 'cadm',
-    '073': 'c',
+    '073': 's',
     '067': 'cpub',
     '064': 'cadm',
     '061': 'cadm',
@@ -690,10 +690,10 @@ def classify_docs(data):
         elif 'annual report' in ndata['maintitle'].lower():
             ndata['class'] = 'cadm'
         else:
-            ndata['class'] = 'c'
+            ndata['class'] = 's'
         if nnum in OVERRIDE_CLASS:
             ndata['class'] = OVERRIDE_CLASS[nnum]
-        if ndata['class'] in ('c', 'cadm'):
+        if ndata['class'] in ('s', 'cadm'):
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
@@ -702,7 +702,7 @@ def classify_docs(data):
             by_title[group_title].add(nnum)
     # Group documents with the same main title together.
     for nnum, ndata in data.items():
-        if ndata['class'] in ('c', 'cadm'):
+        if ndata['class'] in ('s', 'cadm'):
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
@@ -714,7 +714,7 @@ def classify_docs(data):
     while changed:
         changed = False
         for nnum, ndata in data.items():
-            if ndata['class'] not in ('c', 'cadm'):
+            if ndata['class'] not in ('s', 'cadm'):
                 continue
             if ndata['auxtitle'] is None:
                 continue
@@ -1684,9 +1684,9 @@ def action_convert():
         for d in dl:
             data[d]['meetings'].add(m)
     classify_docs(data)
-    c_docs = generate_autonum_docs(data, 'c', 4000, '2023-10-01',
+    c_docs = generate_autonum_docs(data, 's', 4000, '2023-10-01',
                                    C_EXTRA_EXCLUDE, C_EXTRA_INCLUDE)
-    convert_docs(data, 'C', c_docs)
+    convert_docs(data, 'S', c_docs)
     cadm_docs = generate_autonum_docs(data, 'cadm', 1, '2023-09-01',
                                       CADM_EXTRA_EXCLUDE, CADM_EXTRA_INCLUDE)
     convert_docs(data, 'CADM', cadm_docs)
