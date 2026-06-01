@@ -26,12 +26,12 @@ proposals, and documents about features in related languages and
 software that might be relevant to C).  Ballot comments and
 resolutions of those comments are included among S-documents.
 
-Numbers for S-documents in this prototype start at S4000 but could
-start at a different number if preferred.  The list is intended to
-start with documents relevant or proposed for C2Y, but not anything
-proposed for C23 and earlier versions unless still considered an
-active proposal for C2Y or later (although the starting point could be
-pushed further back if desired).
+Classification, and grouping of versions of the same document, are
+intended to be complete and accurate for documents relevant or
+proposed for C2Y, but not necessarily for documents proposed for C23
+and earlier versions unless still considered an active proposal for
+C2Y or later; the classification and grouping data for older documents
+may be improved incrementally.
 
 * [All revisions of S-documents, reverse-chronological](s-all.html)
 * [S-documents in reverse order by document number](s-num.html)
@@ -71,9 +71,9 @@ organizations, and minutes and agendas that are not for meetings of
 the main C standards committee where they do not have a more specific
 document series.
 
-The list is intended to start with documents considered after C23 was
-mostly complete (although the starting point could be pushed further
-back if desired).
+Classification and grouping data are intended to be complete and
+accurate for documents considered after C23 was mostly complete,
+subject to incremental improvement for older documents.
 
 * [All revisions of CADM-documents, reverse-chronological](cadm-all.html)
 * [CADM-documents in reverse order by document number](cadm-num.html)

@@ -102,13 +102,6 @@ class DocList:
         for n, v in self.by_meeting_minutes.items():
             self.by_meeting_minutes_latest[n] = (
                 None if v is None else v['revisions'][-1])
-        with open(os.path.join(dirname, 'N-documents.json')) as f:
-            docs = json.load(f)
-            for doc in docs:
-                doc['class'] = 'N'
-                self.by_rev[doc['ext-id']] = doc
-                self.rev_sort[doc['ext-id']] = (doc['date'],
-                                                split_doc_id(doc['ext-id']))
 
 
 def write_md(filename, content, title):

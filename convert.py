@@ -729,28 +729,6 @@ def classify_docs(data):
                             data[n]['group'] |= ndata['group']
 
 
-# C-documents to include in consideration (mentioned for possible
-# future scheduling in agendas, or discussed for C2Y) despite
-# predating cut-off date.
-C_EXTRA_INCLUDE = {
-    '2658', '2948', '2995', '3051', '3064', '3160', '3025', '3058'}
-
-
-# C-documents to exclude in consideration (C23 ballot comments)
-# despite postdating cut-off date.
-C_EXTRA_EXCLUDE = {
-    '3191', '3216'}
-
-
-# Extra CADM-documents to include.
-CADM_EXTRA_INCLUDE = {
-    '3118', '3002', '2947'}
-
-
-# Extra CADM-documents to exclude.
-CADM_EXTRA_EXCLUDE = set()
-
-
 # Data about CPUB documents (numbered manually, intended to be in
 # order of first N-document corresponding to a given CPUB document,
 # or, for issue logs not issued or initially issued as an N-document,
@@ -1012,27 +990,22 @@ CPUB_FP_C23_ISSUES = 39
 CPUB_EDUC_UB = 40
 
 
-def generate_autonum_docs(data, doc_class, cutoff_date,
-                          extra_exclude, extra_include):
-    """Generate C-document data from groups of N-documents."""
+def generate_autonum_docs(data, doc_class):
+    """Generate S-document or CADM-document data from groups of N-documents."""
     docs = []
     for nnum, ndata in data.items():
         if ndata['class'] == doc_class:
-            convert_doc = (ndata['date'] >= cutoff_date and nnum not in extra_exclude) or nnum in extra_include
             if int(nnum) != max(int(n) for n in ndata['group']):
                 continue
-            for n in ndata['group']:
-                data[n]['convert-doc'] = convert_doc
-            if convert_doc:
-                cdoc = {
-                    'sortkey': min((data[n]['date'], int(n))
-                                   for n in ndata['group']),
-                    'title': ndata['maintitle'],
-                    'author': ndata['author'],
-                    'nums': sorted(ndata['group'],
-                                   key=lambda x: (data[x]['date'], int(x)))
-                    }
-                docs.append(cdoc)
+            cdoc = {
+                'sortkey': min((data[n]['date'], int(n))
+                               for n in ndata['group']),
+                'title': ndata['maintitle'],
+                'author': ndata['author'],
+                'nums': sorted(ndata['group'],
+                               key=lambda x: (data[x]['date'], int(x)))
+            }
+            docs.append(cdoc)
     docs.sort(key=lambda x: x['sortkey'])
     doc_class_upper = doc_class.upper()
     for doc in docs:
@@ -1685,11 +1658,9 @@ def action_convert():
         for d in dl:
             data[d]['meetings'].add(m)
     classify_docs(data)
-    c_docs = generate_autonum_docs(data, 's', '2023-10-01',
-                                   C_EXTRA_EXCLUDE, C_EXTRA_INCLUDE)
+    c_docs = generate_autonum_docs(data, 's')
     convert_docs(data, 'S', c_docs)
-    cadm_docs = generate_autonum_docs(data, 'cadm', '2023-09-01',
-                                      CADM_EXTRA_EXCLUDE, CADM_EXTRA_INCLUDE)
+    cadm_docs = generate_autonum_docs(data, 'cadm')
     convert_docs(data, 'CADM', cadm_docs)
     cpub_docs, cpubx_docs = generate_cpub_docs(data)
     convert_cpub_docs(data, cpub_docs, cpubx_docs)
@@ -1705,7 +1676,6 @@ def action_convert():
     text_list = []
     all_classes = {}
     url_list = []
-    ndocs = {}
     text_list_meetings = []
     for m, dl in MEETING_TO_DOCS.items():
         for d in dl:
@@ -1731,23 +1701,10 @@ def action_convert():
         if ndata['link'] and ndata['link'].startswith(WG14_BASE):
             url_list.append(ndata['link'][len(WG14_BASE):])
         if 'cid' not in ndata:
-            doc_json = {
-                'author': ndata['author'],
-                'title': ndata['title'],
-                'date': ndata['date'],
-                'ext-id': 'N%s' % nnum,
-                'ext-url': ndata['link'],
-                'meetings': sorted(ndata['meetings'])}
-            ndocs[nnum] = doc_json
-    ndocs_out = []
-    for n in sorted(ndocs.keys(), key=int, reverse=True):
-        ndocs_out.append(ndocs[n])
+            raise ValueError('missing number of N%s' % nnum)
     all_classes_out = []
     for n in sorted(all_classes.keys(), key=int, reverse=True):
         all_classes_out.append(all_classes[n])
-    with open(os.path.join('out', 'papers', 'N-documents.json'), 'w',
-              encoding='utf-8') as f:
-        json.dump(ndocs_out, f, indent=4, sort_keys=True)
     with open('all-classes.json', 'w', encoding='utf-8') as f:
         json.dump(all_classes_out, f, indent=4, sort_keys=True)
     with open('tmp-papers-list.txt', 'w', encoding='utf-8') as f:
