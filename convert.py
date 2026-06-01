@@ -1012,7 +1012,7 @@ CPUB_FP_C23_ISSUES = 39
 CPUB_EDUC_UB = 40
 
 
-def generate_autonum_docs(data, doc_class, start_num, cutoff_date,
+def generate_autonum_docs(data, doc_class, cutoff_date,
                           extra_exclude, extra_include):
     """Generate C-document data from groups of N-documents."""
     docs = []
@@ -1035,7 +1035,8 @@ def generate_autonum_docs(data, doc_class, start_num, cutoff_date,
                 docs.append(cdoc)
     docs.sort(key=lambda x: x['sortkey'])
     doc_class_upper = doc_class.upper()
-    for num, doc in enumerate(docs, start=start_num):
+    for doc in docs:
+        num = int(doc['nums'][0])
         doc['id'] = '%s%d' % (doc_class_upper, num)
         for rev, num in enumerate(doc['nums'], start=1):
             data[num]['cdoc-rev'] = rev
@@ -1684,10 +1685,10 @@ def action_convert():
         for d in dl:
             data[d]['meetings'].add(m)
     classify_docs(data)
-    c_docs = generate_autonum_docs(data, 's', 4000, '2023-10-01',
+    c_docs = generate_autonum_docs(data, 's', '2023-10-01',
                                    C_EXTRA_EXCLUDE, C_EXTRA_INCLUDE)
     convert_docs(data, 'S', c_docs)
-    cadm_docs = generate_autonum_docs(data, 'cadm', 1, '2023-09-01',
+    cadm_docs = generate_autonum_docs(data, 'cadm', '2023-09-01',
                                       CADM_EXTRA_EXCLUDE, CADM_EXTRA_INCLUDE)
     convert_docs(data, 'CADM', cadm_docs)
     cpub_docs, cpubx_docs = generate_cpub_docs(data)
