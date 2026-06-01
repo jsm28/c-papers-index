@@ -113,8 +113,7 @@ previously assigned N-document numbers.
 
 ## All documents
 
-* [All revisions of all documents, reverse-chronological, including
-  N-documents not assigned new document numbers](all-all.html).  This
+* [All revisions of all documents, reverse-chronological](all-all.html).  This
   list does not include early X3J11 documents from before WG14 was set
   up or before all significant C standards committee documents went
   through WG14, but such documents could be added if the relevant data
