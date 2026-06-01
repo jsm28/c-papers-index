@@ -557,6 +557,7 @@ REMAP_TITLE = {
     'Literal functions': 'Function literals',
     'Refactor syntax of directives': 'Refactor syntax of preprocessing directives',
     'Lingua franca Results': 'C Lingua Franca Results',
+    'Stackable, thread local, signal guards': 'Thread-safe signals handling',
     'Modern signals handling': 'Thread-safe signals handling',
     'Thread safe signals handling rev 3': 'Thread-safe signals handling',
     'Functions with Data: Closures in C': 'Functions with Data, Closures in C',
