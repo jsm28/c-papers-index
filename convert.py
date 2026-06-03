@@ -559,7 +559,7 @@ REMAP_TITLE = {
     'Lingua franca Results': 'C Lingua Franca Results',
     'Stackable, thread local, signal guards': 'Thread-safe signals handling',
     'Modern signals handling': 'Thread-safe signals handling',
-    'Thread safe signals handling rev 3': 'Thread-safe signals handling',
+    'Thread safe signals handling': 'Thread-safe signals handling',
     'Functions with Data: Closures in C': 'Functions with Data, Closures in C',
     'Slaying some earthy demons \\- remove UB 28, 29, 30': 'Slaying Some Earthly Demons \\- remove UB 28, 29',
     'Slay Some Earthly Demons XVIII: Remove undefined behavior if there are nonmatching single or double quotes': 'Remove undefined behavior for mismatched quote characters',
@@ -585,7 +585,7 @@ def classify_docs(data):
     for nnum, ndata in data.items():
         ndata['group'] = {nnum}
         m = re.fullmatch(
-            r'(.*?)((?:[. ,(]+(?:(?:[Uu]pdat(?:es?|ing)|[Rr]eplaces)[: ]+(?:[Nnrv] ?[0-9.]+)|(?:[rRvV]|[rR]evision|[vV]ersion)\.? ?[0-9.]+)[. ,\\)]*)+)',
+            r'(.*?)((?:[. ,(]+(?:(?:[Uu]pdat(?:es?|ing)|[Rr]eplaces)[: ]+(?:[Nnrv] ?[0-9.]+)|(?:[rRvV]|[rR]evision|[rR]ev|[vV]ersion)\.? ?[0-9.]+)[. ,\\)]*)+)',
             ndata['title'])
         if m:
             ndata['maintitle'] = m.group(1)
