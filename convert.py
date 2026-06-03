@@ -515,6 +515,16 @@ OVERRIDE_CLASS = {
 
 # Remapping main titles to help in grouping.
 REMAP_TITLE = {
+    'Preliminary C2x Charter': 'C23 Charter Revised with Proposed Schedule',
+    'Updated C2X Charter': 'C23 Charter Revised with Proposed Schedule',
+    'Proposed C23 Schedule': 'Revised C23 Schedule',
+    'Updated WG 14 SD 1': 'Updated Standing Document 1',
+    'Updated standing document 1': 'Updated Standing Document 1',
+    'WG 14 Standing Document 2': 'Updated Standing Document 2',
+    'Updated standing document 2': 'Updated Standing Document 2',
+    'Updated Standing Document 3': 'Standing Document 3',
+    'Standing document 3': 'Standing Document 3',
+    'Updated Standing Document': 'Standing Document 3',
     '`if`declarations': '`if` declarations',
     '`if` declarations, v5, wording improvements': '`if` declarations',
     '`if` declarations, v5.1, wording improvements': '`if` declarations',
@@ -577,6 +587,17 @@ REMAP_TITLE = {
 # paper).
 OVERRIDE_GROUP_TITLE = {
     '3141': 'Composite types 2023'}
+
+
+# Prevent grouping at all for some titles.
+SKIP_GROUP_TITLE = {
+    'MISRA C Liaison Report',
+    "Convener's report",
+    'Liasion report',
+    "Convener's Report and Business Plan",
+    "WG14 Business Plan and Convener's Report",
+    'X3 Subgroup Annual Report'
+    }
 
 
 def classify_docs(data):
@@ -698,6 +719,8 @@ def classify_docs(data):
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
+            if group_title in SKIP_GROUP_TITLE:
+                group_title = nnum + group_title
             if nnum in OVERRIDE_GROUP_TITLE:
                 group_title = OVERRIDE_GROUP_TITLE[nnum]
             by_title[group_title].add(nnum)
@@ -707,6 +730,8 @@ def classify_docs(data):
             group_title = ndata['maintitle']
             if group_title in REMAP_TITLE:
                 group_title = REMAP_TITLE[group_title]
+            if group_title in SKIP_GROUP_TITLE:
+                group_title = nnum + group_title
             if nnum in OVERRIDE_GROUP_TITLE:
                 group_title = OVERRIDE_GROUP_TITLE[nnum]
             ndata['group'].update(by_title[group_title])
