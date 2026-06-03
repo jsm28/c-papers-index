@@ -585,7 +585,7 @@ def classify_docs(data):
     for nnum, ndata in data.items():
         ndata['group'] = {nnum}
         m = re.fullmatch(
-            r'(.*?)((?:[. ,(]+(?:[Uu]pdates?[: ]+(?:[Nnrv][0-9.]+)|(?:[rRvV]|[rR]evision|[vV]ersion)\.? ?[0-9.]+)[. ,)]*)+)',
+            r'(.*?)((?:[. ,(]+(?:(?:[Uu]pdat(?:es?|ing)|[Rr]eplaces)[: ]+(?:[Nnrv] ?[0-9.]+)|(?:[rRvV]|[rR]evision|[vV]ersion)\.? ?[0-9.]+)[. ,\\)]*)+)',
             ndata['title'])
         if m:
             ndata['maintitle'] = m.group(1)
@@ -719,7 +719,7 @@ def classify_docs(data):
                 continue
             if ndata['auxtitle'] is None:
                 continue
-            m = re.search('[Uu]pdates?[: ][Nn]([0-9]+)', ndata['auxtitle'])
+            m = re.search('(?:[Uu]pdat(?:es?|ing)|[Rr]eplaces)[: ][Nn] ?([0-9]+)', ndata['auxtitle'])
             if m:
                 onum = m.group(1)
                 if onum not in ndata['group']:
