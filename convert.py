@@ -530,6 +530,7 @@ REMAP_TITLE = {
     'Updated Standing Document 3': 'Standing Document 3',
     'Standing document 3': 'Standing Document 3',
     'Updated Standing Document': 'Standing Document 3',
+    'Agenda \\- June 11-13, teleconference': 'Final Agenda, teleconference \\- 11-13 June 2012',
     '`if`declarations': '`if` declarations',
     '`if` declarations, v5, wording improvements': '`if` declarations',
     '`if` declarations, v5.1, wording improvements': '`if` declarations',
