@@ -515,9 +515,13 @@ OVERRIDE_CLASS = {
 
 # Remapping main titles to help in grouping.
 REMAP_TITLE = {
+    'Charter for Revising Standard C': 'C9X Revision Charter (Revised)',
+    'Revised Charter for Revising Standard C': 'C9X Revision Charter (Revised)',
+    'Revised Charter Document': 'C9X Revision Charter (Revised)',
     'Preliminary C2x Charter': 'C23 Charter Revised with Proposed Schedule',
     'Updated C2X Charter': 'C23 Charter Revised with Proposed Schedule',
-    'Proposed C23 Schedule': 'Revised C23 Schedule',
+    'Revised C23 Schedule': 'Updated C23 Schedule',
+    'Proposed C23 Schedule': 'Updated C23 Schedule',
     'Updated WG 14 SD 1': 'Updated Standing Document 1',
     'Updated standing document 1': 'Updated Standing Document 1',
     'WG 14 Standing Document 2': 'Updated Standing Document 2',
