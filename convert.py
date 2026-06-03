@@ -522,6 +522,7 @@ REMAP_TITLE = {
     'Updated C2X Charter': 'C23 Charter Revised with Proposed Schedule',
     'Revised C23 Schedule': 'Updated C23 Schedule',
     'Proposed C23 Schedule': 'Updated C23 Schedule',
+    'WG14 and J11 Joint Mailing and Meeting (WG14 Standing document SD 1\\)': 'Updated Standing Document 1',
     'Updated WG 14 SD 1': 'Updated Standing Document 1',
     'Updated standing document 1': 'Updated Standing Document 1',
     'WG 14 Standing Document 2': 'Updated Standing Document 2',
