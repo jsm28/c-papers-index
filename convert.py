@@ -530,6 +530,7 @@ REMAP_TITLE = {
     'Updated Standing Document 3': 'Standing Document 3',
     'Standing document 3': 'Standing Document 3',
     'Updated Standing Document': 'Standing Document 3',
+    'Length modifiers for Unicode character and string types': 'Unicode Length Modifiers',
     'C23 proposal \\- 5.2.4.2.2 cleanup-update': 'C23 proposal \\- 5.2.4.2.2 cleanup',
     'C23 proposal \\- 5.2.4.2.2 cleanup (N2672 update)': 'C23 proposal \\- 5.2.4.2.2 cleanup',
     'C23 proposal \\- overflow and underflow definitions-update': 'C23 proposal \\- overflow and underflow definitions',
