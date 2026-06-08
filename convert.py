@@ -638,7 +638,9 @@ REMAP_TITLE = {
     'Ghosts and Demons: Undefined Behavior in C2Y (Status 26-03-16)': 'Ghosts and Demons: Undefined Behavior in C2Y (Status)',
     'Wording for "Type Compatibility: Ghosts, Readability, and A Missing Rule for Atomic"': 'Type Compatibility: Ghosts, Readability, and A Missing Rule for Atomic',
     'Wording for "Ghost: Lvalues that do not designate an object"': 'Ghost: Lvalues that do not designate an object',
-    'Wording for "discarded"': 'Discarded'}
+    'Wording for "discarded"': 'Discarded',
+    'Wording for "Local functions"': 'Local functions',
+    'incompatible array parameter': 'incompatible array parameters'}
 
 
 # Override titles for grouping (same title used for more than one
