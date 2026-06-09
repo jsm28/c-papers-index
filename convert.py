@@ -530,6 +530,7 @@ REMAP_TITLE = {
     'Updated Standing Document 3': 'Standing Document 3',
     'Standing document 3': 'Standing Document 3',
     'Updated Standing Document': 'Standing Document 3',
+    'lvalue closures': 'Lvalue closures',
     'simple lambdas': 'Simple lambdas',
     'type-generic lambdas': 'Type-generic lambdas',
     '@ in basic source character set': '@ and $ in source and execution character set',
