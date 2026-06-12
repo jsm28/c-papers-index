@@ -530,6 +530,13 @@ REMAP_TITLE = {
     'Updated Standing Document 3': 'Standing Document 3',
     'Standing document 3': 'Standing Document 3',
     'Updated Standing Document': 'Standing Document 3',
+    'Revised N2559 update for IEC 60559 2020': 'C2X proposal \\- Update to IEC 60559 2020',
+    'Removal of Deprecated Functions': 'C2X Liaison: Removal of Deprecated Functions',
+    'C2X proposal \\- TS 18661-3 annex update 3': 'C2X proposal \\- TS 18661-3 annex update',
+    'C2X proposal \\- TS 18661-3 annex update 2': 'C2X proposal \\- TS 18661-3 annex update',
+    'Specific bit-width conversion specifiers': 'Specific-width length modifier',
+    'Specific bit-width length modifier': 'Specific-width length modifier',
+    'Towards Integer Safety (updated from Oct meeting)': 'Towards Integer Safety',
     'lvalue closures': 'Lvalue closures',
     'simple lambdas': 'Simple lambdas',
     'type-generic lambdas': 'Type-generic lambdas',
@@ -650,7 +657,10 @@ REMAP_TITLE = {
 # Override titles for grouping (same title used for more than one
 # paper).
 OVERRIDE_GROUP_TITLE = {
-    '3141': 'Composite types 2023'}
+    '3141': 'Composite types 2023',
+    # Erroneous title in document log.
+    '2586': 'footnote about sufficient formatting precision',
+    '2640': 'Missing DEC_EVAL_METHOD 2021'}
 
 
 # Prevent grouping at all for some titles.
