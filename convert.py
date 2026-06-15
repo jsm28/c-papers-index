@@ -530,6 +530,8 @@ REMAP_TITLE = {
     'Updated Standing Document 3': 'Standing Document 3',
     'Standing document 3': 'Standing Document 3',
     'Updated Standing Document': 'Standing Document 3',
+    'A Common C/C\\+\\+ Core Specification': 'a common C/C\\+\\+ core specification',
+    'Const functions': 'Unsequenced functions',
     'Revised N2559 update for IEC 60559 2020': 'C2X proposal \\- Update to IEC 60559 2020',
     'Removal of Deprecated Functions': 'C2X Liaison: Removal of Deprecated Functions',
     'C2X proposal \\- TS 18661-3 annex update 3': 'C2X proposal \\- TS 18661-3 annex update',
@@ -660,7 +662,8 @@ OVERRIDE_GROUP_TITLE = {
     '3141': 'Composite types 2023',
     # Erroneous title in document log.
     '2586': 'footnote about sufficient formatting precision',
-    '2640': 'Missing DEC_EVAL_METHOD 2021'}
+    '2640': 'Missing DEC_EVAL_METHOD 2021',
+    '2589': 'Defer Mechanism for C (slides)'}
 
 
 # Prevent grouping at all for some titles.
