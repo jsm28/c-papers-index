@@ -530,6 +530,8 @@ REMAP_TITLE = {
     'Updated Standing Document 3': 'Standing Document 3',
     'Standing document 3': 'Standing Document 3',
     'Updated Standing Document': 'Standing Document 3',
+    'C support for IEEE 754-201x': 'C support for ISO/IEC 60559:2020',
+    'Adding Fundamental Type for N-bit integers': 'Adding Fundamental Type for N-bit Integers',
     'A Common C/C\\+\\+ Core Specification': 'a common C/C\\+\\+ core specification',
     'Const functions': 'Unsequenced functions',
     'Revised N2559 update for IEC 60559 2020': 'C2X proposal \\- Update to IEC 60559 2020',
@@ -683,11 +685,11 @@ def classify_docs(data):
     for nnum, ndata in data.items():
         ndata['group'] = {nnum}
         m = re.fullmatch(
-            r'(.*?)((?:[. ,(]+(?:(?:[Uu]pdat(?:es?|ing)|[Rr]eplaces)[: ]+(?:[Nnrv] ?[0-9.]+)|(?:[rRvV]|[rR]evision|[rR]ev|[vV]ersion)\.? ?[0-9.]+)[. ,\\)]*)+)',
+            r'(.*?)((?:[-\\. ,(]+(?:(?:[Uu]pdat(?:es?|ing)|[Rr]eplaces)[: ]+(?:[Nnrv] ?[0-9.]+)|(?:[rRvV]|[rR]evision|[rR]ev|[vV]ersion)\.? ?[0-9.]+)[. ,\\)]*)+)',
             ndata['title'])
         if m:
             ndata['maintitle'] = m.group(1)
-            ndata['auxtitle'] = m.group(2).lstrip(' ,.')
+            ndata['auxtitle'] = m.group(2).lstrip(' ,.-\\')
             if ndata['auxtitle'].startswith('(') and ndata['auxtitle'].endswith(')'):
                 ndata['auxtitle'] = ndata['auxtitle'].lstrip('(').rstrip(')')
         else:
