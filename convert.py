@@ -530,6 +530,8 @@ REMAP_TITLE = {
     'Updated Standing Document 3': 'Standing Document 3',
     'Standing document 3': 'Standing Document 3',
     'Updated Standing Document': 'Standing Document 3',
+    'Compatibility of enums, structures, and unions in the same translation unit': 'Improved Rules for Tag Compatibility',
+    'SD3 1: DR 440: Test macros for FP being 754 types': 'SD3#1 (DR 440): FP types being 60559',
     'C2x proposal \\- TS 18661-4a \\- mathematical functions': 'TS 18661-4a for C2X',
     'C2X proposal \\- TS 18661-4a': 'TS 18661-4a for C2X',
     "Signed integers are two's complement": "Two's complement sign representation for C2x",
