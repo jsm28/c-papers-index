@@ -677,7 +677,8 @@ REMAP_TITLE = {
     'Wording for "Local functions"': 'Local functions',
     'incompatible array parameter': 'incompatible array parameters',
     'Discarded, VI': 'Discarded',
-    'Slaying Some Earthly Demons \\- remove UB 30 \\- Approach 2': 'Slaying Some Earthly Demons \\- remove UB 30 \\- approach 2'}
+    'Slaying Some Earthly Demons \\- remove UB 30 \\- Approach 2': 'Slaying Some Earthly Demons \\- remove UB 30 \\- approach 2',
+    'Wording for "Function literals"': 'Function literals'}
 
 
 # Override titles for grouping (same title used for more than one
