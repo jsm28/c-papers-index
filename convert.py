@@ -172,6 +172,7 @@ def get_ndoc_data():
 # Documents where the default classification based on heuristics
 # applied to the title should be overridden.
 OVERRIDE_CLASS = {
+    '3939': 'cadm',
     '3822': 'cadm',
     '3584': 'cm',
     '3408': 'cadm',
@@ -632,6 +633,7 @@ REMAP_TITLE = {
     'New nelementsof() operator': 'New \\_Lengthof() operator',
     '\\_Lengthof \\- New pointer-proof keyword to determine array length': 'New \\_Lengthof() operator',
     'The `void`-_which-binds_, v2: typesafe parametric polymorphism': 'The `void`-_which-binds_: typesafe parametric polymorphism',
+    'The `void`-_which-binds_, v3: typesafe parametric polymorphism': 'The `void`-_which-binds_: typesafe parametric polymorphism',
     'embed Synchronization': '#embed Synchronization',
     'Literal suffixes for size\\_t': 'Literal Suffixes for size\\_t',
     'C2y fopen "p" and bring fopen’s mode closer to POSIX': 'fopen "p" and bring fopen’s mode closer to POSIX 202x',
@@ -663,6 +665,7 @@ REMAP_TITLE = {
     'Stackable, thread local, signal guards': 'Thread-safe signals handling',
     'Modern signals handling': 'Thread-safe signals handling',
     'Thread safe signals handling': 'Thread-safe signals handling',
+    'Wording for “Thread-safe signals handling rev 4”': 'Thread-safe signals handling',
     'Functions with Data: Closures in C': 'Functions with Data, Closures in C',
     'Slaying some earthy demons \\- remove UB 28, 29, 30': 'Slaying Some Earthly Demons \\- remove UB 28, 29',
     'Slay Some Earthly Demons XVIII: Remove undefined behavior if there are nonmatching single or double quotes': 'Remove undefined behavior for mismatched quote characters',
