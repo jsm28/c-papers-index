@@ -1632,7 +1632,7 @@ def generate_meeting_docs(data, doc_class):
             title_words = re.split("[-\\\\ .,/'()]", ndata['maintitle'])
             month = None
             year = None
-            for y in range(1986, 2027):
+            for y in range(1986, 2028):
                 if str(y) in title_words:
                     year = str(y)
                     break
