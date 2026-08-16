@@ -1075,7 +1075,11 @@ CPUB_DOCS = [
     # CPUB40
     { 'title': 'Undefined Behavior in the C Programming Language',
       'editions': [{'number': 1,
-                    'desc-md': '' }]}
+                    'desc-md': '' }]},
+    # CPUB41
+    { 'title': 'Programming Languages — C — \\_Optional, a type qualifier to indicate nullability',
+      'editions': [{ 'number': 1,
+                     'desc-md': 'Under development as draft TS 26716.' }] },
     ]
 
 
@@ -1119,6 +1123,7 @@ CPUB_DEFER = 37
 CPUB_C23_ISSUES = 38
 CPUB_FP_C23_ISSUES = 39
 CPUB_EDUC_UB = 40
+CPUB_OPTIONAL = 41
 
 
 def generate_autonum_docs(data, doc_class):
@@ -1279,6 +1284,8 @@ def generate_cpub_docs(data):
                 pub = CPUB_DEFER
             elif 'function' in ltitle:
                 pub = CPUB_FUNC
+            elif 'optional' in ltitle:
+                pub = CPUB_OPTIONAL
             elif 'educational undefined behavior' in ltitle:
                 pub = CPUB_EDUC_UB
             elif 'undefined' in ltitle:
