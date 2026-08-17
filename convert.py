@@ -681,7 +681,8 @@ REMAP_TITLE = {
     'incompatible array parameter': 'incompatible array parameters',
     'Discarded, VI': 'Discarded',
     'Slaying Some Earthly Demons \\- remove UB 30 \\- Approach 2': 'Slaying Some Earthly Demons \\- remove UB 30 \\- approach 2',
-    'Wording for "Function literals"': 'Function literals'}
+    'Wording for "Function literals"': 'Function literals',
+    'compile\\_assert – optimization-enforced conditions at compile time': 'compile\\_assert() – compile-time constraint enforcement'}
 
 
 # Override titles for grouping (same title used for more than one
