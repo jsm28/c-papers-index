@@ -97,7 +97,8 @@ def get_ndoc_data():
                         or link.startswith(exp_url_2)
                         or link.startswith(exp_url_3)
                         or link.startswith(exp_url_4)):
-                    print('unexpected URL for N%s: %s' % (nnum, link))
+                    raise ValueError(
+                        'unexpected URL for N%s: %s' % (nnum, link))
             else:
                 raise ValueError('could not parse line: %s' % line)
         if line == 'Not assigned.':
@@ -587,7 +588,7 @@ REMAP_TITLE = {
     'Not-so-magic \\- typeof() for C': 'Not-so-magic: typeof',
     'Not-So-Magic: typeof()': 'Not-so-magic: typeof',
     'Not-so-Magic: typeof() for C': 'Not-so-magic: typeof',
-    'C23 proposal \\- Type annex tgmah.h narrowing macros with integer args': 'C23 proposal \\- Type annex tgmath narrowing macros with integer args',
+    'C23 proposal \\- Type annex tgmath.h narrowing macros with integer args': 'C23 proposal \\- Type annex tgmath narrowing macros with integer args',
     'Identifier \\- primary expression': 'Identifier \\- Primary expression',
     'type inference for variable definitions and function returns': 'Type inference for object definitions',
     'Type inference for variable definitions and function returns': 'Type inference for object definitions',
@@ -667,13 +668,14 @@ REMAP_TITLE = {
     'Thread safe signals handling': 'Thread-safe signals handling',
     'Wording for “Thread-safe signals handling rev 4”': 'Thread-safe signals handling',
     'Functions with Data: Closures in C': 'Functions with Data, Closures in C',
-    'Slaying some earthy demons \\- remove UB 28, 29, 30': 'Slaying Some Earthly Demons \\- remove UB 28, 29',
+    'Slaying some earthly demons \\- remove UB 28, 29': 'Slaying Some Earthly Demons \\- remove UB 28, 29',
     'Slay Some Earthly Demons XVIII: Remove undefined behavior if there are nonmatching single or double quotes': 'Remove undefined behavior for mismatched quote characters',
     'Slay Some Earthly Demons XIX: Remove undefined behavior if a character not in the basic source character set is encountered in a source file, excluding valid exceptions': 'Remove undefined behavior for non-basic source characters in source files (modified)',
     'Remove undefined behavior for non-basic source characters in source files' : 'Remove undefined behavior for non-basic source characters in source files (modified)',
     'Slay Some Earthly Demons XX: Remove undefined behavior if an identifier, comment, string literal, character constant, or header name contains an invalid multibyte character or does not begin and end in the initial shift state exceptions': 'Remove undefined behavior for invalid multibyte characters and non-initial shift states in preprocessing tokens and header names',
     'Ghosts and Demons: Undefined Behavior in the C2Y Core Language (Status Update)': 'Ghosts and Demons: Undefined Behavior in C2Y (Status)',
     'Ghosts and Demons: Undefined Behavior in C2Y (Status 26-03-16)': 'Ghosts and Demons: Undefined Behavior in C2Y (Status)',
+    'Ghosts and Demons: Undefined Behavior in C2Y (Status 26-08-23)': 'Ghosts and Demons: Undefined Behavior in C2Y (Status)',
     'Wording for "Type Compatibility: Ghosts, Readability, and A Missing Rule for Atomic"': 'Type Compatibility: Ghosts, Readability, and A Missing Rule for Atomic',
     'Wording for "Ghost: Lvalues that do not designate an object"': 'Ghost: Lvalues that do not designate an object',
     'Wording for "discarded"': 'Discarded',
@@ -782,9 +784,6 @@ def classify_docs(data):
             ndata['class'] = 'cma'
         elif 'minutes' in ndata['maintitle'].lower():
             ndata['class'] = 'cmm'
-        elif 'agneda' in ndata['maintitle'].lower():
-            # Typo in papers list.
-            ndata['class'] = 'cma'
         elif 'venue' in ndata['maintitle'].lower():
             ndata['class'] = 'cm'
         elif 'invitation' in ndata['maintitle'].lower():
@@ -1385,13 +1384,9 @@ OVERRIDE_DATE = {
     '2950': '202203.2',
     '2949': '202203.1',
     '2943': '202203.1',
-    # Typo in date in document list.
-    '2925': '202201',
     '2921': '202111',
     '2691': '202011',
     '2690': '202103',
-    # Typo in date in document list.
-    '2648': '202101',
     '2628': '202011',
     '2605': '202010',
     '2519': '202003',
@@ -1410,8 +1405,6 @@ OVERRIDE_DATE = {
     '1983': '201604',
     '1900': '201410',
     '1840': '201406',
-    # Typo in date in document list.
-    '1828': '201404',
     '1820': '201404',
     '1819': '201309',
     '1799': '201410',
@@ -1425,16 +1418,10 @@ OVERRIDE_DATE = {
     '1640': '201304',
     '1604': '201202',
     '1603': '201110',
-    # Typo in date in document list.
-    '1597': '201202',
-    # Typo in date in document list.
-    '1589': '201202',
     '1588': '201110',
     '1587': '201103',
     '1557': '201011',
     '1542': '201005',
-    # Typo in date in document list.
-    '1449': '201004',
     '1475': '200910',
     '1375': '200809',
     '1231': '200704',
