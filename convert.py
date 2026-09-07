@@ -691,8 +691,6 @@ REMAP_TITLE = {
 # paper).
 OVERRIDE_GROUP_TITLE = {
     '3141': 'Composite types 2023',
-    # Erroneous title in document log.
-    '2586': 'footnote about sufficient formatting precision',
     '2640': 'Missing DEC_EVAL_METHOD 2021',
     '2589': 'Defer Mechanism for C (slides)'}
 
