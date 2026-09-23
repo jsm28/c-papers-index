@@ -1079,6 +1079,10 @@ CPUB_DOCS = [
     { 'title': 'Programming Languages — C — \\_Optional, a type qualifier to indicate nullability',
       'editions': [{ 'number': 1,
                      'desc-md': 'Under development as draft TS 26716.' }] },
+    # CPUB42
+    { 'title': 'C2Y issue log',
+      'editions': [{ 'number': 1,
+                     'desc-md': 'Issued only as a committee document.' }] },
     ]
 
 
@@ -1123,6 +1127,7 @@ CPUB_C23_ISSUES = 38
 CPUB_FP_C23_ISSUES = 39
 CPUB_EDUC_UB = 40
 CPUB_OPTIONAL = 41
+CPUB_C2Y_ISSUES = 42
 
 
 def generate_autonum_docs(data, doc_class):
@@ -1299,6 +1304,8 @@ def generate_cpub_docs(data):
                 pub = CPUB_C23_ISSUES
             elif 'ts 18661 (c23 version, 2025\\) issue log' in ltitle:
                 pub = CPUB_FP_C23_ISSUES
+            elif 'c2y issue log' in ltitle:
+                pub = CPUB_C2Y_ISSUES
             else:
                 pub = CPUB_STD
             if nnum in OVERRIDE_CPUB:
