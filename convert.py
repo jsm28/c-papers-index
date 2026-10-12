@@ -696,7 +696,9 @@ REMAP_TITLE = {
     'Slaying Some Earthly Demons \\- remove UB 30 \\- Approach 2': 'Slaying Some Earthly Demons \\- remove UB 30 \\- approach 2',
     'Wording for "Function literals"': 'Function literals',
     'compile\\_assert – optimization-enforced conditions at compile time': 'compile\\_assert() – compile-time constraint enforcement',
-    'array ICE subscript out of bounds': 'Array ICE subscript out of bounds'}
+    'array ICE subscript out of bounds': 'Array ICE subscript out of bounds',
+    'similar types': 'comparable types',
+    'adopt qualifier conversion rules from C\\+\\+98': 'Adopt qualifier conversion rules from C\\+\\+'}
 
 
 # Override titles for grouping (same title used for more than one
