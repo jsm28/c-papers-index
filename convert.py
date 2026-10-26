@@ -698,7 +698,9 @@ REMAP_TITLE = {
     'compile\\_assert – optimization-enforced conditions at compile time': 'compile\\_assert() – compile-time constraint enforcement',
     'array ICE subscript out of bounds': 'Array ICE subscript out of bounds',
     'similar types': 'comparable types',
-    'adopt qualifier conversion rules from C\\+\\+98': 'Adopt qualifier conversion rules from C\\+\\+'}
+    'adopt qualifier conversion rules from C\\+\\+98': 'Adopt qualifier conversion rules from C\\+\\+',
+    'Wording for "Constexpr function and object pointer initialisation"': 'Constexpr function pointer initialisation',
+    'Wording for "Remove undefined behavior for mismatched quote characters"': 'Remove undefined behavior for mismatched quote characters'}
 
 
 # Override titles for grouping (same title used for more than one
