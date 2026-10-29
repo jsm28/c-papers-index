@@ -167,8 +167,8 @@ def table_line_for_rev(rev, show_num, all_data):
     else:
         minutes_txt = ' '
     return ('|%s|%s|%s|%s|%s|%s|\n'
-            % (n, link, rev['author'], rev['date'], rev['title-md'],
-               minutes_txt))
+            % (n, link, ', '.join(rev['authors-md']), rev['date'],
+               rev['title-md'], minutes_txt))
 
 
 def write_chron(all_data, filename, title, classes):
@@ -200,7 +200,8 @@ def do_format_simple(all_data, doc_class):
                     '|-|-|-|-|-|-|\n')
     for n in sorted(data.keys(), key=split_doc_id, reverse=True):
         cdoc = data[n]
-        out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'], cdoc['author'],
+        out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'],
+                                                ', '.join(cdoc['authors-md']),
                                                 cdoc['title-md']))
         for rev in reversed(cdoc['revisions']):
             out_list.append(table_line_for_rev(rev, False, all_data))
@@ -284,7 +285,8 @@ def do_format_cm(all_data):
                     '|-|-|-|-|-|-|\n')
     for n in sorted(data.keys(), key=split_doc_id_rev, reverse=True):
         cdoc = data[n]
-        out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'], cdoc['author'],
+        out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'],
+                                                ', '.join(cdoc['authors-md']),
                                                 cdoc['title-md']))
         for rev in reversed(cdoc['revisions']):
             out_list.append(table_line_for_rev(rev, False, all_data))
@@ -334,7 +336,8 @@ def do_format_cfptc(all_data):
                     '|-|-|-|-|-|-|\n')
     for n in sorted(data.keys(), key=split_doc_id_rev, reverse=True):
         cdoc = data[n]
-        out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'], cdoc['author'],
+        out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'],
+                                                ', '.join(cdoc['authors-md']),
                                                 cdoc['title-md']))
         for rev in reversed(cdoc['revisions']):
             out_list.append(table_line_for_rev(rev, False, all_data))

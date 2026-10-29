@@ -164,7 +164,7 @@ def get_ndoc_data():
             raise ValueError('duplicate N%s' % nnum)
         data[nnum] = {'link': link,
                       'date': date,
-                      'author': author,
+                      'authors': [author],
                       'title': title,
                       'meetings': set()}
     return data
@@ -1156,7 +1156,7 @@ def generate_autonum_docs(data, doc_class):
                 'sortkey': min((data[n]['date'], int(n))
                                for n in ndata['group']),
                 'title': ndata['maintitle'],
-                'author': ndata['author'],
+                'authors': ndata['authors'],
                 'nums': sorted(ndata['group'],
                                key=lambda x: (data[x]['date'], int(x)))
             }
@@ -1361,7 +1361,7 @@ def generate_cpub_docs(data):
             ndata = data[num]
             doc = {
                 'id': 'CPUBX%dx%d' % (n, x),
-                'author': ndata['author'],
+                'authors': ndata['authors'],
                 'title-md': ndata['title'],
                 'nums': [num]}
             for rev, num_sub in enumerate(doc['nums'], start=1):
@@ -1714,13 +1714,13 @@ def generate_meeting_docs(data, doc_class):
             for xnum, nnum in enumerate(nums, start=1):
                 doc = {
                     'id': '%s%sx%d' % (doc_class_upper, k, xnum),
-                    'author': data[nnum]['author'],
+                    'authors': data[nnum]['authors'],
                     'title': data[nnum]['title'],
                     'nums': [nnum]}
                 if nnum in group_contents:
                     doc['nums'] = group_contents[nnum]
                     ldata = data[doc['nums'][-1]]
-                    doc['author'] = ldata['author']
+                    doc['authors'] = ldata['authors']
                     doc['title'] = ldata['title']
                     for r, nn in enumerate(group_contents[nnum], start=1):
                         data[nn]['cdoc-rev'] = r
@@ -1734,7 +1734,7 @@ def generate_meeting_docs(data, doc_class):
             last_ndata = data[nums[-1]]
             doc = {
                 'id': '%s%s' % (doc_class_upper, k),
-                'author': last_ndata['author'],
+                'authors': last_ndata['authors'],
                 'title': last_ndata['title'],
                 'nums': nums}
             for rev, num_sub in enumerate(nums, start=1):
@@ -1748,7 +1748,7 @@ def convert_docs(data, doc_class, doc_list):
     for doc in doc_list:
         doc_json = {
             'id': doc['id'],
-            'author': doc['author'],
+            'authors-md': doc['authors'],
             'title-md': doc['title'],
             'revisions': []}
         for n in doc['nums']:
@@ -1757,7 +1757,7 @@ def convert_docs(data, doc_class, doc_list):
                 'rev-id': 'r%d' % ndata['cdoc-rev'],
                 'id': '%sr%d' % (doc['id'], ndata['cdoc-rev']),
                 'doc-id': doc['id'],
-                'author': ndata['author'],
+                'authors-md': ndata['authors'],
                 'title-md': ndata['title'],
                 'date': ndata['date'],
                 'wg14-ndoc-id': 'N%s' % n,
@@ -1796,7 +1796,7 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
                     'doc-id': doc['id'],
                     'edition-id': '%se%d' % (doc['id'], e['edition-num']),
                     'edition-num': e['edition-num'],
-                    'author': ndata['author'],
+                    'authors-md': ndata['authors'],
                     'title-md': ndata['title'],
                     'date': ndata['date'],
                     'wg14-ndoc-id': 'N%s' % n,
@@ -1813,7 +1813,7 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
     for doc in xdoc_list:
         doc_json = {
             'id': doc['id'],
-            'author': doc['author'],
+            'authors-md': doc['authors'],
             'title-md': doc['title-md'],
             'revisions': []}
         for n in doc['nums']:
@@ -1823,7 +1823,7 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
                 'id': '%sr%d' % (doc['id'], ndata['cdoc-rev']),
                 'doc-id': doc['id'],
                 'cpub-edition': ndata['cpub-edition'],
-                'author': ndata['author'],
+                'authors-md': ndata['authors'],
                 'title-md': ndata['title'],
                 'date': ndata['date'],
                 'wg14-ndoc-id': 'N%s' % n,
@@ -1869,14 +1869,15 @@ def action_convert():
             ddata = data[d]
             text_list_meetings.append(
                 '%s: N%s %s %s, %s'
-                % (m, d, ddata['date'], ddata['author'], ddata['title']))
+                % (m, d, ddata['date'], '/'.join(ddata['authors']),
+                   ddata['title']))
     for nnum, ndata in data.items():
         text_list.append('%s\tN%s %s %s, %s'
                          % (ndata['cid'] if 'cid' in ndata else ndata['class'],
-                            nnum, ndata['date'], ndata['author'],
+                            nnum, ndata['date'], '/'.join(ndata['authors']),
                             ndata['title']))
         all_classes[nnum] = {
-            'author': ndata['author'],
+            'authors-md': ndata['authors'],
             'title-md': ndata['title'],
             'date': ndata['date'],
             'wg14-ndoc-id': 'N%s' % nnum,
