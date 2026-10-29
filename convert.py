@@ -162,9 +162,16 @@ def get_ndoc_data():
             title = convert_to_md(title)
         if nnum in data:
             raise ValueError('duplicate N%s' % nnum)
+        if title.startswith('et al., '):
+            author = author + ', et al.'
+            title = title[len('et al., '):]
+        if author.startswith('JTC1/') or author.startswith('ISO/') or author.startswith('SC2/'):
+            author = [author]
+        else:
+            author = re.split('/| and ', author)
         data[nnum] = {'link': link,
                       'date': date,
-                      'authors': [author],
+                      'authors': author,
                       'title': title,
                       'meetings': set()}
     return data
