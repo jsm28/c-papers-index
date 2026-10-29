@@ -135,11 +135,11 @@ def link_for_rev(rev, link_text=None):
     if link_text is not None:
         pass
     elif 'rev-id' in rev:
-        link_text = '%s\u00a0(%s)' % (rev['rev-id'], rev['ext-id'])
+        link_text = '%s\u00a0(%s)' % (rev['rev-id'], rev['wg14-ndoc-id'])
     else:
-        link_text = rev['ext-id']
-    if rev['ext-url']:
-        link = '[%s](%s)' % (link_text, rev['ext-url'])
+        link_text = rev['wg14-ndoc-id']
+    if rev['url']:
+        link = '[%s](%s)' % (link_text, rev['url'])
     else:
         link = link_text
     return link
@@ -167,7 +167,8 @@ def table_line_for_rev(rev, show_num, all_data):
     else:
         minutes_txt = ' '
     return ('|%s|%s|%s|%s|%s|%s|\n'
-            % (n, link, rev['author'], rev['date'], rev['title'], minutes_txt))
+            % (n, link, rev['author'], rev['date'], rev['title-md'],
+               minutes_txt))
 
 
 def write_chron(all_data, filename, title, classes):
@@ -200,7 +201,7 @@ def do_format_simple(all_data, doc_class):
     for n in sorted(data.keys(), key=split_doc_id, reverse=True):
         cdoc = data[n]
         out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'], cdoc['author'],
-                                                cdoc['title']))
+                                                cdoc['title-md']))
         for rev in reversed(cdoc['revisions']):
             out_list.append(table_line_for_rev(rev, False, all_data))
     write_md(
@@ -229,11 +230,11 @@ def do_format_cpub(all_data):
     out_list = ['# Prototype CPUB and CPUBX document list by document number\n\n']
     for n in sorted(cpub_data.keys(), key=split_doc_id):
         out_list.append('## %s: %s\n\n' % (cpub_data[n]['id'],
-                                           cpub_data[n]['title']))
+                                           cpub_data[n]['title-md']))
         for e in reversed(cpub_data[n]['editions']):
-            if 'title' in e:
+            if 'title-md' in e:
                 out_list.append('### Edition %d: %s\n\n' % (e['edition-num'],
-                                                            e['title']))
+                                                            e['title-md']))
             else:
                 out_list.append('### Edition %d\n\n' % e['edition-num'])
             out_list.append('%s\n\n' % e['desc-md'])
@@ -284,7 +285,7 @@ def do_format_cm(all_data):
     for n in sorted(data.keys(), key=split_doc_id_rev, reverse=True):
         cdoc = data[n]
         out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'], cdoc['author'],
-                                                cdoc['title']))
+                                                cdoc['title-md']))
         for rev in reversed(cdoc['revisions']):
             out_list.append(table_line_for_rev(rev, False, all_data))
     write_md(
@@ -334,7 +335,7 @@ def do_format_cfptc(all_data):
     for n in sorted(data.keys(), key=split_doc_id_rev, reverse=True):
         cdoc = data[n]
         out_list.append('|%s| |%s| |%s| |\n' % (cdoc['id'], cdoc['author'],
-                                                cdoc['title']))
+                                                cdoc['title-md']))
         for rev in reversed(cdoc['revisions']):
             out_list.append(table_line_for_rev(rev, False, all_data))
     write_md(
@@ -361,8 +362,8 @@ def do_format_global(all_data):
                     '|-|-|-|-|-|-|\n')
     for rev_id in sorted(
             (k for k in all_data.by_rev.keys()
-             if 'ext-id' in all_data.by_rev[k]),
-            key=lambda k: split_doc_id(all_data.by_rev[k]['ext-id']),
+             if 'wg14-ndoc-id' in all_data.by_rev[k]),
+            key=lambda k: split_doc_id(all_data.by_rev[k]['wg14-ndoc-id']),
             reverse=True):
         out_list.append(table_line_for_rev(all_data.by_rev[rev_id], True,
                                            all_data))

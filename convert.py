@@ -884,7 +884,7 @@ def classify_docs(data):
 # edition rather than a previous edition.
 CPUB_DOCS = [
     # CPUB1
-    { 'title': 'Programming languages — C',
+    { 'title-md': 'Programming languages — C',
       'editions': [{ 'number': 0,
                      'title-md': 'C89',
                      'desc-md': 'Published as ANSI X3.159-1989.  Adopted as [FIPS PUB 160](https://nvlpubs.nist.gov/nistpubs/Legacy/FIPS/fipspub160.pdf), available online from NIST.'},
@@ -912,7 +912,7 @@ CPUB_DOCS = [
                      'title-md': 'C2y',
                      'desc-md': ''}] },
     # CPUB2
-    { 'title': 'Rationale for Programming languages — C',
+    { 'title-md': 'Rationale for Programming languages — C',
       'editions': [{ 'number': 0,
                      'title-md': 'C89 Rationale',
                      'desc-md': 'Included with ANSI C3.159-1989.  [Available online from NIST](https://nvlpubs.nist.gov/nistpubs/Legacy/FIPS/fipspub160.pdf#page=235).' },
@@ -921,181 +921,181 @@ CPUB_DOCS = [
                      'title-md': 'C99 Rationale',
                      'desc-md': '[Available online](https://www.open-std.org/jtc1/sc22/wg14/www/C99RationaleV5.10.pdf).'}] },
     # CPUB3
-    { 'title': 'Amendment 1: C Integrity',
+    { 'title-md': 'Amendment 1: C Integrity',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (1995-04-01) as ISO/IEC 9899:1990/Amd 1:1995.  Integrated into C99.' }] },
     # CPUB4
-    { 'title': 'C90 issue log',
+    { 'title-md': 'C90 issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'The [final issue log](https://www.open-std.org/jtc1/sc22/wg14/www/docs/dr.htm) is available.  Individual committee documents listed may correspond to different parts of older versions of the log, with later ones not always containing all the issues from earlier ones.' }] },
     # CPUB5
-    { 'title': 'C90 Technical Corrigendum 1',
+    { 'title-md': 'C90 Technical Corrigendum 1',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (1994-09-15) as ISO/IEC 9899:1990/Cor 1:1994.' },
                    { 'number': 2,
                      'cutoff': '1996-01-01',
                      'desc-md': 'Corrected and reprinted (1995-09-15).  Integrated into C99.' }] },
     # CPUB6
-    { 'title': 'Numerical C Extensions',
+    { 'title-md': 'Numerical C Extensions',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published as X3/TR-17:1995 (?).  Most parts integrated into C99.' }] },
     # CPUB7
-    { 'title': 'C90 Technical Corrigendum 2',
+    { 'title-md': 'C90 Technical Corrigendum 2',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (1996-04-01) as ISO/IEC 9899:1990/Cor 2:1996.  Integrated into C99.' }] },
     # CPUB8
-    { 'title': 'Programming languages — C — Extensions to support embedded processors',
+    { 'title-md': 'Programming languages — C — Extensions to support embedded processors',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2004-07-15) as ISO/IEC TR 18037:2004.' },
                    { 'number': 2,
                      'cutoff': '2005-01-01',
                      'desc-md': 'Published (2008-06-15) as ISO/IEC TR 18037:2008.' }] },
     # CPUB9
-    { 'title': 'C99 issue log',
+    { 'title-md': 'C99 issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'The [final issue log](https://www.open-std.org/jtc1/sc22/wg14/www/docs/summary-c99.htm) is available.  Individual committee documents here relate to this log, but do not correspond to older versions of it.' }] },
     # CPUB10
-    { 'title': 'C99 Technical Corrigendum 1',
+    { 'title-md': 'C99 Technical Corrigendum 1',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2001-09-01) as ISO/IEC 9899:1999/Cor 1:2001.  Integrated into C11.' }] },
     # CPUB11
-    { 'title': 'Extensions for the programming language C to support new character data types',
+    { 'title-md': 'Extensions for the programming language C to support new character data types',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2004-07-15) as ISO/IEC TR 19769:2004.  Integrated into C11.' }] },
     # CPUB12
-    { 'title': 'Extension for the programming language C to support decimal floating-point arithmetic',
+    { 'title-md': 'Extension for the programming language C to support decimal floating-point arithmetic',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2009-01-15) as ISO/IEC TR 24732:2009.  Superseded by TS 18661-2.' }] },
     # CPUB13
-    { 'title': 'Extensions to the C library — Part 1: Bounds-checking interfaces',
+    { 'title-md': 'Extensions to the C library — Part 1: Bounds-checking interfaces',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2007-09-01) as ISO/IEC TR 24731-1:2007.  The ISO website lists this as Edition 2 without mentioning Edition 1 and with the same publication date as for versions of the cover page that say Edition 1.  Integrated into C11.' }] },
     # CPUB14
-    { 'title': 'Extensions to the C Library to support mathematical special functions',
+    { 'title-md': 'Extensions to the C Library to support mathematical special functions',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2009-01-15) as ISO/IEC 24747:2009.' }] },
     # CPUB15
-    { 'title': 'C99 Technical Corrigendum 2',
+    { 'title-md': 'C99 Technical Corrigendum 2',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2004-11-15) as ISO/IEC 9899:1999/Cor 2:2004.  Integrated into C11.' }] },
     # CPUB16
-    { 'title': 'Embedded C (2004) issue log',
+    { 'title-md': 'Embedded C (2004) issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.  Some documents here only include new issues rather than being a consolidated list also including older issues.' }] },
     # CPUB17
-    { 'title': 'Extensions to the C library — Part 2: Dynamic Allocation Functions',
+    { 'title-md': 'Extensions to the C library — Part 2: Dynamic Allocation Functions',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2010-12-01) as ISO/IEC TR 24731-2:2010.' }] },
     # CPUB18
-    { 'title': 'Rationale for Extensions to the C library — Part 1: Bounds-checking interfaces',
+    { 'title-md': 'Rationale for Extensions to the C library — Part 1: Bounds-checking interfaces',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
     # CPUB19
-    { 'title': 'Rationale for Extension for the programming language C to support decimal floating-point arithmetic',
+    { 'title-md': 'Rationale for Extension for the programming language C to support decimal floating-point arithmetic',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
     # CPUB20
-    { 'title': 'C99 Technical Corrigendum 3',
+    { 'title-md': 'C99 Technical Corrigendum 3',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2007-11-15) as ISO/IEC 9899:1999/Cor 3:2007.  Integrated into C11.' }] },
     # CPUB21
-    { 'title': 'Rationale for Extensions to the C Library to support mathematical special functions',
+    { 'title-md': 'Rationale for Extensions to the C Library to support mathematical special functions',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
     # CPUB22
-    { 'title': 'C secure coding rules',
+    { 'title-md': 'C secure coding rules',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2013-11-15) as ISO/IEC TS 17961:2013.' },
                    { 'number': 2,
                      'cutoff': '2014-01-01',
                      'desc-md': ''}] },
     # CPUB23
-    { 'title': 'C11/C17 issue log',
+    { 'title-md': 'C11/C17 issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'The most recent versions were issued only as committee documents.' }] },
     # CPUB24
-    { 'title': 'C11 Technical Corrigendum 1',
+    { 'title-md': 'C11 Technical Corrigendum 1',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2012-07-15) as ISO/IEC 9899:2011/Cor 1:2012.  Integrated into C23.' }] },
     # CPUB25
-    { 'title': 'Floating-point extensions for C — Part 1: Binary floating-point arithmetic',
+    { 'title-md': 'Floating-point extensions for C — Part 1: Binary floating-point arithmetic',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2014-07-15) as ISO/IEC TS 18861-1:2014.  Integrated into C23.' }] },
     # CPUB26
-    { 'title': 'Floating-point extensions for C — Part 2: Decimal floating-point arithmetic',
+    { 'title-md': 'Floating-point extensions for C — Part 2: Decimal floating-point arithmetic',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2015-02-15) as ISO/IEC TS 18861-2:2015.' },
                    { 'number': 2,
                      'cutoff': '2015-03-01',
                      'desc-md': 'Published (2015-05-15) as ISO/IEC TS 18861-2:2015 (second edition).  Integrated into C23.' }] },
     # CPUB27
-    { 'title': 'Floating-point extensions for C — Part 3: Interchange and extended types',
+    { 'title-md': 'Floating-point extensions for C — Part 3: Interchange and extended types',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2015-10-01) as ISO/IEC TS 18861-3:2015.  Integrated into C23.' }] },
     # CPUB28
-    { 'title': 'Floating-point extensions for C — Part 4: Supplementary functions',
+    { 'title-md': 'Floating-point extensions for C — Part 4: Supplementary functions',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2015-10-01) as ISO/IEC TS 18861-4:2015.  Partly integrated into C23.' },
                    { 'number': 2,
                      'cutoff': '2016-01-01',
                      'desc-md': 'Published (2025-03) ISO/IEC TS 18661-4:2025.' }] },
     # CPUB29
-    { 'title': 'C Secure Coding Rules issue log',
+    { 'title-md': 'C Secure Coding Rules issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
     # CPUB30
-    { 'title': 'Programming language C — Extensions for parallel programming — Part 1: Thread-based parallelism',
+    { 'title-md': 'Programming language C — Extensions for parallel programming — Part 1: Thread-based parallelism',
       'editions': [{ 'number': 1,
                      'desc-md': 'This was planned to be TS 21938-1, but the project was cancelled before publication.' }] },
     # CPUB31
-    { 'title': 'Floating-point extensions for C — Part 5: Supplementary attributes',
+    { 'title-md': 'Floating-point extensions for C — Part 5: Supplementary attributes',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2016-08-15) as ISO/IEC TS 18861-5:2016.' },
                    { 'number': 2,
                      'cutoff': '2017-01-01',
                      'desc-md': 'Published (2025-03) as ISO/IEC TS 18861-5:2025.' }] },
     # CPUB32
-    { 'title': 'C Secure Coding Rules (2013) Technical Corrigendum 1',
+    { 'title-md': 'C Secure Coding Rules (2013) Technical Corrigendum 1',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2016-08-15) as ISO/IEC TS 17961:2013/Cor 1:2016.' }] },
     # CPUB33
-    { 'title': 'Floating-point extensions for C (2014–2016) issue log',
+    { 'title-md': 'Floating-point extensions for C (2014–2016) issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
     # CPUB34
-    { 'title': 'Programming languages — C — A provenance-aware memory object model for C',
+    { 'title-md': 'Programming languages — C — A provenance-aware memory object model for C',
       'editions': [{ 'number': 1,
                      'desc-md': 'Published (2025-05) as ISO/IEC TS 6010:2025.' }] },
     # CPUB35
-    { 'title': 'C Extensions to Support Generalized Function Calls',
+    { 'title-md': 'C Extensions to Support Generalized Function Calls',
       'editions': [{ 'number': 1,
                      'desc-md': 'Under development as draft TS 25007.' }] },
     # CPUB36
-    { 'title': 'Examples of Undefined Behavior',
+    { 'title-md': 'Examples of Undefined Behavior',
       'editions': [{ 'number': 1,
                      'desc-md': '' }] },
     # CPUB37
-    { 'title': 'Programming Languages — C — defer, a mechanism for general purpose, lexical scope-based undo',
+    { 'title-md': 'Programming Languages — C — defer, a mechanism for general purpose, lexical scope-based undo',
       'editions': [{ 'number': 1,
                      'desc-md': 'Under development as draft TS 25755.' }] },
     # CPUB38
-    { 'title': 'C23 issue log',
+    { 'title-md': 'C23 issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
     # CPUB39
-    { 'title': 'Floating-point TS 18661 (C23 version, 2025) issue log',
+    { 'title-md': 'Floating-point TS 18661 (C23 version, 2025) issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
     # CPUB40
-    { 'title': 'Undefined Behavior in the C Programming Language',
+    { 'title-md': 'Undefined Behavior in the C Programming Language',
       'editions': [{'number': 1,
                     'desc-md': '' }]},
     # CPUB41
-    { 'title': 'Programming Languages — C — \\_Optional, a type qualifier to indicate nullability',
+    { 'title-md': 'Programming Languages — C — \\_Optional, a type qualifier to indicate nullability',
       'editions': [{ 'number': 1,
                      'desc-md': 'Under development as draft TS 26716.' }] },
     # CPUB42
-    { 'title': 'C2Y issue log',
+    { 'title-md': 'C2Y issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
     ]
@@ -1345,7 +1345,7 @@ def generate_cpub_docs(data):
     for n, d in enumerate(CPUB_DOCS, start=1):
         doc = {
             'id': 'CPUB%d' % n,
-            'title': d['title'],
+            'title-md': d['title-md'],
             'editions': []}
         for e in d['editions']:
             doc['editions'].append({
@@ -1353,7 +1353,7 @@ def generate_cpub_docs(data):
                 'desc-md': e['desc-md'],
                 'nums': sorted(nnums_by_cpub_num[n][e['number']], key=int)})
             if 'title-md' in e:
-                doc['editions'][-1]['title'] = e['title-md']
+                doc['editions'][-1]['title-md'] = e['title-md']
             for rev, num in enumerate(doc['editions'][-1]['nums'], start=1):
                 data[num]['cdoc-rev'] = rev
         docs.append(doc)
@@ -1362,7 +1362,7 @@ def generate_cpub_docs(data):
             doc = {
                 'id': 'CPUBX%dx%d' % (n, x),
                 'author': ndata['author'],
-                'title': ndata['title'],
+                'title-md': ndata['title'],
                 'nums': [num]}
             for rev, num_sub in enumerate(doc['nums'], start=1):
                 data[num_sub]['cdoc-rev'] = rev
@@ -1749,7 +1749,7 @@ def convert_docs(data, doc_class, doc_list):
         doc_json = {
             'id': doc['id'],
             'author': doc['author'],
-            'title': doc['title'],
+            'title-md': doc['title'],
             'revisions': []}
         for n in doc['nums']:
             ndata = data[n]
@@ -1758,10 +1758,10 @@ def convert_docs(data, doc_class, doc_list):
                 'id': '%sr%d' % (doc['id'], ndata['cdoc-rev']),
                 'doc-id': doc['id'],
                 'author': ndata['author'],
-                'title': ndata['title'],
+                'title-md': ndata['title'],
                 'date': ndata['date'],
-                'ext-id': 'N%s' % n,
-                'ext-url': ndata['link'],
+                'wg14-ndoc-id': 'N%s' % n,
+                'url': ndata['link'],
                 'meetings': sorted(ndata['meetings'])}
             doc_json['revisions'].append(ndoc)
             ndata['cid'] = ndoc['id']
@@ -1777,7 +1777,7 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
     for doc in doc_list:
         doc_json = {
             'id': doc['id'],
-            'title': doc['title'],
+            'title-md': doc['title-md'],
             'editions': []}
         for e in doc['editions']:
             edition_json = {
@@ -1785,8 +1785,8 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
                 'edition-num': e['edition-num'],
                 'desc-md': e['desc-md'],
                 'revisions': []}
-            if 'title' in e:
-                edition_json['title'] = e['title']
+            if 'title-md' in e:
+                edition_json['title-md'] = e['title-md']
             for n in e['nums']:
                 ndata = data[n]
                 ndoc = {
@@ -1797,10 +1797,10 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
                     'edition-id': '%se%d' % (doc['id'], e['edition-num']),
                     'edition-num': e['edition-num'],
                     'author': ndata['author'],
-                    'title': ndata['title'],
+                    'title-md': ndata['title'],
                     'date': ndata['date'],
-                    'ext-id': 'N%s' % n,
-                    'ext-url': ndata['link'],
+                    'wg14-ndoc-id': 'N%s' % n,
+                    'url': ndata['link'],
                     'meetings': sorted(ndata['meetings'])}
                 edition_json['revisions'].append(ndoc)
                 ndata['cid'] = ndoc['id']
@@ -1814,7 +1814,7 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
         doc_json = {
             'id': doc['id'],
             'author': doc['author'],
-            'title': doc['title'],
+            'title-md': doc['title-md'],
             'revisions': []}
         for n in doc['nums']:
             ndata = data[n]
@@ -1824,10 +1824,10 @@ def convert_cpub_docs(data, doc_list, xdoc_list):
                 'doc-id': doc['id'],
                 'cpub-edition': ndata['cpub-edition'],
                 'author': ndata['author'],
-                'title': ndata['title'],
+                'title-md': ndata['title'],
                 'date': ndata['date'],
-                'ext-id': 'N%s' % n,
-                'ext-url': ndata['link'],
+                'wg14-ndoc-id': 'N%s' % n,
+                'url': ndata['link'],
                 'meetings': sorted(ndata['meetings'])}
             doc_json['revisions'].append(ndoc)
             ndata['cid'] = ndoc['id']
@@ -1877,10 +1877,10 @@ def action_convert():
                             ndata['title']))
         all_classes[nnum] = {
             'author': ndata['author'],
-            'title': ndata['title'],
+            'title-md': ndata['title'],
             'date': ndata['date'],
-            'ext-id': 'N%s' % nnum,
-            'ext-url': ndata['link'],
+            'wg14-ndoc-id': 'N%s' % nnum,
+            'url': ndata['link'],
             'class': ndata['class'].upper()
         }
         if ndata['class'] == 'cpub' and 'cid' in ndata and ndata['cid'].startswith('CPUBX'):
