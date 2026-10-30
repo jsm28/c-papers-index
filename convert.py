@@ -761,8 +761,6 @@ def classify_docs(data):
             ndata['class'] = 'cpub'
         elif 'dis draft' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
-        elif 'examples of undefined behavior' in ndata['maintitle'].lower():
-            ndata['class'] = 'cpub'
         elif 'ts proposal' in ndata['maintitle'].lower():
             ndata['class'] = 'cpub'
         elif 'generalized function calls' in ndata['maintitle'].lower():
@@ -1078,30 +1076,26 @@ CPUB_DOCS = [
       'editions': [{ 'number': 1,
                      'desc-md': 'Under development as draft TS 25007.' }] },
     # CPUB36
-    { 'title-md': 'Examples of Undefined Behavior',
-      'editions': [{ 'number': 1,
-                     'desc-md': '' }] },
-    # CPUB37
     { 'title-md': 'Programming Languages — C — defer, a mechanism for general purpose, lexical scope-based undo',
       'editions': [{ 'number': 1,
                      'desc-md': 'Under development as draft TS 25755.' }] },
-    # CPUB38
+    # CPUB37
     { 'title-md': 'C23 issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
-    # CPUB39
+    # CPUB38
     { 'title-md': 'Floating-point TS 18661 (C23 version, 2025) issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
-    # CPUB40
+    # CPUB39
     { 'title-md': 'Undefined Behavior in the C Programming Language',
       'editions': [{'number': 1,
                     'desc-md': '' }]},
-    # CPUB41
+    # CPUB40
     { 'title-md': 'Programming Languages — C — \\_Optional, a type qualifier to indicate nullability',
       'editions': [{ 'number': 1,
                      'desc-md': 'Under development as draft TS 26716.' }] },
-    # CPUB42
+    # CPUB41
     { 'title-md': 'C2Y issue log',
       'editions': [{ 'number': 1,
                      'desc-md': 'Issued only as a committee document.' }] },
@@ -1143,13 +1137,12 @@ CPUB_CSCRTC1 = 32
 CPUB_FP_ISSUES = 33
 CPUB_PROV = 34
 CPUB_FUNC = 35
-CPUB_EXUB = 36
-CPUB_DEFER = 37
-CPUB_C23_ISSUES = 38
-CPUB_FP_C23_ISSUES = 39
-CPUB_EDUC_UB = 40
-CPUB_OPTIONAL = 41
-CPUB_C2Y_ISSUES = 42
+CPUB_DEFER = 36
+CPUB_C23_ISSUES = 37
+CPUB_FP_C23_ISSUES = 38
+CPUB_EDUC_UB = 39
+CPUB_OPTIONAL = 40
+CPUB_C2Y_ISSUES = 41
 
 
 def generate_autonum_docs(data, doc_class):
@@ -1314,8 +1307,6 @@ def generate_cpub_docs(data):
                 pub = CPUB_OPTIONAL
             elif 'educational undefined behavior' in ltitle:
                 pub = CPUB_EDUC_UB
-            elif 'undefined' in ltitle:
-                pub = CPUB_EXUB
             elif 'cscr compendium' in ltitle or 'cscr drs' in ltitle or 'rules dr' in ltitle:
                 pub = CPUB_CSCR_ISSUES
             elif 'fpe compendium' in ltitle or 'floating point extension dr' in ltitle or 'summary for fpe' in ltitle:
