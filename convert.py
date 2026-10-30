@@ -1045,7 +1045,7 @@ CPUB_DOCS = [
                      'desc-md': 'Published (2015-10-01) as ISO/IEC TS 18861-4:2015.  Partly integrated into C23.' },
                    { 'number': 2,
                      'cutoff': '2016-01-01',
-                     'desc-md': 'Published (2025-03) ISO/IEC TS 18661-4:2025.' }] },
+                     'desc-md': 'Published (2025-03) as ISO/IEC TS 18661-4:2025.' }] },
     # CPUB29
     { 'title-md': 'C Secure Coding Rules issue log',
       'editions': [{ 'number': 1,
