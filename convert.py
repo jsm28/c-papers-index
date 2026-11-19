@@ -707,7 +707,9 @@ REMAP_TITLE = {
     'similar types': 'comparable types',
     'adopt qualifier conversion rules from C\\+\\+98': 'Adopt qualifier conversion rules from C\\+\\+',
     'Wording for "Constexpr function and object pointer initialisation"': 'Constexpr function pointer initialisation',
-    'Wording for "Remove undefined behavior for mismatched quote characters"': 'Remove undefined behavior for mismatched quote characters'}
+    'Wording for "Remove undefined behavior for mismatched quote characters"': 'Remove undefined behavior for mismatched quote characters',
+    '#fatal \\- immediate translation termination directive': 'Tightening the scope of #error',
+    "Access Qualifiers' for C2Y": "'Access Qualifiers' for C2Y"}
 
 
 # Override titles for grouping (same title used for more than one
